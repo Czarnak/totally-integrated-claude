@@ -1,0 +1,15 @@
+{
+  "name": "czarnak-claude-code",
+  "owner": {
+    "name": "Łukasz Rafał Czarnacki",
+    "email": "czarnacki.lukasz.rafal@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "totally-integrated-claude",
+      "source": "./plugins/totally-integrated-claude",
+      "description": "Plugin for working with TIA Portal Openness API",
+      "version": "1.0.0"
+    }
+  ]
+}

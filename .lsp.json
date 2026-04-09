@@ -1,0 +1,25 @@
+{
+  "siemens-plc": {
+    "command": "${CLAUDE_PLUGIN_ROOT}/bin/siemens-lsp.exe",
+    "args": ["serve"],
+    "transport": "stdio",
+    "extensionToLanguage": {
+      ".scl": "scl",
+      ".st": "st",
+      ".s7res": "s7res",
+      ".s7dcl": "s7dcl",
+      ".udt": "udt",
+      ".db": "db",
+      ".awl": "awl"
+    },
+    "startupTimeout": 20000,
+    "restartOnCrash": true,
+    "maxRestarts": 3
+  },
+  "csharp-ls": {
+    "command": "csharp-ls",
+    "extensionToLanguage": {
+    ".cs": "csharp"
+    }
+  }
+}
