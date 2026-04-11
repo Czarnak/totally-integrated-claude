@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Totally Integrated Claude</title>
+  <meta
+    name="description"
+    content="A Claude Code plugin for Siemens TIA Portal engineering automation with skill-based routing across Python TIA Scripting and C# Openness workflows."
+  />
+  <style>
+    :root {
+      --bg: #0b1220;
+      --bg-soft: #111a2c;
+      --panel: rgba(17, 26, 44, 0.78);
+      --panel-strong: rgba(14, 22, 36, 0.96);
+      --text: #e8eef7;
+      --muted: #9eabc2;
+      --line: rgba(255, 255, 255, 0.09);
+      --brand: #65a9ff;
+      --brand-2: #8fc2ff;
+      --ok: #49c97d;
+      --warn: #e6b85c;
+      --danger: #ff7a7a;
+      --radius: 20px;
+      --radius-sm: 14px;
+      --shadow: 0 18px 60px rgba(0, 0, 0, 0.34);
+      --max-width: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(101, 169, 255, 0.18), transparent 24%),
+        radial-gradient(circle at 85% 10%, rgba(73, 201, 125, 0.12), transparent 18%),
+        linear-gradient(180deg, #08111e 0%, #0b1220 100%);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    code, pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    }
+
+    .container {
+      width: min(calc(100% - 2rem), var(--max-width));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(14px);
+      background: rgba(8, 17, 30, 0.72);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 74px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(101, 169, 255, 0.24), rgba(143, 194, 255, 0.08));
+      border: 1px solid rgba(101, 169, 255, 0.28);
+      box-shadow: var(--shadow);
+      color: var(--brand-2);
+      font-size: 0.86rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.05rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--text);
+    }
+
+    .btn-row {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      min-height: 46px;
+      padding: 0.8rem 1.15rem;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text);
+      font-weight: 600;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-1px);
+      border-color: rgba(101, 169, 255, 0.45);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .btn.primary {
+      background: linear-gradient(180deg, rgba(101, 169, 255, 0.23), rgba(101, 169, 255, 0.11));
+      border-color: rgba(101, 169, 255, 0.42);
+    }
+
+    .hero {
+      padding: 5.25rem 0 3.5rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.44rem 0.78rem;
+      border-radius: 999px;
+      border: 1px solid rgba(101, 169, 255, 0.22);
+      background: rgba(101, 169, 255, 0.08);
+      color: var(--brand-2);
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.7rem, 6vw, 4.8rem);
+      line-height: 1.02;
+      letter-spacing: -0.045em;
+      max-width: 11ch;
+    }
+
+    .lead {
+      margin: 1.2rem 0 1.6rem;
+      max-width: 62ch;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .accent { color: var(--brand-2); }
+    .muted { color: var(--muted); }
+    .ok { color: var(--ok); }
+    .warn { color: var(--warn); }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin: 0 0 1.7rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.48rem 0.8rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.025);
+      color: #cfdbef;
+      font-size: 0.92rem;
+    }
+
+    .hero-card,
+    .card {
+      background: linear-gradient(180deg, rgba(17, 26, 44, 0.9), rgba(12, 19, 31, 0.96));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 1.15rem;
+    }
+
+    .terminal {
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: #07101c;
+    }
+
+    .terminal-top {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.82rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #4b5565;
+    }
+
+    .terminal pre {
+      margin: 0;
+      padding: 1.15rem;
+      color: #d6e4f7;
+      font-size: 0.92rem;
+      line-height: 1.65;
+      overflow: auto;
+      white-space: pre-wrap;
+    }
+
+    section {
+      padding: 1.75rem 0;
+    }
+
+    .section-head {
+      max-width: 72ch;
+      margin-bottom: 1.2rem;
+    }
+
+    .section-head h2 {
+      margin: 0 0 0.55rem;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .grid-2,
+    .grid-3,
+    .skills-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .skills-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card {
+      padding: 1.15rem;
+    }
+
+    .card h3 {
+      margin: 0 0 0.45rem;
+      font-size: 1.03rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .step {
+      position: relative;
+      padding-left: 3.15rem;
+    }
+
+    .step + .step {
+      margin-top: 1rem;
+    }
+
+    .step-num {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2.2rem;
+      height: 2.2rem;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      border: 1px solid rgba(101, 169, 255, 0.28);
+      background: rgba(101, 169, 255, 0.1);
+      color: var(--brand-2);
+      font-weight: 700;
+    }
+
+    .mini-title {
+      margin: 0 0 0.25rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .diagram {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: linear-gradient(180deg, rgba(5, 10, 18, 0.9), rgba(9, 14, 24, 0.98));
+      padding: 1rem;
+    }
+
+    .diagram svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .code-block {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      background: #07101c;
+      padding: 1rem;
+      overflow: auto;
+      color: #d6e4f7;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .callout {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      padding: 1rem 1.05rem;
+      border-radius: 16px;
+      border: 1px solid rgba(73, 201, 125, 0.22);
+      background: rgba(73, 201, 125, 0.08);
+    }
+
+    .callout strong {
+      color: #f5fbff;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    th,
+    td {
+      padding: 0.9rem 1rem;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.95rem;
+    }
+
+    th {
+      background: rgba(255, 255, 255, 0.03);
+      color: #cbd6e6;
+      font-size: 0.9rem;
+    }
+
+    td {
+      color: var(--muted);
+    }
+
+    .footer {
+      padding: 3rem 0 4rem;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      padding-top: 1.4rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    @media (max-width: 1080px) {
+      .hero-grid,
+      .grid-2,
+      .grid-3,
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        max-width: 14ch;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 4rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(calc(100% - 1.2rem), var(--max-width));
+      }
+
+      .nav-inner {
+        min-height: 64px;
+      }
+
+      h1 {
+        font-size: clamp(2.3rem, 12vw, 3.2rem);
+      }
+
+      .lead {
+        font-size: 1rem;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .btn-row {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="Totally Integrated Claude home">
+        <span class="brand-mark">TIA</span>
+        <span>Totally Integrated Claude</span>
+      </a>
+      <div class="nav-links" aria-label="Primary navigation">
+        <a href="#overview">Overview</a>
+        <a href="#skills">Skills</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#quickstart">Quick Start</a>
+        <a href="#examples">Examples</a>
+      </div>
+      <a class="btn" href="https://github.com/Czarnak/totally-integrated-claude" target="_blank" rel="noreferrer">View on GitHub</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">Claude Code plugin for Siemens engineering workflows</div>
+        <h1>Bring structure to <span class="accent">TIA Portal automation</span>.</h1>
+        <p class="lead">
+          Totally Integrated Claude routes engineering tasks to the correct implementation path,
+          keeping Python TIA Scripting and C# Openness workflows separate and correctly scoped.
+        </p>
+        <div class="badge-row" aria-label="Project highlights">
+          <span class="pill">TIA Portal V17+</span>
+          <span class="pill">Python TIA Scripting</span>
+          <span class="pill">C# Openness</span>
+          <span class="pill">Skill-based routing</span>
+        </div>
+        <div class="btn-row">
+          <a class="btn primary" href="#quickstart">Get started</a>
+          <a class="btn" href="#examples">See example prompts</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="terminal" aria-label="Example workflow">
+          <div class="terminal-top">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+          <pre>Task: Read all PLC tag tables from an open TIA project
+
+→ Load routing skill: tia-openness-roadmap
+→ Decide execution path:
+  • Python for routine engineering access
+  • C# for advanced object-model work
+→ Activate the correct domain skill
+→ Return implementation guidance
+
+Output:
+✓ Minimal setup
+✓ Correct API path
+✓ Lower agent confusion
+✓ Faster engineering iteration</pre>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="overview">
+      <div class="container">
+        <div class="section-head">
+          <h2>What this project actually solves</h2>
+          <p>
+            Most TIA automation work fails before coding starts: the agent picks the wrong API surface,
+            the wrong language, or the wrong abstraction level. This project routes the task correctly first.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <h3>Correct path selection</h3>
+            <p>Routine PLC, HMI, and project tasks are pushed toward Python TIA Scripting. Advanced object-model workflows move toward C# Openness.</p>
+          </article>
+          <article class="card">
+            <h3>Skill-based decomposition</h3>
+            <p>Instead of one overloaded prompt, the plugin splits the TIA domain into focused skills for projects, devices, PLC, HMI, networks, drives, import/export, and Add-Ins.</p>
+          </article>
+          <article class="card">
+            <h3>Better authoring ergonomics</h3>
+            <p>An LSP layer adds code intelligence for Siemens PLC source files, reducing friction when generating, reviewing, or transforming code artifacts.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container grid-2">
+        <article class="card">
+          <div class="section-head">
+            <h2>Why this approach works</h2>
+            <p>
+              TIA Portal automation is not one uniform problem space. Different tasks belong on different API paths,
+              and the plugin is designed around that constraint from the start.
+            </p>
+          </div>
+
+          <div class="step">
+            <div class="step-num">1</div>
+            <p class="mini-title">Route the task before writing code</p>
+            <p class="muted">The first decision is not syntax. It is whether the task belongs on Python TIA Scripting or C# Openness.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-num">2</div>
+            <p class="mini-title">Use the lowest-friction path</p>
+            <p class="muted">Routine engineering work should stay fast and practical. Advanced object-model workflows can move to the heavier path only when needed.</p>
+          </div>
+
+          <div class="step">
+            <div class="step-num">3</div>
+            <p class="mini-title">Keep the domain context narrow</p>
+            <p class="muted">Focused skills for PLC, HMI, devices, networks, and import/export reduce ambiguity and improve output quality.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="section-head">
+            <h2>What users get in practice</h2>
+            <p>
+              The routing model removes a decision that currently costs time on every automation project.
+            </p>
+          </div>
+
+          <div class="callout">
+            <div class="ok">✓</div>
+            <div>
+              <strong>Clear entry point:</strong> start from one routing skill instead of guessing the correct implementation layer.<br />
+              <strong>Better implementation choices:</strong> use Python where speed matters and C# where deeper access is required.<br />
+              <strong>Faster first result:</strong> move from engineering task to a valid technical direction with less backtracking.
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container">
+        <div class="section-head">
+          <h2>Core skill layout</h2>
+          <p>
+            Each skill covers a focused slice of the TIA domain. The routing skill selects and loads only what the current task requires.
+          </p>
+        </div>
+
+        <div class="skills-grid">
+          <article class="card"><h3>tia-openness-roadmap</h3><p>Entry routing skill. Chooses the implementation path and loads the correct domain context first.</p></article>
+          <article class="card"><h3>tia-python</h3><p>Python TIA Scripting for practical PLC, HMI, library, and project lifecycle operations.</p></article>
+          <article class="card"><h3>tia-csharp-common</h3><p>C# Openness foundations: attach, transactions, exclusive access, and safe lifecycle patterns.</p></article>
+          <article class="card"><h3>addin-operations</h3><p>Authoring and deploying TIA Portal Add-Ins with a clearer development workflow.</p></article>
+          <article class="card"><h3>tia-project-general</h3><p>Project lifecycle, archive/open/save flows, multiuser context, language, and diagnostics concerns.</p></article>
+          <article class="card"><h3>tia-devices-general</h3><p>Device catalog access, hardware hierarchy traversal, software containers, slot, and subslot operations.</p></article>
+          <article class="card"><h3>tia-plc-operations</h3><p>PLC blocks, tags, UDTs, software units, compare/download flows, and security-oriented operations.</p></article>
+          <article class="card"><h3>tia-hmi-operations</h3><p>Unified HMI screens, items, tags, scripts, and runtime-oriented engineering work.</p></article>
+          <article class="card"><h3>tia-networks</h3><p>Network and subnet configuration, interface assignment, and connection-level engineering operations.</p></article>
+          <article class="card"><h3>tia-simatic-drives</h3><p>Drive object access, parameter handling, and drive-specific engineering workflows within TIA Portal.</p></article>
+          <article class="card"><h3>tia-import-export</h3><p>XML-based import and export for blocks, tags, HMI data, and cross-project transfer workflows.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow">
+      <div class="container">
+        <div class="section-head">
+          <h2>Routing workflow</h2>
+          <p>Every task enters through the routing skill. The path to Python or C# is selected based on what the API surface actually requires, not what feels more familiar.</p>
+        </div>
+
+        <div class="diagram">
+          <svg viewBox="0 0 1080 440" role="img" aria-label="Routing workflow diagram">
+            <defs>
+              <linearGradient id="panelBlue" x1="0" x2="1">
+                <stop offset="0%" stop-color="rgba(101,169,255,0.20)" />
+                <stop offset="100%" stop-color="rgba(143,194,255,0.06)" />
+              </linearGradient>
+              <linearGradient id="panelGreen" x1="0" x2="1">
+                <stop offset="0%" stop-color="rgba(73,201,125,0.20)" />
+                <stop offset="100%" stop-color="rgba(73,201,125,0.05)" />
+              </linearGradient>
+              <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#8fc2ff"></path>
+              </marker>
+            </defs>
+
+            <!-- User Task -->
+            <rect x="30" y="175" width="170" height="90" rx="20" fill="url(#panelBlue)" stroke="rgba(255,255,255,0.10)" />
+            <text x="115" y="213" text-anchor="middle" fill="#e8eef7" font-size="19" font-weight="700">User Task</text>
+            <text x="115" y="240" text-anchor="middle" fill="#9eabc2" font-size="13">Any TIA Portal request</text>
+
+            <!-- tia-openness-roadmap -->
+            <rect x="268" y="135" width="205" height="170" rx="24" fill="url(#panelBlue)" stroke="rgba(255,255,255,0.10)" />
+            <text x="370" y="176" text-anchor="middle" fill="#e8eef7" font-size="19" font-weight="700">tia-openness-</text>
+            <text x="370" y="200" text-anchor="middle" fill="#e8eef7" font-size="19" font-weight="700">roadmap</text>
+            <text x="370" y="232" text-anchor="middle" fill="#9eabc2" font-size="13">Classify task type</text>
+            <text x="370" y="253" text-anchor="middle" fill="#9eabc2" font-size="13">Select language path</text>
+            <text x="370" y="274" text-anchor="middle" fill="#9eabc2" font-size="13">Load domain skill</text>
+
+            <!-- Python path -->
+            <rect x="545" y="88" width="175" height="80" rx="20" fill="url(#panelGreen)" stroke="rgba(255,255,255,0.10)" />
+            <text x="632" y="122" text-anchor="middle" fill="#e8eef7" font-size="17" font-weight="700">Python path</text>
+            <text x="632" y="149" text-anchor="middle" fill="#9eabc2" font-size="13">Routine engineering</text>
+
+            <!-- C# path -->
+            <rect x="545" y="272" width="175" height="80" rx="20" fill="url(#panelBlue)" stroke="rgba(255,255,255,0.10)" />
+            <text x="632" y="306" text-anchor="middle" fill="#e8eef7" font-size="17" font-weight="700">C# path</text>
+            <text x="632" y="333" text-anchor="middle" fill="#9eabc2" font-size="13">Advanced object model</text>
+
+            <!-- Domain Skills panel -->
+            <rect x="800" y="20" width="248" height="400" rx="20" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.10)" />
+            <text x="924" y="55" text-anchor="middle" fill="#8fc2ff" font-size="12" font-weight="700" letter-spacing="0.09em">DOMAIN SKILLS</text>
+            <line x1="818" y1="66" x2="1030" y2="66" stroke="rgba(255,255,255,0.07)" stroke-width="1" />
+
+            <!-- Domain skill rows -->
+            <text x="924" y="103" text-anchor="middle" fill="#e8eef7" font-size="14" font-weight="600">tia-project-general</text>
+            <line x1="818" y1="118" x2="1030" y2="118" stroke="rgba(255,255,255,0.04)" stroke-width="1" />
+            <text x="924" y="147" text-anchor="middle" fill="#e8eef7" font-size="14" font-weight="600">tia-devices-general</text>
+            <line x1="818" y1="162" x2="1030" y2="162" stroke="rgba(255,255,255,0.04)" stroke-width="1" />
+            <text x="924" y="191" text-anchor="middle" fill="#e8eef7" font-size="14" font-weight="600">tia-plc-operations</text>
+            <line x1="818" y1="206" x2="1030" y2="206" stroke="rgba(255,255,255,0.04)" stroke-width="1" />
+            <text x="924" y="235" text-anchor="middle" fill="#e8eef7" font-size="14" font-weight="600">tia-hmi-operations</text>
+            <line x1="818" y1="250" x2="1030" y2="250" stroke="rgba(255,255,255,0.04)" stroke-width="1" />
+            <text x="924" y="279" text-anchor="middle" fill="#e8eef7" font-size="14" font-weight="600">tia-networks</text>
+            <line x1="818" y1="294" x2="1030" y2="294" stroke="rgba(255,255,255,0.04)" stroke-width="1" />
+            <text x="924" y="323" text-anchor="middle" fill="#e8eef7" font-size="14" font-weight="600">tia-simatic-drives</text>
+            <line x1="818" y1="338" x2="1030" y2="338" stroke="rgba(255,255,255,0.04)" stroke-width="1" />
+            <text x="924" y="367" text-anchor="middle" fill="#e8eef7" font-size="14" font-weight="600">tia-import-export</text>
+
+            <!-- Arrows -->
+            <!-- User Task → roadmap -->
+            <line x1="200" y1="220" x2="268" y2="220" stroke="#8fc2ff" stroke-width="3" marker-end="url(#arrow)" />
+            <!-- roadmap → Python -->
+            <line x1="473" y1="183" x2="545" y2="128" stroke="#8fc2ff" stroke-width="3" marker-end="url(#arrow)" />
+            <!-- roadmap → C# -->
+            <line x1="473" y1="257" x2="545" y2="312" stroke="#8fc2ff" stroke-width="3" marker-end="url(#arrow)" />
+            <!-- Python → Domain panel -->
+            <line x1="720" y1="128" x2="800" y2="128" stroke="#8fc2ff" stroke-width="3" marker-end="url(#arrow)" />
+            <!-- C# → Domain panel -->
+            <line x1="720" y1="312" x2="800" y2="312" stroke="#8fc2ff" stroke-width="3" marker-end="url(#arrow)" />
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section id="quickstart">
+      <div class="container grid-2">
+        <article class="card">
+          <div class="section-head">
+            <h2>Quick Start</h2>
+          </div>
+          <div class="code-block">claude plugin marketplace add Czarnak/totally-integrated-claude</div>
+          <p class="muted" style="margin-top: 1rem;">
+            Point Claude Code at the cloned skills directory and issue a task-oriented prompt. The routing skill handles path selection automatically.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="section-head">
+            <h2>Baseline environment</h2>
+            <p>All three implementation paths require an active TIA Portal installation. Each path adds its own environment layer on top.</p>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Area</th>
+                  <th>Baseline</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>TIA Portal</td>
+                  <td>V17 or later</td>
+                </tr>
+                <tr>
+                  <td>Python path</td>
+                  <td>TIA Scripting Python package available</td>
+                </tr>
+                <tr>
+                  <td>C# path</td>
+                  <td>Openness assemblies and .NET environment available</td>
+                </tr>
+                <tr>
+                  <td>LSP path</td>
+                  <td>Siemens PLC source files available locally</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="examples">
+      <div class="container">
+        <div class="section-head">
+          <h2>Example prompts</h2>
+          <p>These prompts show how natural language maps to a specific implementation path and domain skill.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card">
+            <h3>PLC engineering</h3>
+            <div class="code-block">How do I read all PLC tag tables from an open TIA Portal project?</div>
+          </article>
+          <article class="card">
+            <h3>HMI export</h3>
+            <div class="code-block">Export all WinCC Unified screens and HMI tags from the current project.</div>
+          </article>
+          <article class="card">
+            <h3>Device hierarchy</h3>
+            <div class="code-block">Create a C# Openness workflow to traverse devices, device items, slots, and subslots.</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>Totally Integrated Claude</strong><br />
+        <span class="muted">A routed Claude Code plugin for Siemens TIA Portal engineering automation.</span>
+      </div>
+      <div class="btn-row">
+        <a class="btn" href="https://github.com/Czarnak/totally-integrated-claude" target="_blank" rel="noreferrer">Repository</a>
+        <a class="btn" href="#top">Back to top</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
