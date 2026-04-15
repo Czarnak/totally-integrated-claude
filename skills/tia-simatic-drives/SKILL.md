@@ -21,7 +21,7 @@ Always load `tia-csharp-common` first (done by roadmap).
 
 | Reference file | Load when the task involves |
 |---|---|
-| `references/drives-overview.md` | Any Startdrive / SINAMICS / SIMATIC Drive Controller task — read this first for entry pattern and known limitations |
+| `references/drives-overview.md` | Any Startdrive / SINAMICS / SIMATIC Drive Controller task — complete API reference with navigate/operate/validate patterns |
 
 ---
 
@@ -30,6 +30,7 @@ Always load `tia-csharp-common` first (done by roadmap).
 1. Confirm the task is drive-specific (Startdrive, SINAMICS, drive controller, PROFIdrive)
 2. Read `references/drives-overview.md`
 3. Locate the drive device in `project.Devices` using standard device navigation
-4. Inspect installed V21 assemblies for exact drive namespaces — do not invent APIs
-5. Use `GetService<>()` to access drive-specific features on the device item
-6. Use project/device skills only for device context acquisition
+4. Get `DriveObjectContainer` via `GetService<>()` on the device item to access `DriveObject`s
+5. Use `DriveObject.Parameters` for parameter access, `.Telegrams` for telegram config
+6. Use `GetService<DriveFunctionInterface>()` for commissioning, motor/encoder config, DFI
+7. For network/PROFIdrive timing — see `tia-networks/references/subnets-and-nodes.md`

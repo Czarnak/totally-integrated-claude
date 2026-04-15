@@ -10,53 +10,124 @@ description: >
 
 # TIA Portal Openness C# — Common Foundation
 
-Source: TIA Portal Openness General Functions Manual (03/2026, V21)
+Source: TIA Portal Openness General Functions Manual (03/2026, V21);
+V21 IntelliSense XML documentation files (PublicAPI\V21\net48\*.xml)
 
 ---
 
-## Standard namespaces
+## V21 modular assembly architecture
 
-Insert at the top of every Openness C# file:
+V21 splits the API across multiple DLLs instead of a single `Siemens.Engineering.dll`.
+Every project needs `Siemens.Engineering.Base.dll`; add domain DLLs as required.
+Referencing the wrong DLL (or omitting one) causes `TypeLoadException` at runtime.
+
+> **Full mapping:** See `references/assembly-namespace-map.md` for the exhaustive
+> namespace → DLL → domain skill table, cross-assembly warnings, and csproj patterns.
+
+### Namespaces by assembly
+
+Only import what is actually used. The list below covers the most commonly needed
+namespaces. The mapping file documents all 80+ namespaces across 15 DLLs.
+
+**Siemens.Engineering.Base.dll** (always required):
 
 ```csharp
-using System;
-using System.Collections.Generic;
-using System.IO;
-using Siemens.Engineering;
-using Siemens.Engineering.Cax;
-using Siemens.Engineering.Compiler;
-using Siemens.Engineering.Compare;
-using Siemens.Engineering.Download;
-using Siemens.Engineering.Hmi;
-using Siemens.Engineering.Hmi.Cycle;
-using Siemens.Engineering.Hmi.Communication;
-using Siemens.Engineering.Hmi.Globalization;
-using Siemens.Engineering.Hmi.RuntimeScripting;
-using Siemens.Engineering.Hmi.Screen;
-using Siemens.Engineering.Hmi.Tag;
-using Siemens.Engineering.Hmi.TextGraphicList;
-using Siemens.Engineering.HW;
-using Siemens.Engineering.HW.Extensions;
-using Siemens.Engineering.HW.Features;
-using Siemens.Engineering.HW.Utilities;
-using Siemens.Engineering.Library;
-using Siemens.Engineering.Library.MasterCopies;
-using Siemens.Engineering.Library.Types;
-using Siemens.Engineering.SW;
-using Siemens.Engineering.SW.Blocks;
-using Siemens.Engineering.SW.ExternalSources;
-using Siemens.Engineering.SW.Tags;
-using Siemens.Engineering.SW.TechnologicalObjects;
-using Siemens.Engineering.SW.TechnologicalObjects.Motion;
-using Siemens.Engineering.SW.Types;
-using Siemens.Engineering.Upload;
+using Siemens.Engineering;                          // TiaPortal, Project, ExclusiveAccess, Transaction, events, exceptions
+using Siemens.Engineering.Compiler;                 // CompilerResult
+using Siemens.Engineering.Compare;                  // CompareResult
+using Siemens.Engineering.Connection;               // connection objects between devices
+using Siemens.Engineering.CrossReference;            // cross-reference queries
+using Siemens.Engineering.Download;                 // DownloadProvider, DownloadConfiguration
+using Siemens.Engineering.Download.Configurations;  // device-specific download configs (★ also in Step7 + Startdrive)
+using Siemens.Engineering.HW;                       // Device, DeviceItem, Subnet, Node, IoSystem (★ also in Step7)
+using Siemens.Engineering.HW.CommunicationConnections; // communication connection configs
+using Siemens.Engineering.HW.Extensions;            // extension methods on HW objects
+using Siemens.Engineering.HW.Features;              // SoftwareContainer, NetworkInterface (★ also in Step7)
+using Siemens.Engineering.HW.HardwareCatalog;       // hardware catalog access
+using Siemens.Engineering.HW.Utilities;             // HW utility helpers
+using Siemens.Engineering.Library;                  // ProjectLibrary, GlobalLibrary
+using Siemens.Engineering.Library.MasterCopies;     // MasterCopy, MasterCopyFolder
+using Siemens.Engineering.Library.Types;            // LibraryType, LibraryTypeVersion
+using Siemens.Engineering.Multiuser;                // LocalSession, ProjectServer
+using Siemens.Engineering.Online;                   // OnlineProvider, OnlineState
+using Siemens.Engineering.Online.Configurations;    // GoOnlineConfiguration, GoOfflineConfiguration
+using Siemens.Engineering.Security;                 // SecurityController, certificates
+using Siemens.Engineering.Settings;                 // TIA Portal settings
+using Siemens.Engineering.Umac;                     // UmacRole, UmacUser, UmacFunctionRight
+using Siemens.Engineering.Upload;                   // UploadProvider
+using Siemens.Engineering.Upload.Configurations;    // upload configs (★ also in Startdrive)
+using Siemens.Engineering.VersionControl;           // workspace and version control providers
 ```
 
-Only import what is actually used. The list above is the complete reference for V21.
+**Siemens.Engineering.Step7.dll** (PLC operations):
+
+```csharp
+using Siemens.Engineering.Cax;                      // CAx import/export
+using Siemens.Engineering.SW;                       // PlcSoftware
+using Siemens.Engineering.SW.Alarm;                 // PlcAlarm, AlarmClass
+using Siemens.Engineering.SW.Alarm.TextLists;       // alarm text lists
+using Siemens.Engineering.SW.Blocks;                // PlcBlock, OB, FB, FC, GlobalDB, InstanceDB, ArrayDB
+using Siemens.Engineering.SW.Blocks.Interface;      // block interface access
+using Siemens.Engineering.SW.ExternalSources;       // PlcExternalSource
+using Siemens.Engineering.SW.Loader;                // program loader
+using Siemens.Engineering.SW.OpcUa;                 // OPC UA server interface
+using Siemens.Engineering.SW.Supervision;           // supervision alarms, operator messages
+using Siemens.Engineering.SW.Tags;                  // PlcTagTable, PlcTag, PlcConstant
+using Siemens.Engineering.SW.TechnologicalObjects;  // technology objects
+using Siemens.Engineering.SW.TechnologicalObjects.Motion; // motion axes (★ also in Startdrive)
+using Siemens.Engineering.SW.Types;                 // PlcType, PlcStruct
+using Siemens.Engineering.SW.Units;                 // SoftwareUnit, CodeBlock, DataBlock
+using Siemens.Engineering.SW.WatchAndForceTables;   // PlcWatchTable, PlcForceTable
+```
+
+**Siemens.Engineering.WinCC.dll** (classic HMI):
+
+```csharp
+using Siemens.Engineering.Hmi;                      // HmiTarget (★ also in WinCC.Extension)
+using Siemens.Engineering.Hmi.Alarm;                // DiscreteAlarm, AnalogAlarm
+using Siemens.Engineering.Hmi.Communication;        // HmiConnection
+using Siemens.Engineering.Hmi.Cycle;                // cycle settings
+using Siemens.Engineering.Hmi.Dynamic;              // dynamization
+using Siemens.Engineering.Hmi.Faceplate;            // faceplate types
+using Siemens.Engineering.Hmi.Globalization;         // language/translation
+using Siemens.Engineering.Hmi.Logging;              // DataLog, LoggingTag
+using Siemens.Engineering.Hmi.Recipe;               // Recipe, RecipeElement
+using Siemens.Engineering.Hmi.RuntimeScripting;     // VBScript
+using Siemens.Engineering.Hmi.Screen;               // HmiScreen, ScreenTemplate, ScreenPopup + all elements
+using Siemens.Engineering.Hmi.Tag;                  // HmiTag, HmiTagTable
+using Siemens.Engineering.Hmi.TextGraphicList;      // text/graphic lists
+using Siemens.Engineering.Hmi.Theming;              // HMI themes
+```
+
+**Siemens.Engineering.Startdrive.dll** (SINAMICS drives):
+
+```csharp
+using Siemens.Engineering.MC.Drives;                // DriveObject, DriveParameter, Telegram
+using Siemens.Engineering.MC.Drives.DFI;            // DriveFunctionInterface, Commissioning
+using Siemens.Engineering.MC.Drives.Enums;          // drive enumerations
+using Siemens.Engineering.MC.Drives.SecurityObjects; // drive encryption, UMAC
+```
+
+**Siemens.Engineering.Safety.dll** (F-system):
+
+```csharp
+using Siemens.Engineering.Safety;                   // safety operations
+```
 
 ---
 
-## Assembly resolver — MANDATORY
+## Assembly resolver — MANDATORY (standalone Openness apps)
+
+> **Not needed for Add-Ins.** TIA Portal loads Add-In assemblies via its own loader.
+> This section applies only to standalone console/desktop Openness applications.
+
+### V21 installation paths
+
+- **Registry key:** `HKLM\SOFTWARE\Siemens\Automation\InstalledApps\Totally Integrated Automation Portal V21` → value `INSTALLPATH`
+- **Binary path:** `C:\Program Files\Siemens\Automation\Portal V21\PublicAPI\V21\net48\`
+- **Manifest schemas:** `C:\Program Files\Siemens\Automation\Portal V21\PublicAPI\V21\Schemas\`
+
+### Resolver pattern
 
 The `AssemblyResolve` event **must** be registered before any Openness type is referenced.
 This includes method parameters, return types, and class properties — not just method bodies.
@@ -103,11 +174,29 @@ internal static class Program
 ```
 
 **Key rules:**
-- `Copy Local: False` must be set for every `Siemens.Engineering` assembly reference.
-- If only `Siemens.Engineering.Base.dll` is the first accessed class, resolving only that
-  DLL is sufficient — subsequent assemblies are resolved automatically by the Base library.
-- The recommended approach reads the install path from the Openness registry keys rather
-  than hardcoding it.
+- `Copy Local: False` (`<Private>False</Private>`) must be set for every `Siemens.Engineering` assembly reference.
+- V21 uses modular DLLs: `Base.dll` is always needed; add `Step7.dll`, `WinCC.dll`,
+  `Startdrive.dll`, etc. per task. The resolver handles all of them automatically
+  because it matches any name starting with `Siemens.Engineering.`.
+- The recommended approach reads the install path from the registry key
+  `HKLM\SOFTWARE\Siemens\Automation\InstalledApps\Totally Integrated Automation Portal V21`
+  (value `INSTALLPATH`) rather than hardcoding it.
+
+**Registry-based path discovery:**
+
+```csharp
+private static string GetOpennessInstallPath()
+{
+    using (var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(
+        @"SOFTWARE\Siemens\Automation\InstalledApps\Totally Integrated Automation Portal V21"))
+    {
+        string installPath = key?.GetValue("INSTALLPATH") as string;
+        if (string.IsNullOrEmpty(installPath))
+            throw new FileNotFoundException("TIA Portal V21 installation not found in registry.");
+        return Path.Combine(installPath, @"PublicAPI\V21\net48");
+    }
+}
+```
 
 **Alternative — app.config:**
 For stable installations where the path is known at build time, an `app.config` file with
@@ -152,6 +241,53 @@ instance. Returns only processes from the same Openness version as the loaded as
 - If started headless and no other Openness client is attached, `Dispose()` closes TIA Portal.
 - If started with GUI or other clients are attached, `Dispose()` only disconnects.
 - After dispose, any further API access throws `NonRecoverableException`.
+
+---
+
+## Service providers — `GetService<T>()`
+
+V21 uses a service-provider pattern for UI interactions. Call `GetService<T>()` on the
+`TiaPortal` instance to obtain a service. Available services depend on the runtime context.
+
+### Add-In runtime services
+
+These services are available only when code runs inside a TIA Portal Add-In:
+
+| Service type | Namespace | Purpose |
+|---|---|---|
+| `MessageBoxProvider` | `Siemens.Engineering.AddIn` | Display notification/confirmation dialogs in TIA Portal |
+| `ProgressProvider` | `Siemens.Engineering.AddIn` | Display a progress bar; check `IsCancelRequested` for cancellation |
+| `FeedbackProvider` | `Siemens.Engineering.AddIn` | Log messages to TIA Portal's Inspector window (General Info tab) |
+
+```csharp
+// MessageBoxProvider — notification and confirmation dialogs
+var msgBox = tiaPortal.GetService<MessageBoxProvider>();
+msgBox?.ShowNotification(NotificationIcon.Information, "Title", "Message text");
+msgBox?.ShowNotification(NotificationIcon.Warning, "Title", "Message", "Detail text");
+
+// Confirmation dialog — defaultChoice is the pre-selected button; return value is user's choice
+ConfirmationResult result = msgBox.ShowConfirmation(
+    ConfirmationIcon.General, "Title", "Proceed?",
+    ConfirmationChoices.Yes | ConfirmationChoices.No, ConfirmationResult.Yes);
+if (result == ConfirmationResult.No) return;
+
+// ProgressProvider — progress bar with cancellation
+var progress = tiaPortal.GetService<ProgressProvider>();
+progress?.Update("Step description", "Detail text");
+if (progress?.IsCancelRequested == true)
+{
+    // User requested cancellation — clean up and return
+}
+
+// FeedbackProvider — log to Inspector window (General Info tab)
+var feedback = tiaPortal.GetService<FeedbackProvider>();
+feedback?.Log(NotificationIcon.Information, "Operation completed successfully.");
+feedback?.Log(NotificationIcon.Warning, "Skipped 3 items due to missing data.");
+```
+
+**Important:** In Add-In status callbacks (the `OnUpdateStatus` delegate passed to
+`AddActionItem`), `GetService<T>()` returns `null`. Only use services in action
+callbacks where COM access is fully available.
 
 ---
 

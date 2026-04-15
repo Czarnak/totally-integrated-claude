@@ -26,6 +26,7 @@ Load ONLY the reference file(s) relevant to the task. Do not load all files at o
 |---|---|
 | `references/hmi-target.md` | Getting the HmiTarget from a device; compiling HMI; HMI object model overview; which namespace covers which HMI composition |
 | `references/screens.md` | Creating screen folders; deleting screens, screen templates, or all screens from a folder; deleting a user-defined screen folder |
+| `references/composition-hierarchy.md` | Complete screen composition tree (popups, slideins, templates, global elements); connections; attribute-based configuration; screen element configuration enums |
 | `references/tags.md` | Creating HMI tag table folders; enumerating tags; deleting individual tags or tag tables |
 | `references/scripts-cycles-connections.md` | VB script folders and deletion; deleting cycles, connections, text lists, graphic lists |
 
