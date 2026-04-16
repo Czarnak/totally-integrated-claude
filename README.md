@@ -147,6 +147,10 @@ brew install csharp-ls
 - [TIA Scripting Python](https://support.industry.siemens.com/cs/document/109742322/tool-for-easier-use-of-the-tia-portal-openness-interface-(tia-scripting-python))
 - [Siemens LSP](https://marketplace.visualstudio.com/items?itemName=DynamicEngineering.dynamic-siemens-language-support)
 
+## Examples
+
+- [PLC Block Scanner](https://github.com/Czarnak/plc-block-scanner)
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
