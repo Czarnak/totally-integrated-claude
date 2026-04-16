@@ -75,7 +75,7 @@ The plugin ships a compiled LSP server (`bin/siemens-lsp.exe`) providing languag
 Install via the Claude Code plugin marketplace or clone this repository and point Claude Code at the directory.
 
 ```bash
-claude plugin marketplace add Czarnak/totally-integrated-claude
+/plugin marketplace add Czarnak/totally-integrated-claude
 ```
 
 ---
