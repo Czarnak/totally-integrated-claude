@@ -85,7 +85,7 @@ Install via the Claude Code plugin marketplace or clone this repository and poin
 
 Start every TIA Portal task by asking Claude to load the routing skill:
 
-```
+```text
 How do I read all PLC tag tables from an open TIA Portal project?
 ```
 
@@ -109,8 +109,7 @@ Claude will load `tia-openness-roadmap`, select the correct implementation path 
 ## Worth installing to boost your workflow
 
 - C# LSP plugin from [Claude Plugins Official](https://github.com/anthropics/claude-plugins-official)
-- [Tia Portal MCP Server](https://github.com/Czarnak/tia-portal-mcp-server)
-
+- [Tia Portal MCP Server](https://github.com/Czarnak/tia-portal-mcp)
 
 ## TODO
 
