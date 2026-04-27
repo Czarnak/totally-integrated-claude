@@ -15,11 +15,5 @@
     "startupTimeout": 20000,
     "restartOnCrash": true,
     "maxRestarts": 3
-  },
-  "csharp-ls": {
-    "command": "csharp-ls",
-    "extensionToLanguage": {
-    ".cs": "csharp"
-    }
   }
 }

@@ -8,8 +8,7 @@
     {
       "name": "totally-integrated-claude",
       "source": "./",
-      "description": "Plugin for working with TIA Portal Openness API",
-      "version": "1.0.0"
+      "description": "Plugin for working with TIA Portal Openness API"
     }
   ]
 }

@@ -8,11 +8,12 @@ Provides a routed skill framework covering the full TIA Portal Openness API surf
 
 ## Features
 
-- **Automatic routing** — one entry-point skill (`tia-openness-roadmap`) selects Python or C# and loads the right domain skill
-- **Python TIA Scripting** — full coverage of PLC blocks/tags, HMI, libraries, devices, project lifecycle via `tia-python`
-- **C# Openness** — nine domain skills covering every Openness API area (see table below)
+- **Automatic routing** - one entry-point skill (`tia-openness-roadmap`) selects Python or C# and loads the right domain skill
+- **Python TIA Scripting** - full coverage of PLC blocks/tags, HMI, libraries, devices, project lifecycle via `tia-python`
+- **C# Openness** - nine domain skills covering every Openness API area (see table below)
 - **TIA Portal Add-In development** — VS Code–based Add-In authoring workflow
-- **LSP language server** — syntax highlighting, diagnostics, and code intelligence for Siemens PLC source files
+- **LSP language server** - syntax highlighting, diagnostics, and code intelligence for Siemens PLC source files
+- **TIA Portal MCP server** - work with your agent directly in TIA Portal V21 (separate installation required, see below)
 
 ---
 
@@ -105,36 +106,11 @@ Claude will load `tia-openness-roadmap`, select the correct implementation path 
 
 ---
 
-## csharp-lsp
+## Worth installing to boost your workflow
 
-C# language server for Claude Code, providing code intelligence and diagnostics.
+- C# LSP plugin from [Claude Plugins Official](https://github.com/anthropics/claude-plugins-official)
+- [Tia Portal MCP Server](https://github.com/Czarnak/tia-portal-mcp-server)
 
-### Supported Extensions
-
-`.cs`
-
-### Installation
-
-#### Via .NET tool (recommended)
-
-```bash
-dotnet tool install --global csharp-ls
-```
-
-#### Via Homebrew (macOS)
-
-```bash
-brew install csharp-ls
-```
-
-### Requirements
-
-- .NET SDK 6.0 or later
-
-### More Information
-
-- [csharp-ls GitHub](https://github.com/razzmatazz/csharp-language-server)
-- [.NET SDK Download](https://dotnet.microsoft.com/download)
 
 ## TODO
 

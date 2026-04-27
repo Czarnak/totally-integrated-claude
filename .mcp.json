@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "tia-portal": {
+      "command": "tia-mcp-server"
+    }
+  }
+}
