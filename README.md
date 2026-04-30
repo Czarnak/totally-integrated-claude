@@ -73,7 +73,44 @@ The plugin ships a compiled LSP server (`bin/siemens-lsp.exe`) providing languag
 
 ## Installation
 
-Install via the Claude Code plugin marketplace or clone this repository and point Claude Code at the directory.
+Install from GitHub or clone this repository and link it locally while developing.
+
+### Claude Code
+
+```bash
+/plugin marketplace add Czarnak/totally-integrated-claude
+```
+
+### Gemini CLI
+
+Gemini CLI reads `gemini-extension.json`, bundled `skills/`, `GEMINI.md`, and
+the inline `mcpServers` configuration from the extension root.
+
+Install from GitHub:
+
+```bash
+gemini extensions install https://github.com/Czarnak/totally-integrated-claude
+```
+
+For local development, link the checkout instead:
+
+```bash
+gemini extensions link .
+gemini extensions validate .
+```
+
+### Codex
+
+Codex reads `.codex-plugin/plugin.json`, which points at the bundled `skills/`,
+`.mcp.json`, and `.lsp.json` files.
+
+Install the marketplace from GitHub:
+
+```bash
+codex plugin marketplace add Czarnak/totally-integrated-claude
+```
+
+From inside an interactive Codex session, you can use the slash-command form:
 
 ```bash
 /plugin marketplace add Czarnak/totally-integrated-claude
