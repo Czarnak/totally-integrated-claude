@@ -27,6 +27,8 @@ Load ONLY the reference file(s) relevant to the task. Do not load all files at o
 | `references/io-systems.md` | PROFINET IO system attributes; DP master system (IoSystem) attributes; TransferArea creation/deletion on PN or DP interfaces |
 | `references/addresses-and-channels.md` | Address objects (StartAddress, IoType, Length, IsochronousMode, ProcessImage); channel access (ChannelType, ChannelIoType); AddressController service |
 | `references/io-timing.md` | IoConnector timing/watchdog attributes (PnUpdateTime, PnWatchdogFactor, RtClass, SyncRole); IO device interface isochronous settings (PnSendClock, IsochronousTi, IsochronousTo) |
+| `references/communication-connections.md` | Configuring and inspecting S7, FDL, ISO, ISO-on-TCP, TCP, UDP, PTP, and HMI communication connections through `CommunicationManagement.Connections` |
+| `references/online-connection-configuration.md` | Choosing/inspecting online connection paths with `ConnectionConfiguration`: modes, PC interfaces, target interfaces, subnets, gateways, accessible devices, and `ApplyConfiguration` |
 
 For tasks spanning multiple areas, load all relevant reference files before generating code.
 
@@ -40,4 +42,7 @@ For tasks spanning multiple areas, load all relevant reference files before gene
 4. Use `GetService<NetworkInterface>()` to access the network interface
 5. Create or modify IO systems, subnets, nodes as needed
 6. Modify addresses or channel timing via `deviceItem.Addresses` / `deviceItem.Channels`
-7. Compile hardware after changes (see `tia-project-general/references/compile.md`)
+7. Use `GetService<CommunicationManagement>()` for configured communication connections
+8. Use `OnlineProvider.Configuration` only for online connection-path selection, not for
+   project topology creation
+9. Compile hardware after changes (see `tia-project-general/references/compile.md`)

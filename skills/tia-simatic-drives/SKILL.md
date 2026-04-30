@@ -31,6 +31,7 @@ Always load `tia-csharp-common` first (done by roadmap).
 2. Read `references/drives-overview.md`
 3. Locate the drive device in `project.Devices` using standard device navigation
 4. Get `DriveObjectContainer` via `GetService<>()` on the device item to access `DriveObject`s
-5. Use `DriveObject.Parameters` for parameter access, `.Telegrams` for telegram config
-6. Use `GetService<DriveFunctionInterface>()` for commissioning, motor/encoder config, DFI
-7. For network/PROFIdrive timing — see `tia-networks/references/subnets-and-nodes.md`
+5. Use `DriveObject.Parameters` for parameter access, `.Telegrams` for telegram find/insert/erase/size operations
+6. Use `GetService<DriveFunctionInterface>()` for commissioning, motor/encoder config, DFI, and drive-object activation/type handling
+7. For download/upload handling, include Startdrive-specific check configurations from `Siemens.Engineering.Download.Configurations` and `Siemens.Engineering.Upload.Configurations`
+8. For network/PROFIdrive timing — see `tia-networks/references/subnets-and-nodes.md`

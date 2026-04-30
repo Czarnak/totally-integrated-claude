@@ -4,6 +4,8 @@ Source: V21 IntelliSense XML documentation — `Siemens.Engineering.Startdrive.x
 
 > C# only. Assembly: `Siemens.Engineering.Startdrive.dll`
 > Namespace: `Siemens.Engineering.MC.Drives` (+ `.DFI`, `.Enums`, `.SecurityObjects`)
+> Startdrive also extends `Siemens.Engineering.Download.Configurations` and
+> `Siemens.Engineering.Upload.Configurations` with drive-specific check configurations.
 
 ---
 
@@ -145,6 +147,42 @@ foreach (Telegram telegram in telegrams)
 }
 ```
 
+### Finding, inserting, and erasing telegrams
+
+`TelegramComposition` exposes typed helpers. Prefer the `Can*` method before
+mutating the configuration.
+
+```csharp
+Telegram main = telegrams.Find(TelegramType.MainTelegram);
+
+if (telegrams.CanInsertMainTelegram(1))
+{
+    telegrams.InsertMainTelegram(1);
+}
+
+if (telegrams.CanInsertSupplementaryTelegram(750))
+{
+    telegrams.InsertSupplementaryTelegram(750);
+}
+
+if (telegrams.CanInsertAdditionalTelegram(inputSize: 4, outputSize: 4))
+{
+    telegrams.InsertAdditionalTelegram(4, 4);
+}
+
+if (telegrams.CanInsertSafetyTelegram(30))
+{
+    telegrams.InsertSafetyTelegram(30);
+}
+
+// Removes the telegram of that type if supported by the drive object.
+telegrams.EraseTelegram(TelegramType.SupplementaryTelegram);
+```
+
+Available composition operations include `CanInsertTelegram(number, type)`,
+`InsertTelegram(number, type)`, type-specific helpers for main, supplementary,
+additional, safety, and torque telegrams, plus `Find(TelegramType)`.
+
 ### Telegram types (`TelegramType` enum)
 
 | Value | Description |
@@ -229,36 +267,63 @@ var dfi = driveObj.GetService<DriveFunctionInterface>();
 ```csharp
 Commissioning comm = dfi.Commissioning;
 
-// Set Siemens motor by code number
-comm.SetSiemensMotor(motorCodeNumber);
+// Set Siemens motor by code number for a motor data set.
+bool motorCodeApplied = comm.SetMotorCode(motorCodeNumber, motorDataSetNumber);
 
-// Configure mounted device
-comm.ConfigureMountedDevice(deviceName);
+// Configure a SIMOGEAR mounted device by MLFB.
+comm.SetSimoGearMlfb(mlfb);
 ```
 
 ### Motor and encoder configuration
 
 ```csharp
-// Motor configuration for non-Siemens motors
 HardwareProjection hwProj = dfi.HardwareProjection;
 
-// Project a motor configuration for dataset 1
-MotorConfiguration motorCfg = hwProj.ProjectMotorConfiguration(1);
-// Set required configuration entries
+ushort driveDataSetNumber = 1;
+ushort encoderNumber = 1;
+
+// Fast path: set a known motor type directly.
+bool motorTypeApplied = hwProj.SetMotorType(
+    MotorType.InductionMotor,
+    driveDataSetNumber);
+
+// Non-Siemens motor path: edit the current configuration, then project it.
+MotorConfiguration motorCfg =
+    hwProj.GetCurrentMotorConfiguration(driveDataSetNumber);
+
 foreach (ConfigurationEntry entry in motorCfg.RequiredConfigurationEntries)
+{
     Console.WriteLine($"Required: {entry.Name} = {entry.Value} ({entry.Unit})");
-// Optional entries also available
+}
+
 foreach (ConfigurationEntry entry in motorCfg.OptionalConfigurationEntries)
+{
     Console.WriteLine($"Optional: {entry.Name}");
+}
 
-// Check and set equivalent circuit diagram data
 if (motorCfg.CanSetEquivalentCircuitDiagramData())
+{
     motorCfg.SetEquivalentCircuitDiagramData(true);
+}
 
-// Encoder configuration
-EncoderConfiguration encCfg = hwProj.ProjectEncoderConfiguration(1);
-encCfg.SetEncoderType(RotaryLinearFlag.Rotary);
-encCfg.SetEncoderAbsoluteIncrementalType(AbsoluteIncrementalFlag.Absolute);
+bool motorProjected =
+    hwProj.ProjectMotorConfiguration(motorCfg, driveDataSetNumber);
+
+// Encoder path: either set directly or project an edited configuration.
+bool encoderApplied = hwProj.SetEncoder(
+    EncoderInterface.DriveCliQ,
+    EncoderType.DriveCliQ,
+    AbsoluteIncrementalFlag.Absolute,
+    RotaryLinearFlag.Rotary,
+    encoderNumber);
+
+EncoderConfiguration encCfg =
+    hwProj.GetCurrentEncoderConfiguration(encoderNumber);
+
+encCfg.SetEncoderType(RotaryLinearFlag.Rotary, AbsoluteIncrementalFlag.Absolute);
+
+bool encoderProjected =
+    hwProj.ProjectEncoderConfiguration(encCfg, encoderNumber);
 ```
 
 ### Drive object type management
@@ -275,7 +340,7 @@ Console.WriteLine($"Current type: {currentType.Name} ({currentType.Number})");
 foreach (DriveObjectType possibleType in typeHandler.PossibleDriveObjectTypes)
     Console.WriteLine($"  Possible: {possibleType.Name}");
 
-typeHandler.ChangeType(targetType);
+bool changed = typeHandler.ChangeDriveObjectType(targetType);
 ```
 
 ### Drive object activation
@@ -309,9 +374,12 @@ domainFuncs.PerformRAMtoROMCopyAllDriveObject();
 FunctionInUse fiu = dfi.FunctionInUse;
 
 // Activate/deactivate functions
-fiu.ActivateFunction(FunctionKeys.BasicPositioner);    // EPOS
-fiu.ActivateFunction(FunctionKeys.TechnologyController); // PID
-fiu.DeactivateFunction(FunctionKeys.BasicPositioner);
+fiu.Activate(FunctionKeys.BasicPositioner);       // EPOS
+fiu.Activate(FunctionKeys.TechnologyController);  // PID
+fiu.Deactivate(FunctionKeys.BasicPositioner);
+
+// Configure axis interpretation for SI-related workflows.
+fiu.SetSIAxisType(RotaryLinearFlag.Rotary);
 ```
 
 ---
@@ -391,11 +459,75 @@ if (hwModule != null)
     // Change module type
     hwModule.ChangeType("newTypeIdentifier");
 }
+
+var map = deviceItem.GetService<ModuleAccessPoint>();
+if (map != null)
+{
+    foreach (HwIdentifier identifier in map.HwIdentifiers)
+    {
+        Console.WriteLine($"HW identifier: {identifier.Identifier}");
+    }
+}
 ```
+
+### Drive terminal assignment enums
+
+The base hardware API also exposes drive-specific terminal enum values for
+integrated properties named like `DriveEnableOutput` and `DriveReadyInput`.
+
+```csharp
+deviceItem.SetAttribute("DriveEnableOutput", DriveEnableOutput.X11Clamp21);
+deviceItem.SetAttribute("DriveReadyInput", DriveReadyInput.X11Clamp1);
+```
+
+`DriveEnableOutput` values include `None`, `X11Clamp21` through `X11Clamp28`,
+`X11Clamp31` through `X11Clamp38`, corresponding `X12Clamp*` values, `Dq0`,
+and `Diq2`.
+
+`DriveReadyInput` values include `None`, `X11Clamp1` through `X11Clamp18`,
+corresponding `X12Clamp*` values, `Di0`, `Di1`, and `Diq2`.
 
 ---
 
-## 9. Enums reference
+## 9. Download and upload check configurations
+
+Startdrive adds drive-specific configuration objects to the common download and
+upload workflows.
+
+```csharp
+using Siemens.Engineering.Download.Configurations;
+using Siemens.Engineering.Upload.Configurations;
+
+// Startdrive download check configuration marker types.
+// They are used by the common download configuration workflow when a drive
+// download reports Startdrive-specific checks.
+Type sensitiveDataCheck = typeof(AcceptDownloadOfUnencryptedSensitiveData);
+Type replaceDataCheck = typeof(ReplaceDownloadedData);
+Type startdriveCheck = typeof(StartDriveDownloadCheckConfiguration);
+
+// Startdrive upload check configuration objects expose Checked.
+OverrideTelegramMismatch telegramMismatch = null;
+OverwriteOfflineConfiguration offlineMismatch = null;
+
+if (telegramMismatch != null)
+{
+    telegramMismatch.Checked = true;
+}
+
+if (offlineMismatch != null)
+{
+    offlineMismatch.Checked = true;
+}
+```
+
+Use these only inside the normal `DownloadProvider` / `UploadProvider`
+configuration flow. `OverrideTelegramMismatch.Checked = true` allows upload to
+proceed despite telegram configuration mismatch; `OverwriteOfflineConfiguration`
+allows upload to overwrite the offline device configuration mismatch.
+
+---
+
+## 10. Enums reference
 
 ### DriveObjectActivationState
 
