@@ -4,7 +4,7 @@ description: >
   Entry point for ALL TIA Portal engineering automation tasks. Always load this skill FIRST
   when the user mentions TIA Portal, TIA Openness, TIA Scripting, Siemens PLC, Siemens HMI,
   TIA Portal Add-In, or any automation/engineering task targeting TIA Portal.
-  This skill routes to the correct domain skill and selects Python vs C# implementation.
+  This skill routes to the correct domain skill and selects MCP, Python, or C# implementation.
   Do not skip this skill and jump directly to domain skills.
 ---
 
@@ -14,12 +14,20 @@ description: >
 Route the task to the correct implementation path and load the right skill files.
 
 ## Mandatory policy
-1. Prefer **TIA Scripting Python**.
-2. Use **C# TIA Portal Openness** only if Python is insufficient.
-3. Do not invent Python wrapper methods.
-4. For multi-domain tasks, select all required skills.
+1. Prefer **TIA Portal MCP** for interactive, single-step read/write operations when the MCP server is available.
+2. Prefer **TIA Scripting Python** for scripted or multi-step automation.
+3. Use **C# TIA Portal Openness** only if Python is insufficient.
+4. Do not invent Python wrapper methods.
+5. For multi-domain tasks, select all required skills.
 
 ## Implementation paths
+
+### MCP path
+Direct tool calls — no code generation. Use when the TIA Portal MCP server is available.
+
+| Skill | Location |
+|---|---|
+| `tia-portal-mcp` | `skills/tia-portal-mcp/SKILL.md` |
 
 ### Python path
 Single skill owns all Python implementation:
@@ -56,6 +64,15 @@ Standalone skill for TIA Portal Add-In development (always C#, VS Code workflow)
 
 | Task pattern | Implementation | Skill |
 |---|---|---|
+| browse / explore project tree structure | MCP | `tia-portal-mcp` |
+| read a single PLC block (view logic / generate code) | MCP | `tia-portal-mcp` |
+| targeted single-block edit | MCP | `tia-portal-mcp` |
+| list tag tables and tags | MCP | `tia-portal-mcp` |
+| inspect hardware topology / IP addresses | MCP | `tia-portal-mcp` |
+| cross-reference diagnostics / unused objects | MCP | `tia-portal-mcp` |
+| add a single device to the project | MCP | `tia-portal-mcp` |
+| configure device network identity (IP, PN name) | MCP | `tia-portal-mcp` |
+| compile check / view errors and warnings | MCP | `tia-portal-mcp` |
 | open/create/save/archive/retrieve project | Python | `tia-python` |
 | project server / local session / portal attach | Python | `tia-python` |
 | PLC blocks / tags / UDTs / sources / compile | Python | `tia-python` |
@@ -73,7 +90,13 @@ Standalone skill for TIA Portal Add-In development (always C#, VS Code workflow)
 | advanced multiuser / VCI / Teamcenter | C# | `tia-project-general` |
 | TIA Portal Add-In / addin-project / .addin | C# | `addin-operations` |
 
-## Python vs C# decision rule
+## MCP vs Python vs C# decision rule
+Choose **MCP** when:
+- the task is a single read or targeted write (one block, one device, one compile check)
+- the user wants to explore or inspect a project interactively
+- no looping, no bulk changes, no code generation is needed
+- the `tia-portal` MCP server is available (check `mcp__tia-portal__*` tools)
+
 Choose **Python** when the exact required operation exists in the `tia-python` reference files.
 Choose **C#** when:
 - the required operation is absent from the Python reference catalogue
@@ -93,11 +116,13 @@ Choose **C#** when:
 ## Required response format
 Use this exact structure:
 - `Use skill(s): ...`
-- `Implementation path: Python` or `Implementation path: C# Openness`
+- `Implementation path: MCP` or `Implementation path: Python` or `Implementation path: C# Openness`
 - `Reason: ...`
 - `Execution order: ...`
 
 ## Post-routing action — MANDATORY
+
+**If MCP:** read `skills/tia-portal-mcp/SKILL.md`. Use the MCP tools directly — no code generation.
 
 **If Python:** read `skills/tia-python/SKILL.md`, then load the reference file(s) it
 points to for the task domain. Do NOT load domain skills — they are for C# only.
