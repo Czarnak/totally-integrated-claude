@@ -21,6 +21,7 @@ private static void ExportRegularBlock(PlcSoftware plcSoftware)
 ```
 
 Import rules:
+
 - Optimized DBs only supported on S7-1200/1500. Importing to S7-300/400 throws exception.
 - Missing instance DBs are not created automatically.
 - If no block number is in the XML, it is assigned automatically.
@@ -59,6 +60,7 @@ private static void ExportSystemBlocks(PlcSoftware plcsoftware)
 ```
 
 Import system blocks:
+
 ```csharp
 private static void ImportSystemBlocks(PlcSoftware plcSoftware)
 {

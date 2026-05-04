@@ -67,57 +67,74 @@ Accessing any object requires: Portal open → Project open → device retrieved
 These methods behave identically across all classes that have them. Do NOT repeat their full docs in reference files — refer here instead.
 
 ### get_name() → str
+
 Returns the name of the object.
 
 ### get_property(name: str) → str
+
 Returns a single property value as string. Non-string values are auto-converted.
+
 ```python
 val = obj.get_property(name="CreationDate")
 ```
 
 ### get_properties() → List[str]
+
 Returns all property names of the object.
 
 ### set_property(name: str, value: str) → int
+
 Sets a property. Value must be passed as string regardless of underlying type:
+
 - bool → `"True"` / `"False"`
 - int → `"42"`
 - float → `"3.14"`
 - enum → index string `"0"` or name string `"OptionA"`
+
 ```python
 obj.set_property(name="Name", value="MyNewName")
 ```
 
 ### get_identifier() → str
+
 Returns a unique identifier string for the object.
 
 ### export(target_directory_path, export_options=None, export_format=None, keep_folder_structure=None)
+
 Exports the object. Shared signature across PLC/HMI data objects.
+
 - `export_options`: `Enums.ExportOptions` (WithDefaults=0, Nan=1, WithReadOnly=2)
 - `export_format`: `Enums.ExportFormats` (SimaticML=0, ExternalSource=1, SimaticSD=2)
 - `keep_folder_structure`: bool — if True, folder hierarchy is preserved
+
 ```python
 obj.export(target_directory_path="C:\\ws\\export",
            export_options=ts.Enums.ExportOptions.WithDefaults)
 ```
 
 ### delete()
+
 Deletes the object from TIA Portal.
 
 ### get_path() → str / get_path_full() → str
+
 - `get_path()` → path up to the parent system folder
 - `get_path_full()` → full path up to project root
 
 ### get_fingerprints() → List[str]
+
 Returns fingerprint data for the object.
 
 ### get_supported_export_format() → List[str]
+
 Returns a list of export format strings supported by the object.
 
 ### show_in_editor()
+
 Opens the object in the TIA Portal editor UI.
 
 ### is_consistent() → bool
+
 Returns True if the object is consistent (compiled, no errors).
 
 ---
@@ -142,6 +159,7 @@ ts.Enums.DependenciesMode    # DoNotAutomaticallyCreateOrReleaseDependencies=0, 
 ```python
 ts.set_logging(path="C:\\ws\\tiascripting.log", console=True)
 ```
+
 Call early in the script, before opening a portal.
 
 ---

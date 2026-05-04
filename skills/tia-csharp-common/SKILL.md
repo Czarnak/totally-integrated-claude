@@ -174,6 +174,7 @@ internal static class Program
 ```
 
 **Key rules:**
+
 - `Copy Local: False` (`<Private>False</Private>`) must be set for every `Siemens.Engineering` assembly reference.
 - V21 uses modular DLLs: `Base.dll` is always needed; add `Step7.dll`, `WinCC.dll`,
   `Startdrive.dll`, etc. per task. The resolver handles all of them automatically
@@ -224,6 +225,7 @@ internal class OpennessApp
 ```
 
 **Modes:**
+
 - `TiaPortalMode.WithUserInterface` — starts or attaches with visible GUI
 - `TiaPortalMode.WithoutUserInterface` — headless, suitable for automation pipelines
 
@@ -238,6 +240,7 @@ Use `GetProcesses()` when TIA Portal is already open and you do not want to star
 instance. Returns only processes from the same Openness version as the loaded assembly.
 
 **Dispose vs. close:**
+
 - If started headless and no other Openness client is attached, `Dispose()` closes TIA Portal.
 - If started with GUI or other clients are attached, `Dispose()` only disconnects.
 - After dispose, any further API access throws `NonRecoverableException`.
@@ -296,6 +299,7 @@ callbacks where COM access is fully available.
 Four events are available on `TiaPortal`. Always unsubscribe in a `finally` block.
 
 ### Disposed
+
 Fires when TIA Portal closes while the Openness client is still connected.
 
 ```csharp
@@ -316,6 +320,7 @@ private static void OnDisposed(object sender, EventArgs e)
 ```
 
 ### Notification
+
 Fires for informational messages that require only an acknowledgment (OK).
 
 ```csharp
@@ -331,6 +336,7 @@ private static void OnNotification(object sender, NotificationEventArgs e)
 ```
 
 ### Confirmation
+
 Fires for dialogs that require a decision. **Must** set `e.Result` to one of:
 `"Yes"`, `"YesToAll"`, or `"No"`. Any other value throws an exception.
 
@@ -348,6 +354,7 @@ private static void OnConfirmation(object sender, ConfirmationEventArgs e)
 ```
 
 ### Authentication (V17+)
+
 Fires when opening a UMAC-protected project. Use to specify the authentication method
 instead of passing credentials via `UmacDelegate`. Only fires for protected projects.
 
@@ -392,6 +399,7 @@ using (ExclusiveAccess exclusiveAccess = tiaPortal.ExclusiveAccess("Generating p
 ```
 
 **Rules:**
+
 - Only one `ExclusiveAccess` can exist at a time — a second attempt throws a recoverable
   exception while the first is still active.
 - Setting `exclusiveAccess.Text = string.Empty` or `null` clears the displayed message.
@@ -419,6 +427,7 @@ using (ExclusiveAccess exclusiveAccess = tiaPortal.ExclusiveAccess("Bulk edit"))
 ```
 
 **Rollback rules — critical:**
+
 - If `CommitOnDispose()` is never called → always rolled back on dispose.
 - If an exception occurs **before** `CommitOnDispose()` → rolled back, even inside try/catch.
 - If an exception occurs **after** `CommitOnDispose()` → changes are committed.
@@ -511,6 +520,7 @@ bool isPrimary = secondary.IsPrimary; // false
 ```
 
 **Rules:**
+
 - Only one primary project per TIA Portal instance.
 - Secondary projects do not need a primary project to be open first.
 - A user with write rights to a UMAC-protected project still gets read-only access when
@@ -521,6 +531,7 @@ bool isPrimary = secondary.IsPrimary; // false
 ## Object model contracts
 
 ### Composition methods
+
 Most engineering objects are accessed through compositions. Available methods:
 
 | Method | Behaviour |

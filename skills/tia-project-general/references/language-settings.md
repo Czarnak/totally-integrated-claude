@@ -156,3 +156,20 @@ private static void SetDeviceComment(Device device, Project project)
 
 Changing the UI language affects how HistoryEntry text is returned (always English in
 headless mode). See `portal-settings.md` for `TiaPortalSettingsFolder` usage.
+
+---
+
+## 7. Version Control Import Options
+
+Used during import of SimaticMl or SimaticSd files to control language activation.
+
+```csharp
+namespace Siemens.Engineering.VersionControl
+{
+  public enum ProjectLanguageImportOptions
+  {
+    ActivateAll,
+    DoNotActivate
+  }
+}
+```

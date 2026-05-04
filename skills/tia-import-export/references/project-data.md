@@ -11,6 +11,7 @@ Source: TIA Portal Openness V21 — Project Texts and Graphics (03/2026)
 Entry point: `project.ExportProjectTexts(...)` — found under "Languages & resources" node.
 
 Parameters:
+
 - `path` — `FileInfo` for the `.xlsx` output file
 - `sourceLanguage` — reference language (`CultureInfo`)
 - `targetLanguage` — target translation language (`CultureInfo`)
@@ -23,6 +24,7 @@ project.ExportProjectTexts(
 ```
 
 **Limitations:**
+
 - Exported texts can only be re-imported into the same project.
 - After "Save as…", import is no longer possible.
 - Only existing texts can be re-imported. Deleted or re-created texts will fail on import.

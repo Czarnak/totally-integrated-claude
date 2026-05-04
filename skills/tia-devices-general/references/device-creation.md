@@ -23,7 +23,7 @@ Every hardware object in TIA Portal is identified by a `TypeIdentifier` string:
 ### OrderNumber (most common — catalog hardware)
 
 | Format | Example |
-|---|---|
+| --- | --- |
 | `OrderNumber:<PN>` | `OrderNumber:3RK1 200-0CE00-0AA2` |
 | `OrderNumber:<PN>/<FW>` | `OrderNumber:6ES7 510-1DJ01-0AB0/V2.0` |
 | `OrderNumber:<PN>//<AdditionalId>` | `OrderNumber:6AV2 124-2DC01-0AX0//Landscape` |
@@ -34,7 +34,7 @@ when OrderNumber + FW still don't uniquely identify the object.
 ### GSD (GSD/GSDML-installed devices)
 
 | Format | Example |
-|---|---|
+| --- | --- |
 | `GSD:<GsdName>/<GsdType>` | `GSD:SIEM8139.GSD/DAP` |
 | `GSD:<GsdName>/<GsdType>/<GsdId>` | `GSD:SIEM8139.GSD/M/4` |
 
@@ -43,7 +43,7 @@ when OrderNumber + FW still don't uniquely identify the object.
 ### System (objects not covered by OrderNumber or GSD)
 
 | Format | Example |
-|---|---|
+| --- | --- |
 | `System:<SystemTypeId>` | `System:Device.S7300` |
 | `System:<SystemTypeId>/<AdditionalId>` | — |
 
@@ -90,7 +90,7 @@ IList<CatalogEntry> compatible = tiaPortal.HardwareCatalog.Find(
 **`CatalogEntry` attributes:**
 
 | Attribute | Description |
-|---|---|
+| --- | --- |
 | `ArticleNumber` | Order number, e.g. `6ES7 516-3AN00-0AB0` |
 | `TypeIdentifier` | Full type identifier for use in `CreateWithItem` / `Create` |
 | `TypeIdentifierNormalized` | TypeIdentifier without spaces |
@@ -164,3 +164,58 @@ After `Delete()`, the object reference is disposed. Do not use it again.
 string typeId = device.TypeIdentifier;
 string itemTypeId = deviceItem.TypeIdentifier;
 ```
+
+---
+
+## API Reference (V21)
+
+## 🛠️ Siemens.Engineering.HW.Device
+>
+> Device as an container for DeviceItems
+
+- 🔧 `IsGsd`: Indicates if this device is a Gsd device
+- 🔧 `UnpluggedItems`: Associate unplugged items
+- 📦 `ShowInEditor`: Show the indicated item in the device view of the HW editor
+- 📦 `ShowInEditor(Siemens.Engineering.HW.View)`: Show the indicated item in the HW editor
+- 📦 `Delete`: Deletes this instance.
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.HW.DeviceImpl
+>
+> Hardware device
+
+## 🛠️ Siemens.Engineering.HW.DeviceItem
+>
+> DeviceItem object as representation of a hardware module
+
+- 🔧 `Addresses`: Composition of addresses
+- 🔧 `Channels`: Composition of channels
+- 🔧 `Classification`: The classifications a device item can belong to; Flags-enum
+- 🔧 `Container`: This is the object where other DeviceItems are placed
+- 🔧 `IsBuiltIn`: Indicates if the device item is built into the device
+- 🔧 `IsPlugged`: Indicates if this device item is plugged into a device
+- 🔧 `PositionNumber`: Position number of this device item
+- 📦 `ChangeType(System.String)`: Change the type of the device item
+- 📦 `Delete`: Deletes this instance.
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.HW.DeviceItemClassifications
+>
+> The classifications a device item can belong to; Flags-enum.
+
+## 🛠️ Siemens.Engineering.HW.DeviceItemImpl
+>
+> Hardware device item
+
+## 🛠️ Siemens.Engineering.HW.Features.DeviceFeature
+>
+> Base class for all Device related services
+
+- 🔧 `OwnedBy`: Device Object that owns this role
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.

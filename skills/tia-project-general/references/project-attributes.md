@@ -134,3 +134,23 @@ private static void DemonstrateObjectIdentity(Project project)
 
 Throws `EngineeringTargetInvocationException` if called with `null` or a disposed object.
 Throws `EngineeringObjectDisposedException` if the object has been deleted.
+
+---
+
+## 6. Version Control Interface (VCI) service
+
+`VersionControlInterface` provides the entry point for VCI workspace management.
+
+```csharp
+using Siemens.Engineering.VersionControl;
+
+private static void AccessVci(Project project)
+{
+    VersionControlInterface vci = project.GetService<VersionControlInterface>();
+    if (vci != null)
+    {
+        WorkspaceSystemGroup systemGroup = vci.WorkspaceGroup;
+        // Further navigation in vci-management.md
+    }
+}
+```

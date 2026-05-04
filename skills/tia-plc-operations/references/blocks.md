@@ -234,6 +234,7 @@ Requirement: PLC must not be online.
 ## 6. Know-how protection (PlcBlockProtectionProvider)
 
 `GetService<PlcBlockProtectionProvider>()` returns non-null only when ALL of:
+
 - Block is know-how protectable
 - Block is a code block or global DB
 - Block must be compiled
@@ -262,6 +263,7 @@ if (pp != null)
 ```
 
 Error cases:
+
 - Protect already-protected block → "You can't protect an already protected object"
 - Empty password → "Password was not specified"
 - Unprotect already-unprotected block → "You can't unprotect an object without protection"
@@ -704,3 +706,936 @@ catch (EngineeringTargetInvocationException e)
 | `TargetOption.None` | Default value — do not use. |
 | `TargetOption.Plc` | Generate loadable file for a real PLC. |
 | `TargetOption.PlcSim` | Generate loadable file for a simulated PLC. All blocks must have been compiled with simulation support. |
+
+# V21 API Reference
+
+## 🛠️ Siemens.Engineering.SW.Blocks.ArrayDB
+>
+> Class representing array DBs
+
+- 🔧 `Parent`: EOM parent of this object
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.BlockType
+>
+> The list of possible IECPL block types
+
+## 🛠️ Siemens.Engineering.SW.Blocks.CodeBlock
+>
+> Class representing a code block
+
+- 📦 `ExportProDIAGInfo(System.IO.DirectoryInfo)`: Exports prodiag alarm information
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.CodeBlockLibraryType
+>
+> Class representing a code block library type
+
+- 🔧 `Name`: Name
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.CodeBlockLibraryTypeVersion
+>
+> Class representing a code block library type version
+
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.DataBlock
+>
+> Class representing a data block
+
+- 🔧 `Interface`: Interface to all members of a block
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.FB
+>
+> Represents an FB
+
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `Supervisions`: Get supervisions
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.FC
+>
+> Represents an FC
+
+- 🔧 `Parent`: EOM parent of this object
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.GlobalDB
+>
+> Represents a global DB
+
+- 🔧 `Parent`: EOM parent of this object
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.InstanceDB
+>
+> Represents an instance DB
+
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `InstanceOfName`: The block name of the father instance (FB/SFB/UDT/SDT)
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.InterfaceSnapshot
+>
+> Provides Snapshot Value functionality.
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 🔧 `Parent`: EOM parent of this object
+- 📦 `Export(System.IO.FileInfo,Siemens.Engineering.ExportOptions)`: Simatic ML export of snapshot values.
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.MemoryLayout
+>
+> Determines if a block access is optimized or not
+
+## 🛠️ Siemens.Engineering.SW.Blocks.OB
+>
+> Represents an OB
+
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `SecondaryType`: Additional information about the type
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.OBDataExchangeMode
+>
+> Enum for OBDataExchangeMode
+
+## 🛠️ Siemens.Engineering.SW.Blocks.OBExecution
+>
+> Enum for Execution
+
+## 🛠️ Siemens.Engineering.SW.Blocks.OBTimeMode
+>
+> Enum for TimeMode
+
+## 🛠️ Siemens.Engineering.SW.Blocks.PlcBlock
+>
+> Represents a Plc block
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 📦 `GetService``1`: Gets an instance of type <c>T</c>.
+- 📦 `Siemens#Engineering#IEngineeringServiceProvider#GetServiceInfos`: Returns a collection of EngineeringServiceInfo objects describing the different services on this object.
+- 🔧 `Comment`: User-entered comment, can be in multiple languages
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `Title`: User-entered title, can be in multiple languages
+- 🔧 `AutoNumber`: Determines if the block gets the block number automatically or manually
+- 🔧 `CodeModifiedDate`: Last code modification date
+- 🔧 `CompileDate`: Last compilation date
+- 🔧 `CreationDate`: Creation date of this Plc block
+- 🔧 `DownloadDate`: Last download date
+- 🔧 `HeaderAuthor`: PLC header attribute author
+- 🔧 `HeaderFamily`: PLC header attribute family
+- 🔧 `HeaderName`: PLC header attribute name
+- 🔧 `HeaderVersion`: PLC header attribute version
+- 🔧 `InterfaceModifiedDate`: Last interface modification
+- 🔧 `IsConsistent`: True if block and used data is consistent
+- 🔧 `IsKnowHowProtected`: Gets the know-how protection status of the block
+- 🔧 `LoadMemoryLength`: Length of the load memory required by the block
+- 🔧 `MemoryLayout`: Indicates if a block has been optimized
+- 🔧 `ModifiedDate`: Last modification date including e.g. comments
+- 🔧 `Name`: The name of the Plc block
+- 🔧 `Namespace`: The namespace of the given Plc block
+- 🔧 `Number`: The number of this Plc block
+- 🔧 `ParameterModified`: Date of the last parameter modification
+- 🔧 `ProgrammingLanguage`: The language of this block
+- 🔧 `StructureModified`: Date of the last structure modification
+- 🔧 `WorkMemoryLength`: Length of the work memory required by the block
+- 📦 `Export(System.IO.FileInfo,Siemens.Engineering.ExportOptions)`: Simatic ML export of a Plc block
+- 📦 `Export(System.IO.FileInfo,Siemens.Engineering.ExportOptions,Siemens.Engineering.DocumentInfoOptions)`: Simatic ML export of a Plc block
+- 📦 `ExportAsDocuments(System.IO.DirectoryInfo,System.String)`: Export documents of a Plc block
+- 📦 `ShowInEditor`: Show the indicated item in the Plc block editor
+- 📦 `Delete`: Deletes this instance.
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.PlcBlockAssociation
+>
+> PLC Block Association
+
+- 📦 `GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 📦 `System#Collections#IEnumerable#GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 🔧 `Parent`: Gets the parent.
+- 🔧 `Count`: Gets the count.
+- 🔧 `IsReadOnly`: Gets a value indicating whether this instance is read only.
+- 🔧 `Item(System.Int32)`: Gets the element at the specified <paramref name="index"/>.
+- 📦 `Any`: Determines if any item is contained within.
+- 📦 `Contains(Siemens.Engineering.SW.Blocks.PlcBlock)`: Determines if <paramref name="item"/> is contained within.
+- 📦 `IndexOf(Siemens.Engineering.SW.Blocks.PlcBlock)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.PlcBlockComposition
+>
+> Composition of PlcBlocks
+
+- 📦 `GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 📦 `System#Collections#IEnumerable#GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 🔧 `Parent`: Gets the parent.
+- 🔧 `Count`: Gets the count.
+- 🔧 `IsReadOnly`: Gets a value indicating whether this instance is read only.
+- 🔧 `Item(System.Int32)`: Gets the element at the specified <paramref name="index"/>.
+- 📦 `Any`: Determines if any item is contained within.
+- 📦 `Contains(Siemens.Engineering.SW.Blocks.PlcBlock)`: Determines if <paramref name="item"/> is contained within.
+- 📦 `IndexOf(Siemens.Engineering.SW.Blocks.PlcBlock)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
+- 📦 `CreateFrom(Siemens.Engineering.Library.MasterCopies.MasterCopy)`: Create PlcBlock from MasterCopy
+- 📦 `CreateFrom(Siemens.Engineering.SW.Blocks.CodeBlockLibraryTypeVersion)`: Create PlcBlock from type version
+- 📦 `CreateFrom(Siemens.Engineering.Library.MasterCopies.MasterCopy,Siemens.Engineering.Library.MasterCopies.MasterCopyMode)`: Create PlcBlock from MasterCopy
+- 📦 `CreateFrom(Siemens.Engineering.SW.Blocks.CodeBlockLibraryTypeVersion,Siemens.Engineering.Library.Types.UpdatePathsMode)`: Create PlcBlock from type version
+- 📦 `Import(System.IO.FileInfo,Siemens.Engineering.ImportOptions)`: Simatic ML import of a Plc block
+- 📦 `Import(System.IO.FileInfo,Siemens.Engineering.ImportOptions,Siemens.Engineering.SW.SWImportOptions)`: Simatic ML import of a Plc block with ignore flags.
+- 📦 `ImportFromDocuments(System.IO.DirectoryInfo,System.String,Siemens.Engineering.SW.ImportDocumentOptions)`: Create Plc block by importing documents
+- 📦 `CreateFB(System.String,System.Boolean,System.Int32,Siemens.Engineering.SW.Blocks.ProgrammingLanguage)`: Creates a block.
+- 📦 `CreateInstanceDB(System.String,System.Boolean,System.Int32,System.String)`: Creates an instance DB.
+- 📦 `Find(System.String)`: Finds a given Plc block
+- 📦 `Find(System.String,System.String)`: Find the given Plc block
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.PlcBlockGroup
+>
+> Group containing Plc blocks &amp; Plc block user groups
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 📦 `GetService``1`: Gets an instance of type <c>T</c>.
+- 📦 `Siemens#Engineering#IEngineeringServiceProvider#GetServiceInfos`: Returns a collection of EngineeringServiceInfo objects describing the different services on this object.
+- 🔧 `Blocks`: Composition of Plc blocks
+- 🔧 `Groups`: Composition of Plc block user groups
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `Name`: The name of the Plc block group
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.PlcBlockProtectionProvider
+>
+> Provides protection services.
+
+- 🔧 `Parent`: EOM parent of this object
+- 📦 `Protect(System.Security.SecureString)`: Sets protection for the underlying object
+- 📦 `Unprotect(System.Security.SecureString)`: Removes protection for the underlying object
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.PlcBlockSystemGroup
+>
+> System group containing Plc blocks &amp; Plc block user groups
+
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `SystemBlockGroups`: Composition of Plc system block groups
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.PlcBlockUserGroup
+>
+> User group containing Plc blocks &amp; Plc block user groups
+
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `Name`: The name of the Plc block user group
+- 📦 `Delete`: Deletes this instance.
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.PlcBlockUserGroupComposition
+>
+> Composition of PlcBlockUserGroups
+
+- 📦 `GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 📦 `System#Collections#IEnumerable#GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 🔧 `Parent`: Gets the parent.
+- 🔧 `Count`: Gets the count.
+- 🔧 `IsReadOnly`: Gets a value indicating whether this instance is read only.
+- 🔧 `Item(System.Int32)`: Gets the element at the specified <paramref name="index"/>.
+- 📦 `Any`: Determines if any item is contained within.
+- 📦 `Contains(Siemens.Engineering.SW.Blocks.PlcBlockUserGroup)`: Determines if <paramref name="item"/> is contained within.
+- 📦 `IndexOf(Siemens.Engineering.SW.Blocks.PlcBlockUserGroup)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
+- 📦 `CreateFrom(Siemens.Engineering.Library.MasterCopies.MasterCopy)`: Create PlcBlockUserGroup from MasterCopy
+- 📦 `CreateFrom(Siemens.Engineering.Library.MasterCopies.MasterCopy,Siemens.Engineering.Library.MasterCopies.MasterCopyMode)`: Create PlcBlockUserGroup from MasterCopy
+- 📦 `Create(System.String)`: Create PlcBlockUserGroup
+- 📦 `Find(System.String)`: Finds a given Plc block user group
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.PlcBlockWriteProtectionProvider
+>
+> Provides write-protection services.
+
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `IsDefined`: Is password defined
+- 🔧 `IsProtected`: Is write protection enabled
+- 📦 `Change(System.Security.SecureString,System.Security.SecureString)`: Changes the write-protection password for the underlying object
+- 📦 `Define(System.Security.SecureString)`: Defines the write-protection password for the underlying object
+- 📦 `Protect(System.Security.SecureString)`: Enables write-protection for the underlying object
+- 📦 `Unprotect(System.Security.SecureString)`: Disables write-protection for the underlying object
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.PlcSystemBlockGroup
+>
+> Group containing Plc system blocks &amp; Plc system block groups
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 🔧 `Blocks`: Composition of Plc system blocks
+- 🔧 `Groups`: Composition of Plc system block groups
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `Name`: The name of the Plc system block group
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.PlcSystemBlockGroupComposition
+>
+> Composition of PlcSystemBlockGroups
+
+- 📦 `GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 📦 `System#Collections#IEnumerable#GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 🔧 `Parent`: Gets the parent.
+- 🔧 `Count`: Gets the count.
+- 🔧 `IsReadOnly`: Gets a value indicating whether this instance is read only.
+- 🔧 `Item(System.Int32)`: Gets the element at the specified <paramref name="index"/>.
+- 📦 `Any`: Determines if any item is contained within.
+- 📦 `Contains(Siemens.Engineering.SW.Blocks.PlcSystemBlockGroup)`: Determines if <paramref name="item"/> is contained within.
+- 📦 `IndexOf(Siemens.Engineering.SW.Blocks.PlcSystemBlockGroup)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
+- 📦 `Find(System.String)`: Finds a given Plc system block group
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.ProgrammingLanguage
+>
+> The list of possible creation languages of programming blocks
+
+## 🛠️ Siemens.Engineering.SW.Blocks.Supervision
+>
+> Supervision
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 🔧 `Parent`: EOM parent of this object
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.SupervisionComposition
+>
+> Supervisions of the block
+
+- 📦 `GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 📦 `System#Collections#IEnumerable#GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 🔧 `Parent`: Gets the parent.
+- 🔧 `Count`: Gets the count.
+- 🔧 `IsReadOnly`: Gets a value indicating whether this instance is read only.
+- 🔧 `Item(System.Int32)`: Gets the element at the specified <paramref name="index"/>.
+- 📦 `Any`: Determines if any item is contained within.
+- 📦 `Contains(Siemens.Engineering.SW.Blocks.Supervision)`: Determines if <paramref name="item"/> is contained within.
+- 📦 `IndexOf(Siemens.Engineering.SW.Blocks.Supervision)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.Exceptions.DataBlockCreationNotAllowedException
+>
+> This exception indicates that exception occured during creation of DataBlock.
+
+- 📦 `#ctor`: Initializes a new instance of the <see cref="T:Siemens.Engineering.SW.Blocks.Exceptions.DataBlockCreationNotAllowedException"/> class.
+- 📦 `#ctor(System.String)`: Initializes a new instance of the <see cref="T:Siemens.Engineering.SW.Blocks.Exceptions.DataBlockCreationNotAllowedException"/> class.
+- 📦 `#ctor(System.String,System.Exception)`: Initializes a new instance of the <see cref="T:Siemens.Engineering.SW.Blocks.Exceptions.DataBlockCreationNotAllowedException"/> class.
+- 📦 `#ctor(System.String,System.String[])`: Initializes a new instance of the <see cref="T:Siemens.Engineering.SW.Blocks.Exceptions.DataBlockCreationNotAllowedException"/> class.
+- 📦 `#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)`: Initializes a new instance of the <see cref="T:Siemens.Engineering.SW.Blocks.Exceptions.DataBlockCreationNotAllowedException"/> class with serialized data.
+- 📦 `GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)`: When overridden in a derived class, sets the <see cref="T:System.Runtime.Serialization.SerializationInfo"/>B with information about the exception.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.Interface.Member
+>
+> Represents an entry in a block
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `Name`: Represents the name of the Member
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.Interface.MemberComposition
+>
+> Gives all the members of a block
+
+- 📦 `GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 📦 `System#Collections#IEnumerable#GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 🔧 `Parent`: Gets the parent.
+- 🔧 `Count`: Gets the count.
+- 🔧 `IsReadOnly`: Gets a value indicating whether this instance is read only.
+- 🔧 `Item(System.Int32)`: Gets the element at the specified <paramref name="index"/>.
+- 📦 `Any`: Determines if any item is contained within.
+- 📦 `Contains(Siemens.Engineering.SW.Blocks.Interface.Member)`: Determines if <paramref name="item"/> is contained within.
+- 📦 `IndexOf(Siemens.Engineering.SW.Blocks.Interface.Member)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
+- 📦 `Find(System.String)`: Finds a Block Member by name
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.Interface.PlcBlockInterface
+>
+> Interface for all blocks
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 📦 `GetService``1`: Gets an instance of type <c>T</c>.
+- 📦 `Siemens#Engineering#IEngineeringServiceProvider#GetServiceInfos`: Returns a collection of EngineeringServiceInfo objects describing the different services on this object.
+- 🔧 `Members`: Represents Members of a block
+- 🔧 `Parent`: EOM parent of this object
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Blocks.Interface.ValueService
+>
+> Provides value functionality.
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 📦 `GetService``1`: Gets an instance of type <c>T</c>.
+- 📦 `Siemens#Engineering#IEngineeringServiceProvider#GetServiceInfos`: Returns a collection of EngineeringServiceInfo objects describing the different services on this object.
+- 🔧 `Parent`: EOM parent of this object
+- 📦 `CreateSnapshot`: Create a snapshot of the actual values.
+- 📦 `LoadSnapshotAsActualValues`: Loads the snapshot as actual values.
+- 📦 `LoadStartValuesAsActualValues`: Loads the start values as actual values.
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.DocumentExportResult
+>
+> Represents the documents export operation result.
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 🔧 `Messages`: Returns the messages which are logged during export operation.
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `ExportedDocuments`: List of documents which are exported.
+- 🔧 `State`: Status of document export operation
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.DocumentImportResult
+>
+> Represent the documents import operation result.
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 🔧 `Messages`: Returns the messages which are logged during import operation.
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `State`: Status of document import operation
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.DocumentImportResultForBlocks
+>
+> Document Import results for Plc Blocks
+
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `ImportedPlcBlocks`: Collection of imported Plc Blocks
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.DocumentImportResultForSplDocument
+>
+> Document Import results for Named Value Type Documents
+
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `ImportedDocuments`: Collection of imported Document Types
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.DocumentImportResultForTypes
+>
+> Document Import results for Plc Types
+
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `ImportedPlcTypes`: Collection of imported Plc Types
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.DocumentResultMessage
+>
+> Message explain about document export/import operation.
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `Message`: Gets the log message of document export/import.
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.DocumentResultMessageComposition
+>
+> Collection of log message of document export/import.
+
+- 📦 `GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 📦 `System#Collections#IEnumerable#GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 🔧 `Parent`: Gets the parent.
+- 🔧 `Count`: Gets the count.
+- 🔧 `IsReadOnly`: Gets a value indicating whether this instance is read only.
+- 🔧 `Item(System.Int32)`: Gets the element at the specified <paramref name="index"/>.
+- 📦 `Any`: Determines if any item is contained within.
+- 📦 `Contains(Siemens.Engineering.SW.DocumentResultMessage)`: Determines if <paramref name="item"/> is contained within.
+- 📦 `IndexOf(Siemens.Engineering.SW.DocumentResultMessage)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.DocumentResultState
+>
+> Document import/export result state
+
+## 🛠️ Siemens.Engineering.SW.Fingerprint
+>
+> fingerprint
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `Id`: ID of the fingerprint
+- 🔧 `Value`: fingerprint data
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.FingerprintId
+>
+> fingerprint id
+
+## 🛠️ Siemens.Engineering.SW.FingerprintProvider
+>
+> Provides fingerprints.
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 🔧 `Parent`: EOM parent of this object
+- 📦 `GetFingerprints`: Read Fingerprint
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.ImportDocumentOptions
+>
+> The list of possible SIMATIC Source document import options
+
+## 🛠️ Siemens.Engineering.SW.PlcChecksumProvider
+>
+> Provides checksums.
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `Software`: Software checksum
+- 🔧 `TextLists`: Text lists checksum
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.PlcDocument
+>
+> Document for Blocks or Types
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 📦 `GetService``1`: Gets an instance of type <c>T</c>.
+- 📦 `Siemens#Engineering#IEngineeringServiceProvider#GetServiceInfos`: Returns a collection of EngineeringServiceInfo objects describing the different services on this object.
+- 🔧 `Parent`: Parent of Plc Document
+- 🔧 `Name`: Defines the name of the document.
+- 📦 `ExportAsDocuments(System.IO.DirectoryInfo,System.String)`: Export Document of PlcDocument
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.PlcDocumentAssociation
+>
+> Plc Document Association
+
+- 📦 `GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 📦 `System#Collections#IEnumerable#GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 🔧 `Parent`: Gets the parent.
+- 🔧 `Count`: Gets the count.
+- 🔧 `IsReadOnly`: Gets a value indicating whether this instance is read only.
+- 🔧 `Item(System.Int32)`: Gets the element at the specified <paramref name="index"/>.
+- 📦 `Any`: Determines if any item is contained within.
+- 📦 `Contains(Siemens.Engineering.SW.PlcDocument)`: Determines if <paramref name="item"/> is contained within.
+- 📦 `IndexOf(Siemens.Engineering.SW.PlcDocument)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.PlcDocumentComposition
+>
+> Composition for plc document
+
+- 📦 `GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 📦 `System#Collections#IEnumerable#GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 🔧 `Parent`: Gets the parent.
+- 🔧 `Count`: Gets the count.
+- 🔧 `IsReadOnly`: Gets a value indicating whether this instance is read only.
+- 🔧 `Item(System.Int32)`: Gets the element at the specified <paramref name="index"/>.
+- 📦 `Any`: Determines if any item is contained within.
+- 📦 `Contains(Siemens.Engineering.SW.PlcDocument)`: Determines if <paramref name="item"/> is contained within.
+- 📦 `IndexOf(Siemens.Engineering.SW.PlcDocument)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
+- 📦 `CreateFrom(Siemens.Engineering.Library.MasterCopies.MasterCopy)`: Create PlcDocument from MasterCopy object
+- 📦 `CreateFrom(Siemens.Engineering.SW.Types.PlcDocumentLibraryTypeVersion)`: Creates PlcDocument from PlcDocumentLibraryTypeVersion object.
+- 📦 `CreateFrom(Siemens.Engineering.Library.MasterCopies.MasterCopy,Siemens.Engineering.Library.MasterCopies.MasterCopyMode)`: Create PlcDocument from MasterCopy object based on the MasterCopyMode
+- 📦 `CreateFrom(Siemens.Engineering.SW.Types.PlcDocumentLibraryTypeVersion,Siemens.Engineering.Library.Types.UpdatePathsMode)`: Creates PlcDocument from PlcDocumentLibraryTypeVersion object based on UpdatePathsMode
+- 📦 `ImportFromDocuments(System.IO.DirectoryInfo,System.String,Siemens.Engineering.SW.ImportDocumentOptions)`: Create documents in Tia Portal by importing documents
+- 📦 `Find(System.String)`: Find action for plc document compostition
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.PlcSimulationSettingsProvider
+>
+> Service provider for simulation during block compilation in project
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `IsSimulationDuringBlockCompilationEnabled`: To indicate whether Support for Simulation during block compilation is enabled for the project
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.PlcSoftware
+>
+> Represents the software components of a Plc
+
+- 📦 `GetService``1`: Gets an instance of type <c>T</c>.
+- 📦 `Siemens#Engineering#IEngineeringServiceProvider#GetServiceInfos`: Returns a collection of EngineeringServiceInfo objects describing the different services on this object.
+- 🔧 `BlockGroup`: Gets the Plc block system group
+- 🔧 `ExternalSourceGroup`: Gets the Plc external source system group
+- 🔧 `PlcAlarmTextlistGroup`: Description for published
+- 🔧 `TagTableGroup`: Gets the Plc tag table system group
+- 🔧 `TechnologicalObjectGroup`: This system folder can contain technological objects
+- 🔧 `TypeGroup`: Gets the Plc type system group
+- 🔧 `WatchAndForceTableGroup`: Get the Plc watch table system group
+- 🔧 `Name`: The name of the Plc software
+- 📦 `CompareTo(Siemens.Engineering.Compare.ISoftwareCompareTarget)`: Compare the PLC software to the given target
+- 📦 `CompareToOnline`: Compare the PLC software to the online target
+- 📦 `UpdateProgram`: Update PLC program
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.PlcTagProvider
+>
+> Service provider for obtaining Plc Tag from Channel.
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 🔧 `Parent`: EOM parent of this object
+- 📦 `GetLinkedTags`: Get Linked Tags from channel
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.ProcessImageProvider
+>
+> Service provider for AssignProcessImageToOrganizationBlock
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 🔧 `Parent`: EOM parent of this object
+- 📦 `AssignProcessImageToOrganizationBlock(Siemens.Engineering.SW.Blocks.OB)`: Assign the current process image to the OB.
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.SWImportOptions
+>
+> The list of possible sw importoptions for Import
+
+## 🛠️ Siemens.Engineering.SW.VirtualPlcSettingsProvider
+>
+> Service provider for virtual plc during block compilation in project
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 🔧 `Parent`: EOM parent of this object
+- 🔧 `IsVirtualPlcDuringBlockCompilationEnabled`: To indicate whether Support for virtual plc during block compilation is enabled for the project
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Loader.LoadableProvider
+>
+> Generates loadables files
+
+- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
+- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
+- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
+- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
+- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
+- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
+- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
+- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
+- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
+- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
+- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
+- 🔧 `Parent`: EOM parent of this object
+- 📦 `GenerateLoadable(System.IO.FileInfo,System.Collections.Generic.IEnumerable{Siemens.Engineering.SW.Blocks.PlcBlock},Siemens.Engineering.SW.Loader.TargetOption)`: Generates a loadable file for blocks in the non unit program
+- 📦 `GenerateLoadable(System.IO.FileInfo,System.Collections.Generic.IEnumerable{Siemens.Engineering.SW.Units.PlcUnit},Siemens.Engineering.SW.Loader.TargetOption)`: Generates a loadable file for software units
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Loader.TargetOption
+>
+> Target option

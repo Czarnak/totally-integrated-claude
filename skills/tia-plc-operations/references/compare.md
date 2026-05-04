@@ -113,3 +113,26 @@ Access via `PlcSoftware`.
 PlcSoftware plcSoftware = ...; // access via SoftwareContainer
 plcSoftware.UpdateProgram();
 ```
+
+# V21 API Reference
+
+## 🛠️ Siemens.Engineering.SW.PlcSoftware
+>
+> Represents the software components of a Plc
+
+- 📦 `GetService``1`: Gets an instance of type <c>T</c>.
+- 📦 `Siemens#Engineering#IEngineeringServiceProvider#GetServiceInfos`: Returns a collection of EngineeringServiceInfo objects describing the different services on this object.
+- 🔧 `BlockGroup`: Gets the Plc block system group
+- 🔧 `ExternalSourceGroup`: Gets the Plc external source system group
+- 🔧 `PlcAlarmTextlistGroup`: Description for published
+- 🔧 `TagTableGroup`: Gets the Plc tag table system group
+- 🔧 `TechnologicalObjectGroup`: This system folder can contain technological objects
+- 🔧 `TypeGroup`: Gets the Plc type system group
+- 🔧 `WatchAndForceTableGroup`: Get the Plc watch table system group
+- 🔧 `Name`: The name of the Plc software
+- 📦 `CompareTo(Siemens.Engineering.Compare.ISoftwareCompareTarget)`: Compare the PLC software to the given target
+- 📦 `CompareToOnline`: Compare the PLC software to the online target
+- 📦 `UpdateProgram`: Update PLC program
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.

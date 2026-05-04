@@ -85,34 +85,33 @@ All compositions are accessed from the `HmiTarget` root object.
 
 | Task | Namespace | Entry point on HmiTarget |
 |---|---|---|
-| HMI tags and tag tables | `Siemens.Engineering.Hmi.Tag` | `hmiTarget.TagTableFolder` |
+| HMI tags and tag tables | `Siemens.Engineering.Hmi.Tag` | `hmiTarget.TagFolder` |
 | Screens, templates, popup, slide-in | `Siemens.Engineering.Hmi.Screen` | `hmiTarget.ScreenFolder` |
-| Connections (to PLCs etc.) | `Siemens.Engineering.Hmi.Communication` | `hmiTarget.ConnectionFolder` |
-| Cycles | `Siemens.Engineering.Hmi.Cycle` | `hmiTarget.CycleFolder` |
-| Text lists | `Siemens.Engineering.Hmi.TextGraphicList` | `hmiTarget.TextListFolder` |
-| Graphic lists | `Siemens.Engineering.Hmi.TextGraphicList` | `hmiTarget.GraphicListFolder` |
-| VB Scripts | `Siemens.Engineering.Hmi.RuntimeScripting` | `hmiTarget.ScriptFolder` |
-| Project texts (multilingual) | `Siemens.Engineering.Hmi.Globalization` | `hmiTarget.ProjectTextFolder` |
+| Connections (to PLCs etc.) | `Siemens.Engineering.Hmi.Communication` | `hmiTarget.Connections` |
+| Cycles | `Siemens.Engineering.Hmi.Cycle` | `hmiTarget.Cycles` |
+| Text lists | `Siemens.Engineering.Hmi.TextGraphicList` | `hmiTarget.TextLists` |
+| Graphic lists | `Siemens.Engineering.Hmi.TextGraphicList` | `hmiTarget.GraphicLists` |
+| VB Scripts | `Siemens.Engineering.Hmi.RuntimeScripting` | `hmiTarget.VBScriptFolder` |
 
 ### Navigation examples
 
 ```csharp
 // Tags
-HmiTagTableFolder tagFolder = hmiTarget.TagTableFolder;
-foreach (HmiTagTable table in tagFolder.TagTables)
+TagSystemFolder tagFolder = hmiTarget.TagFolder;
+foreach (TagTable table in tagFolder.TagTables)
 {
-    foreach (HmiTag tag in table.Tags)
+    foreach (Tag tag in table.Tags)
         Console.WriteLine($"Tag: {tag.Name}");
 }
 
 // Screens
-HmiScreenFolder screenFolder = hmiTarget.ScreenFolder;
-foreach (HmiScreen screen in screenFolder.Screens)
+ScreenSystemFolder screenFolder = hmiTarget.ScreenFolder;
+foreach (Screen screen in screenFolder.Screens)
     Console.WriteLine($"Screen: {screen.Name}");
 
 // Connections
-HmiConnectionFolder connFolder = hmiTarget.ConnectionFolder;
-foreach (HmiConnection conn in connFolder.Connections)
+ConnectionComposition connections = hmiTarget.Connections;
+foreach (Connection conn in connections)
     Console.WriteLine($"Connection: {conn.Name}");
 ```
 
@@ -144,13 +143,43 @@ on the relevant composition (tag table, screen, connection, etc.).
 
 ```csharp
 // Export a tag table to XML
-HmiTagTable table = hmiTarget.TagTableFolder.TagTables.Find("HMI_Tags");
+TagTable table = hmiTarget.TagFolder.TagTables.Find("HMI_Tags");
 table.Export(new FileInfo(@"C:\Export\HMI_Tags.xml"), ExportOptions.None);
 
 // Import a tag table from XML
-hmiTarget.TagTableFolder.TagTables.Import(
+hmiTarget.TagFolder.TagTables.Import(
     new FileInfo(@"C:\Export\HMI_Tags.xml"),
     ImportOptions.Overwrite);
 ```
 
 For cross-domain import/export strategy and file format details, see `tia-import-export`.
+
+---
+
+## V21 API Reference: Siemens.Engineering.Hmi
+
+## 🛠️ Siemens.Engineering.Hmi.HmiTarget
+>
+> Represents the target device
+
+- 📦 `GetService``1`: Gets an instance of type <c>T</c>.
+- 📦 `Siemens#Engineering#IEngineeringServiceProvider#GetServiceInfos`: Returns a collection of EngineeringServiceInfo objects describing the different services on this object.
+- 🔧 `Connections`: Composition of connections
+- 🔧 `Cycles`: Composition of cycles
+- 🔧 `GraphicLists`: Composition of graphic lists
+- 🔧 `ScreenFolder`: Gets the Hmi screen system folder
+- 🔧 `ScreenGlobalElements`: Gets the Hmi screen global elements
+- 🔧 `ScreenOverview`: Gets the Hmi screen overview
+- 🔧 `ScreenPopupFolder`: System folder for the HMI pop-up screens
+- 🔧 `ScreenSlideinFolder`: System folder for the HMI slide-in screens
+- 🔧 `ScreenTemplateFolder`: Composition of screen template folders
+- 🔧 `TagFolder`: Gets the Hmi tag system folder
+- 🔧 `TextLists`: Composition of text lists
+- 🔧 `VBScriptFolder`: Gets the VBScript system folder
+- 🔧 `Author`: Author of the device
+- 🔧 `Name`: The name of the Hmi target
+- 📦 `ImportScreenGlobalElements(System.IO.FileInfo,Siemens.Engineering.ImportOptions)`: Simatic ML import of screen global elements
+- 📦 `ImportScreenOverview(System.IO.FileInfo,Siemens.Engineering.ImportOptions)`: Simatic ML import of a screen overview
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.

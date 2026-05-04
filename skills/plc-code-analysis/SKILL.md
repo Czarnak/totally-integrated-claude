@@ -106,6 +106,7 @@ check on a status indicator is Low; the same flaw on a chemical dosing pump is C
 ### Per-pass procedure
 
 Before starting the passes, build a compact context manifest:
+
 - **Code:** pasted/exported blocks, block names, language, line/network references
 - **Declarations:** VAR_INPUT, VAR_OUTPUT, VAR_IN_OUT, VAR_STATIC, VAR_TEMP, constants
 - **Types:** UDTs, arrays, structures, optimized vs standard access metadata when known
@@ -114,6 +115,7 @@ Before starting the passes, build a compact context manifest:
 - **Verification:** baseline compile status if available, and whether simulation was run
 
 For each pass:
+
 1. Load the reference file
 2. Work through every checklist item against the provided code
 3. Record each finding with: severity, category tag, location, evidence, inference level,
@@ -122,6 +124,7 @@ For each pass:
 5. Proceed to next pass
 
 After all passes, run a final verification synthesis:
+
 - Challenge high/critical findings against the context manifest
 - Downgrade or label findings that depend on missing UDTs, call paths, or hardware mapping
 - Flag any proposed remediation that requires `compile_check`, simulation, or safety review
@@ -214,12 +217,14 @@ gets the highest severity assigned and cross-references both categories), and so
 ## Limitations and honest reporting
 
 Claude must NOT:
+
 - Invent findings to fill the report — if a pass finds nothing, report "No issues identified"
 - Speculate about code behavior without evidence from the provided source
 - Claim certainty about runtime behavior that depends on CPU configuration not provided
 - Hallucinate variable names, block numbers, or line references
 
 Claude MUST:
+
 - Clearly state when a finding is based on inference vs. direct evidence
 - Note when analysis is limited by missing context (e.g., UDT definitions not provided)
 - Distinguish between confirmed violations and suspicious patterns worth investigating

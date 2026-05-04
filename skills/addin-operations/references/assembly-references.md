@@ -13,7 +13,7 @@ software, blocks, tags, or devices, additional assemblies must be added manually
 ## Namespace → assembly map
 
 | Namespace | Assembly to add to csproj | Key types |
-|---|---|---|
+| --- | --- | --- |
 | `Siemens.Engineering.HW` | already in `Base` | `Device`, `DeviceItem`, `DeviceItemComposition` |
 | `Siemens.Engineering.HW.Features` | already in `Base` | `SoftwareContainer` |
 | `Siemens.Engineering.SW` | `Siemens.Engineering.Step7.dll` | `PlcSoftware` |

@@ -71,6 +71,7 @@ PlcSafetyUnit safetyUnit = safetyUnits.Find("SafetyUnit");
 ```
 
 `PlcSafetyUnit` exposes the same sub-objects as `PlcUnit`:
+
 - `safetyUnit.BlockGroup`
 - `safetyUnit.TagTableGroup`
 - `safetyUnit.TypeGroup`
@@ -152,6 +153,7 @@ globalProvider.ImportSupervisionSettingsFromXlsx(new FileInfo(filePath), importO
 ```
 
 **Restrictions on SafetyUnit:**
+
 - Cannot create, delete, or copy a stand-alone SafetyUnit via Openness
 - Cannot download/upload SafetyUnit via Openness
 - Cannot copy the hosted SafetyUnit into project/global library mastercopy
@@ -174,3 +176,32 @@ var access = safetyBlock.GetAttribute("Access");
 ```
 
 `UnitAccessType` enum: `Published`, `Unpublished`
+
+# V21 API Reference
+
+## 🛠️ Siemens.Engineering.SW.Units.PlcSafetyUnit
+>
+> Represents a Plc safety unit
+
+- 🔧 `Parent`: EOM parent of this object
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+
+## 🛠️ Siemens.Engineering.SW.Units.PlcSafetyUnitComposition
+>
+> Composition of safety unit
+
+- 📦 `GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 📦 `System#Collections#IEnumerable#GetEnumerator`: Returns an enumerator that iterates through a collection.
+- 🔧 `Parent`: Gets the parent.
+- 🔧 `Count`: Gets the count.
+- 🔧 `IsReadOnly`: Gets a value indicating whether this instance is read only.
+- 🔧 `Item(System.Int32)`: Gets the element at the specified <paramref name="index"/>.
+- 📦 `Any`: Determines if any item is contained within.
+- 📦 `Contains(Siemens.Engineering.SW.Units.PlcSafetyUnit)`: Determines if <paramref name="item"/> is contained within.
+- 📦 `IndexOf(Siemens.Engineering.SW.Units.PlcSafetyUnit)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
+- 📦 `Find(System.String)`: Finds the Safety Unit By name
+- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+- 📦 `GetHashCode`: Returns a hash code for this instance.
+- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.

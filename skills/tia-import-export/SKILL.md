@@ -10,12 +10,14 @@ description: >
 # tia-import-export
 
 ## Scope
+
 Import/export strategy and round-trip design — full C# Openness implementation.
 
 When the roadmap routes here, the entire solution is C#.
 Do not mix with Python wrapper calls.
 
 ## Use this skill for
+
 - choosing direct object edits vs import/export
 - XML / SimaticML / AML / CAx strategy
 - bulk engineering changes
@@ -27,6 +29,7 @@ Do not mix with Python wrapper calls.
 - mixed import + low-level object-model editing
 
 ## Execution pattern
+
 1. identify target object class and Openness composition
 2. identify exchange format (SimaticML, AML, XML)
 3. decide file-based vs direct-edit approach

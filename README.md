@@ -24,14 +24,17 @@ Provides a routed skill framework covering the full TIA Portal Openness API surf
 | `tia-openness-roadmap` | **Entry point.** Routes all TIA Portal tasks to the correct implementation path and domain skill. Load this first for every TIA Portal task. |
 | `tia-python` | Python TIA Scripting: PLC blocks/tags/UDTs, HMI tags/screens, library types/versions, project lifecycle, CAx import/export. |
 | `tia-csharp-common` | C# foundation: TIA Portal process attach, `ExclusiveAccess`, `Transaction`, disposable patterns. Required first load for every C# task. |
-| `tia-project-general` | C# project & portal lifecycle: open, create, save, archive, retrieve, UMAC/UMC, multiuser (VCI/Teamcenter), language settings, diagnostics. |
-| `tia-devices-general` | C# device & device-item operations: hardware catalog, device creation/deletion, slot/subslot traversal, software containers, network connections. |
-| `tia-plc-operations` | C# PLC software engineering: program blocks, system blocks, PLC tags/UDTs, software units, Safety unit, online/offline, download, compare, security. |
-| `tia-hmi-operations` | C# Unified HMI: screens, screen items, HMI tags, scripts, cycles, connections, runtime behavior. |
+| `tia-project-general` | C# project & portal lifecycle: open, create, save, archive, retrieve, UMAC/UMC, language settings, diagnostics. |
+| `tia-devices-general` | C# device & device-item operations: hardware catalog, device creation/deletion, slot/subslot traversal, software containers, network connections, hardware parameters. |
+| `tia-plc-operations` | C# PLC software engineering: program/system blocks, PLC tags/UDTs, software units, Safety, alarms, OPC-UA, technological objects, watch/force tables, online/download, compare. |
+| `tia-hmi-operations` | C# Unified HMI: screens, screen items, elements, parts, tags, alarms, scripts, cycles, connections, dynamization, events, runtime settings, system services. |
 | `tia-networks` | C# topology: subnets, nodes, IO systems, port channels, addresses, IO timing. |
-| `tia-simatic-drives` | C# Startdrive / SINAMICS: drive controller access, drive engineering, Startdrive-specific Openness APIs. |
+| `tia-simatic-drives` | C# Startdrive / SINAMICS: drive controller access, drive engineering, motion control, download. |
 | `tia-import-export` | C# & Python import/export: SimaticML, AML/CAx, PLC blocks, HMI screens/tags/alarms, hardware AML, project data. |
-| `addin-operations` | TIA Portal Add-In development: project structure, VS Code workflow, Add-In lifecycle, deployment. |
+| `tia-multiuser` | C# Multiuser Engineering: server project management, local sessions, multiuser commissioning workflows. |
+| `tia-teamcenter` | C# Teamcenter Integration: Teamcenter storage management and Teamcenter-managed project operations. |
+| `tia-testsuite` | C# TestSuite & Application Test: test sets, application tests, style-guide rules, automated system testing. |
+| `addin-operations` | TIA Portal Add-In development: project structure, VS Code workflow, Add-In lifecycle, menus, permissions, deployment. |
 
 ---
 
@@ -138,7 +141,9 @@ Claude will load `tia-openness-roadmap`, select the correct implementation path 
 | Subnet and IO-system configuration | C# | `tia-networks` |
 | SINAMICS drive engineering | C# | `tia-simatic-drives` |
 | Advanced PLC online/security services | C# | `tia-plc-operations` |
-| Teamcenter / VCI / multiuser sessions | C# | `tia-project-general` |
+| Multiuser Engineering (server projects) | C# | `tia-multiuser` |
+| Teamcenter managed projects | C# | `tia-teamcenter` |
+| Automated PLC/HMI testing | C# | `tia-testsuite` |
 | TIA Portal Add-In project | C# | `addin-operations` |
 
 ---
@@ -150,8 +155,7 @@ Claude will load `tia-openness-roadmap`, select the correct implementation path 
 
 ## TODO
 
-1. Add missing Openness API skills
-2. Add Siemens languages skills (SCL, LAD, SimaticML)
+- Add Siemens languages skills (SCL, LAD, SimaticML)
 
 ## Sources
 

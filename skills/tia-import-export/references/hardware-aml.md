@@ -11,6 +11,7 @@ Source: TIA Portal Openness V21 — CAx/AML Hardware Data (03/2026)
 CAx data uses **AutomationML (AML)** format — not XML. All other TIA Portal Openness export/import uses XML/SimaticML.
 
 Export/import is supported at:
+
 - **Project level** — all devices in the project
 - **Device level** — single device
 
@@ -45,12 +46,14 @@ CaxProvider caxProvider = project.GetService<CaxProvider>();
 ## 3. Export CAx data at project level
 
 **Legacy API (returns bool):**
+
 ```csharp
 caxProvider.Export(project, new FileInfo(@"D:\Temp\ProjectExport.aml"),
     new FileInfo(@"D:\Temp\ProjectExport_Log.log"));
 ```
 
 **V19+ API (returns TransferResult):**
+
 ```csharp
 private static void CaxTransferAtProjectLevel(ProjectBase project, CaxProvider caxProvider)
 {
@@ -74,12 +77,14 @@ private static void PrintCaxResult(TransferResult result)
 ## 4. Export CAx data at device level
 
 **Legacy API:**
+
 ```csharp
 caxProvider.Export(device, new FileInfo(@"D:\Temp\DeviceExport.aml"),
     new FileInfo(@"D:\Temp\DeviceExport_Log.log"));
 ```
 
 **V19+ API (returns TransferResult):**
+
 ```csharp
 private static void CaxTransferAtDeviceLevel(ProjectBase project, CaxProvider caxProvider)
 {
@@ -95,6 +100,7 @@ private static void CaxTransferAtDeviceLevel(ProjectBase project, CaxProvider ca
 ## 5. Import CAx data
 
 **Legacy API:**
+
 ```csharp
 caxProvider.Import(new FileInfo(@"D:\Temp\ProjectImport.aml"),
     new FileInfo(@"D:\Temp\ProjectImport_Log.log"),
@@ -102,6 +108,7 @@ caxProvider.Import(new FileInfo(@"D:\Temp\ProjectImport.aml"),
 ```
 
 **V19+ API (returns TransferResult):**
+
 ```csharp
 private static void ImportCaxTransfer(ProjectBase project, CaxProvider caxProvider)
 {

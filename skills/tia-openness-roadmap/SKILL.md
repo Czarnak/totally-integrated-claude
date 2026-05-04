@@ -11,9 +11,11 @@ description: >
 # tia-openness-roadmap
 
 ## Goal
+
 Route the task to the correct implementation path and load the right skill files.
 
 ## Mandatory policy
+
 1. Prefer **TIA Portal MCP** for interactive, single-step read/write operations when the MCP server is available.
 2. Prefer **TIA Scripting Python** for scripted or multi-step automation.
 3. Use **C# TIA Portal Openness** only if Python is insufficient.
@@ -23,6 +25,7 @@ Route the task to the correct implementation path and load the right skill files
 ## Implementation paths
 
 ### MCP path
+
 Direct tool calls — no code generation. Use when the TIA Portal MCP server is available.
 
 | Skill | Location |
@@ -30,6 +33,7 @@ Direct tool calls — no code generation. Use when the TIA Portal MCP server is 
 | `tia-portal-mcp` | `skills/tia-portal-mcp/SKILL.md` |
 
 ### Python path
+
 Single skill owns all Python implementation:
 
 | Skill | Location |
@@ -40,6 +44,7 @@ Single skill owns all Python implementation:
 `references/*.md` file based on the task domain (PLC, HMI, library, project, portal).
 
 ### C# path
+
 Always starts with the common foundation skill, then domain skill(s):
 
 | Skill | Location | Role |
@@ -54,6 +59,7 @@ Always starts with the common foundation skill, then domain skill(s):
 | `tia-import-export` | `skills/tia-import-export/SKILL.md` | Domain skill |
 
 ### Add-In path
+
 Standalone skill for TIA Portal Add-In development (always C#, VS Code workflow):
 
 | Skill | Location |
@@ -91,7 +97,9 @@ Standalone skill for TIA Portal Add-In development (always C#, VS Code workflow)
 | TIA Portal Add-In / addin-project / .addin | C# | `addin-operations` |
 
 ## MCP vs Python vs C# decision rule
+
 Choose **MCP** when:
+
 - the task is a single read or targeted write (one block, one device, one compile check)
 - the user wants to explore or inspect a project interactively
 - no looping, no bulk changes, no code generation is needed
@@ -99,6 +107,7 @@ Choose **MCP** when:
 
 Choose **Python** when the exact required operation exists in the `tia-python` reference files.
 Choose **C#** when:
+
 - the required operation is absent from the Python reference catalogue
 - the task needs low-level object model traversal
 - the task needs topology/network object manipulation
@@ -107,6 +116,7 @@ Choose **C#** when:
 - the task needs Teamcenter, VCI, advanced multiuser, or unsupported safety/Unified features
 
 ## Multi-skill execution order
+
 1. project / portal
 2. device selection
 3. domain work
@@ -114,7 +124,9 @@ Choose **C#** when:
 5. compile / compare / download / validation
 
 ## Required response format
+
 Use this exact structure:
+
 - `Use skill(s): ...`
 - `Implementation path: MCP` or `Implementation path: Python` or `Implementation path: C# Openness`
 - `Reason: ...`
@@ -128,6 +140,7 @@ Use this exact structure:
 points to for the task domain. Do NOT load domain skills — they are for C# only.
 
 **If C#:**
+
 1. Read `skills/tia-csharp-common/SKILL.md` first — always, for every C# task.
 2. Read the SKILL.md and `reference_catalogue.md` of each selected domain skill.
    Use the file paths from the C# domain skills table above.
@@ -137,13 +150,16 @@ points to for the task domain. Do NOT load domain skills — they are for C# onl
 Do NOT write code based solely on the routing response — always load the skill files first.
 
 ## Escalation rule
+
 If implementation starts in Python and the required call is not documented:
+
 - stop
 - switch to the corresponding C# domain skill
 - load `tia-csharp-common` first, then the domain skill
 - keep the same task decomposition
 
 ## Hard escalation triggers (always C#)
+
 - device item slot/subslot operations
 - subnet/node/IO-system/port/channel/address manipulation
 - Teamcenter / ConnectSSO

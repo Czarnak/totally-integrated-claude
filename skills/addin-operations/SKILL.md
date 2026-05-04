@@ -25,6 +25,8 @@ Load ONLY the reference file(s) relevant to the task. Do not load all files at o
 | Reference file | Load when the task involves |
 |---|---|
 | `references/api-surface.md` | Choosing provider/add-in types; VCI or CAx workflow item types; workflow-to-assembly mapping |
+| `references/api-menus.md` | Building context menu structures; action items; submenus; selection handling |
+| `references/api-permissions.md` | Starting external processes; handling ProcessStartPermission |
 | `references/assembly-references.md` | Adding PLC software, block, or tag access to an Add-In csproj |
 | `references/attribute-helper.md` | Reading/writing engineering object attributes via `GetAttributeInfos` or `SetAttributes` |
 | `references/threading-and-callbacks.md` | Showing any WinForms UI from an Add-In; understanding status callback constraints |
@@ -52,6 +54,7 @@ For tasks spanning multiple areas, load all relevant reference files before gene
 1. Open the Windows command prompt with administrator privileges.
 2. (Optional) Navigate to the desired project location, or use the `--output` parameter.
 3. Run:
+
    ```
    dotnet new addin-project [options]
    ```
@@ -89,6 +92,7 @@ The project directory contains `Config.xml` for changing parameters after creati
 1. Open the Windows command prompt with administrator privileges.
 2. Navigate to the project directory (or use `--output`).
 3. Run:
+
    ```
    dotnet new <Add-In-Type> [-o <output dir>] [-n <name>] [-N <namespace>]
    ```

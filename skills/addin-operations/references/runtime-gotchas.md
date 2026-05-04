@@ -44,15 +44,17 @@ framework-provided types.
 Common substitutions:
 
 | Avoid (NuGet) | Use instead (GAC) | Assembly to reference |
-|---|---|---|
+| --- | --- | --- |
 | `Newtonsoft.Json` | `System.Web.Script.Serialization.JavaScriptSerializer` | `System.Web.Extensions` |
 | `Newtonsoft.Json` | `System.Runtime.Serialization.Json.DataContractJsonSerializer` | `System.Runtime.Serialization` |
 | `YamlDotNet` | No built-in equivalent — parse JSON or XML instead | — |
 
 Adding `System.Web.Extensions` to the csproj:
+
 ```xml
 <Reference Include="System.Web.Extensions" />
 ```
+
 No `HintPath` needed — it is a standard GAC assembly.
 
 ---

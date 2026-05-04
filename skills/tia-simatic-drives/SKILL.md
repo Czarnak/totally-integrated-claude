@@ -9,6 +9,7 @@ description: >
 # tia-simatic-drives
 
 ## Scope
+
 Startdrive and drive-specific engineering — full C# Openness implementation.
 
 When the roadmap routes here, the entire solution is C#.
@@ -21,7 +22,9 @@ Always load `tia-csharp-common` first (done by roadmap).
 
 | Reference file | Load when the task involves |
 |---|---|
-| `references/drives-overview.md` | Any Startdrive / SINAMICS / SIMATIC Drive Controller task — complete API reference with navigate/operate/validate patterns |
+| `references/drives-overview.md` | Core patterns for Startdrive/SINAMICS engineering (Navigate, Parameters, Telegrams, DFI, Safety, Security) |
+| `references/motion-control.md` | Detailed reference for `Siemens.Engineering.MC` namespaces (Drives, DFI, SecurityObjects, Enums) |
+| `references/download.md` | Startdrive-specific and common Download/Upload check configurations |
 
 ---
 

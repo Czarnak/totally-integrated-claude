@@ -9,6 +9,7 @@ Source: TIA Portal Openness V21 — Basic Principles and Configuration Data (03/
 ## 1. Field of application
 
 Import/Export is useful for:
+
 - Externally editing configuration data
 - Importing externally-created data (e.g. text lists, tags)
 - Distributing configuration data across projects
@@ -66,6 +67,7 @@ composition.Import(file, ImportOptions.Override | ImportOptions.ActivateInactive
 > `ImportOptions.ActivateInactiveCultures` and `ImportOptions.SkipInactiveCultures` are **not** supported for Excel-based import APIs (e.g. `ImportSupervisionSettingsFromXlsx`).
 
 Import rules:
+
 - All root objects in the import file must be of the same kind (e.g. all blocks, all tag tables).
 - If any root object is invalid, the entire file is rejected.
 - Objects being overwritten must be in the same group; otherwise import is canceled with an exception.
@@ -73,6 +75,7 @@ Import rules:
 ## 5. Editing the XML file
 
 Use an XML editor with auto-complete for structural changes. The schema definitions (XSD) are located at:
+
 - HMI: project XML schema docs
 - PLC: `C:\Program Files\Siemens\Automation\Portal V*\PublicAPI\V*\Schemas\SW.PlcBlocks.Graph_v4.xsd` (and similar)
 - AML: AutomationML schema

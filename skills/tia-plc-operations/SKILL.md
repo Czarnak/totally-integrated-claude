@@ -11,6 +11,7 @@ description: >
 # tia-plc-operations
 
 ## Scope
+
 PLC software engineering — full C# Openness implementation.
 
 When the roadmap routes here, the entire solution is C#.
@@ -23,14 +24,21 @@ Always load `tia-csharp-common` first (done by roadmap).
 
 Load ONLY the reference file(s) relevant to the task. Do not load all files at once.
 
-| Reference file | Load when the task involves | 
-| --- | --- | 
-| `references/online-status.md` | Going online/offline, reading PLC state, configuring connection parameters, `OnlineProvider`, `OnlineState`, `ConnectionConfiguration` | 
-| `references/compare.md` | Comparing PLC software or hardware, `CompareResult`, `CompareResultState`, `CompareToOnline`, `UpdateProgram` | 
-| `references/blocks.md` | Program blocks, system blocks, external sources, know-how/write protection, block groups, ProDiag-FB, DataBlock snapshots, compile individual block/UDT, fingerprints, webserver pages, OB priority, loadable file | 
-| `references/tags-types.md` | PLC tag tables, tags, user constants, system constants, UDT group navigation | 
-| `references/software-units.md` | Software units (`PlcUnit`), `PlcUnitProvider`, unit relations, unit access/publish, external sources in units, units as mastercopies, namespaces, name value type documents, loadable file for units | 
-| `references/safety-unit.md` | Fail-safe unit (`PlcSafetyUnit`), SafetyUnit access, safety relations, publish safety blocks, supervision export/import | 
+| Reference file | Load when the task involves |
+| --- | --- |
+| `references/online-status.md` | Going online/offline, reading PLC state, configuring connection parameters, `OnlineProvider`, `OnlineState`, `ConnectionConfiguration` |
+| `references/compare.md` | Comparing PLC software or hardware, `CompareResult`, `CompareResultState`, `CompareToOnline`, `UpdateProgram` |
+| `references/blocks.md` | Program blocks, system blocks, `PlcSoftware` root, know-how/write protection, block groups, ProDiag-FB, DataBlock snapshots, compile individual block/UDT, fingerprints, webserver pages, OB priority, loadable file |
+| `references/external-sources.md` | PLC external source files, importing/generating blocks from sources, `PlcExternalSource`, `PlcExternalSourceGroup` |
+| `references/tags-types.md` | PLC tag tables, tags, user constants, system constants, UDTs, PLC types, UDT group navigation |
+| `references/software-units.md` | Software units (`PlcUnit`), `PlcUnitProvider`, unit relations, unit access/publish, namespaces, name value type documents |
+| `references/safety-unit.md` | Fail-safe unit (`PlcSafetyUnit`), SafetyUnit access, safety relations, publish safety blocks |
+| `references/safety-administration.md` | Global safety settings, `SafetyAdministration`, safety signature, safety system version, safety runtime groups, safety validation assistant |
+| `references/alarms.md` | PLC alarms, alarm classes, alarm text lists, `PlcAlarmTextProvider` |
+| `references/technological-objects.md` | Technological Objects (TOs), motion control, axes, encoders, TO mapping, hardware connections |
+| `references/watch-force-tables.md` | Watch tables, force tables, `PlcWatchTable`, `PlcForceTable`, watch entries |
+| `references/opc-ua.md` | OPC UA server interfaces, OPC UA communication groups, access control, role mapping |
+| `references/supervision.md` | Supervision settings, supervision provider, supervision export/import |
 
 For tasks spanning multiple areas, load all relevant reference files before generating code.
 

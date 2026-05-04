@@ -81,6 +81,7 @@ private static void UseObjectIdentifiers(Project project)
 ```
 
 **Exception behaviour:**
+
 - `GetIdentifier(null)` → `EngineeringTargetInvocationException`
 - `GetIdentifier(disposedObject)` → `EngineeringObjectDisposedException`
 - `Find(null)` → `EngineeringTargetInvocationException`
@@ -126,11 +127,13 @@ When a project is opened with read-only credentials or as a secondary project,
 the following Openness API subset is available:
 
 **Always permitted:**
+
 - All `GetAttribute(s)`, property getters
 - `GetComposition`, `GetService`, `Find`, `foreach` enumeration
 - `System.Object` methods (equality, hash, etc.)
 
 **Also permitted (explicit non-modifying actions):**
+
 - `Project.Close()`
 - `PlcBlock.ShowInEditor()`
 - `CaxProvider.Export(Device, ...)` / `CaxProvider.Export(Project, ...)`

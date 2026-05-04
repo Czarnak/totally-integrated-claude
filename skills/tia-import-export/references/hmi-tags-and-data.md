@@ -140,6 +140,7 @@ private static void ImportTagIntoTagTable(HmiTarget hmitarget)
 Only the link to the PLC tag is exported — not the PLC tag data itself. Before import, ensure the PLC, PLC tags, and integrated connection exist. Names of external HMI tags must be unique across all tag tables.
 
 XML structure for import:
+
 ```xml
 <Hmi.Tag.Tag ID="1" CompositionName="Tags">
     <AttributeList>
@@ -156,6 +157,7 @@ XML structure for import:
 **HMI tags of UDT data type**
 
 Only versioned UDTs stored in the project library (not global library) are supported. XML structure:
+
 ```xml
 <Hmi.Tag.Tag ID="1" CompositionName="Tags">
     <LinkList>

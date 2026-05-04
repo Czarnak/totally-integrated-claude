@@ -52,6 +52,7 @@ Never pass `confirm: true` without first reading back the current state and conf
 ## Tool reference
 
 ### browse_project_tree
+
 Recursively enumerates the project: devices, PLC software, block folders, blocks, tag tables, types.
 
 | Parameter | Type | Required | Notes |
@@ -63,6 +64,7 @@ Returns JSON tree. Use returned `Path` values as `blockPath` input for other too
 ---
 
 ### get_block_content
+
 Exports a PLC block as a **SIMATIC SD YAML** document. Supports SCL, LAD, FBD, GRAPH, STL, and Data Blocks.
 
 | Parameter | Type | Required | Notes |
@@ -75,6 +77,7 @@ Returns YAML string. Parse or display as-is; pass back (modified) to `update_blo
 ---
 
 ### update_block_logic
+
 Imports SIMATIC SD YAML to update or create a PLC block. Always call `get_block_content` first
 to obtain the current YAML before editing, unless creating a block from scratch.
 
@@ -88,6 +91,7 @@ to obtain the current YAML before editing, unless creating a block from scratch.
 ---
 
 ### list_tag_tables
+
 Retrieves all PLC tag tables with tags and user constants.
 
 | Parameter | Type | Required | Notes |
@@ -100,6 +104,7 @@ Returns JSON array of tag tables.
 ---
 
 ### read_hardware_config
+
 Exports hardware configuration and network topology: devices, rack modules, network interfaces,
 IP addresses, PROFINET device names, subnets, and IO systems.
 
@@ -110,6 +115,7 @@ IP addresses, PROFINET device names, subnets, and IO systems.
 ---
 
 ### read_cross_references
+
 Exports PLC cross-reference diagnostics with source objects, referenced objects, locations,
 access types, and reference types.
 
@@ -124,6 +130,7 @@ Use `UnusedObjects` to find dead code before cleanup.
 ---
 
 ### search_equipment_catalog
+
 Searches the installed TIA Portal V21 hardware catalog (including GSD/HSP packages) by type
 name, article number, or description. Always run before `add_network_device`.
 
@@ -137,6 +144,7 @@ Returns entries with `typeIdentifier` values — copy the exact identifier into 
 ---
 
 ### add_network_device
+
 Inserts a device from the hardware catalog into the project.
 
 | Parameter | Type | Required | Notes |
@@ -150,6 +158,7 @@ Inserts a device from the hardware catalog into the project.
 ---
 
 ### configure_network_device
+
 Sets network identity and interface properties for a device already present in the project.
 
 | Parameter | Type | Required | Notes |
@@ -166,6 +175,7 @@ Sets network identity and interface properties for a device already present in t
 ---
 
 ### compile_check
+
 Invokes TIA Portal compile on PLC software and returns errors and warnings.
 
 | Parameter | Type | Required | Notes |
@@ -179,11 +189,13 @@ Invokes TIA Portal compile on PLC software and returns errors and warnings.
 ## Common execution patterns
 
 ### Read and understand a block
+
 1. `browse_project_tree` — find the block path
 2. `get_block_content(blockPath)` — read SIMATIC SD YAML
 3. Analyze or present the content
 
 ### Modify a block
+
 1. `get_block_content(blockPath)` — capture current YAML
 2. Edit the YAML (preserve structure and indentation)
 3. Show the diff to the user and confirm
@@ -191,6 +203,7 @@ Invokes TIA Portal compile on PLC software and returns errors and warnings.
 5. `compile_check(blockPath)` — verify no errors introduced
 
 ### Add and configure a new device
+
 1. `search_equipment_catalog(query)` — find the exact `typeIdentifier`
 2. Confirm device and name with user
 3. `add_network_device(typeIdentifier, deviceName, confirm=true)`
@@ -198,10 +211,12 @@ Invokes TIA Portal compile on PLC software and returns errors and warnings.
 5. `read_hardware_config` — verify result
 
 ### Audit unused objects
+
 1. `read_cross_references(filter="UnusedObjects")` — list unreferenced objects
 2. Present findings to user before any removal action
 
 ### Pre-edit compile baseline
+
 1. `compile_check` — record baseline errors/warnings
 2. Apply changes
 3. `compile_check` again — compare to baseline

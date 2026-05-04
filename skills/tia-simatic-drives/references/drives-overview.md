@@ -525,6 +525,9 @@ configuration flow. `OverrideTelegramMismatch.Checked = true` allows upload to
 proceed despite telegram configuration mismatch; `OverwriteOfflineConfiguration`
 allows upload to overwrite the offline device configuration mismatch.
 
+See `references/download.md` for a comprehensive list of Startdrive-specific
+and common configuration marker types.
+
 ---
 
 ## 10. Enums reference

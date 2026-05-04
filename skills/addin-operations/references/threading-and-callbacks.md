@@ -14,7 +14,7 @@ Add-In appears to do nothing.**
 
 ### Required pattern: two-phase collect/show
 
-```
+```text
 Phase 1 — on TIA Portal callback thread (mandatory for COM access)
   ↳ Read all required data from TIA Portal API objects
   ↳ Store results as plain .NET types (strings, lists, TreeNodes, etc.)
@@ -72,6 +72,7 @@ private void OnDoWork(MenuSelectionProvider<Device> provider)
 ```
 
 **Rules:**
+
 - Always `thread.SetApartmentState(ApartmentState.STA)` — WinForms requires STA.
 - Always `thread.IsBackground = true` — prevents the thread from keeping the process alive
   after TIA Portal closes.

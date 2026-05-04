@@ -23,6 +23,7 @@ Main Openness areas:
 4. validate fingerprints or paths where available
 
 ## Escalation triggers (what forces C# over Python)
+
 - object type not covered by Python wrapper
 - import/export mixed with low-level object edits
 - unsupported SimaticML / AML behavior

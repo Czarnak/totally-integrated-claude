@@ -110,6 +110,7 @@ foreach (Project p in tiaPortal.Projects)
 ```
 
 **Rules:**
+
 - A primary project does not need to be open to open a secondary project.
 - Write-privileged UMAC users still get read-only access on a secondary project.
 - `OpenWithUpgrade`, `Retrieve`, `RetrieveWithUpgrade` all accept a `ProjectOpenMode`
@@ -123,12 +124,14 @@ When opening a UMAC-protected project with read-only credentials, the following 
 operations are available without error:
 
 **Always permitted (inherent):**
+
 - `GetAttribute(s)` / getter properties on any accessible object
 - `GetComposition` / `GetService` / `Find` navigation
 - `foreach` enumeration
 - `System.Object` methods
 
 **Also permitted (enabled non-modifying):**
+
 - `Project.Close(...)`
 - `PlcBlock.ShowInEditor()`
 - `CaxProvider.Export(Device, ...)` / `CaxProvider.Export(Project, ...)`
