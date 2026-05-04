@@ -1,6 +1,6 @@
 {
   "name": "totally-integrated-claude",
-  "version": "2.0.3",
+  "version": "3.0.0",
   "description": "Siemens TIA Portal engineering automation for Gemini. Provides routed skills for Python TIA Scripting and C# Openness API (project lifecycle, PLC, HMI, devices, networks, drives, import/export, Add-Ins), plus TIA Portal MCP configuration and bundled Siemens PLC language-server assets.",
   "author": {
     "name": "Łukasz Rafał Czarnacki",

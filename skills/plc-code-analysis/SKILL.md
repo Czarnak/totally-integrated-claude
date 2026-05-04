@@ -61,18 +61,24 @@ understand each network's behavior.
 
 ### Format 3 — MCP-assisted retrieval
 
-If the TIA Portal MCP server is available (tools like `GetBlocksWithHierarchy`, `ExportBlock`,
-`GetBlockInfo`, `GetHardwareConfig` are accessible), Claude can pull code and context before
-analysis. This is optional enrichment, not required.
+If the TIA Portal MCP server is available, context retrieval is required before issuing
+security findings. Use the current Totally Integrated Claude MCP tools:
 
-Suggested MCP pre-analysis workflow:
-1. `GetBlocksWithHierarchy` — map the call tree, identify main OBs and execution paths
-2. `ExportBlock` for each block under review — get SCL or XML representation
-3. `GetBlockInfo` — retrieve metadata (protection status, optimized access, timestamps)
-4. `GetTypes` / `GetTypeInfo` — fetch UDT definitions used by the blocks
-5. `GetHardwareConfig` — retrieve CPU and communication settings for hardware review pass
+1. `browse_project_tree` — map PLCs, block folders, block names, and execution entry points
+2. `get_block_content` — retrieve SIMATIC SD YAML for each block under review
+3. `list_tag_tables` — retrieve PLC tags, user constants, and externally writable names
+4. `read_cross_references` — inspect call paths, unused blocks, and variable references
+5. `read_hardware_config` — retrieve CPU, network, IP, subnet, and interface settings
+6. `compile_check` — record compile errors/warnings when the user asks for remediation
 
-If MCP is not available, Claude works with whatever the user provides.
+Legacy source documents may name equivalent operations as `GetBlocksWithHierarchy`,
+`ExportBlock`, `GetBlockInfo`, `GetTypes` / `GetTypeInfo`, or `GetHardwareConfig`.
+Treat those as conceptual aliases, not callable tool names.
+
+If MCP is unavailable or a required context item cannot be retrieved, continue only as a
+limited review. The final report must include a context manifest and mark affected findings
+as inference-based where missing declarations, UDTs, call paths, tag tables, or hardware
+mapping prevent confirmation.
 
 ## Analysis workflow
 
@@ -99,12 +105,27 @@ check on a status indicator is Low; the same flaw on a chemical dosing pump is C
 
 ### Per-pass procedure
 
+Before starting the passes, build a compact context manifest:
+- **Code:** pasted/exported blocks, block names, language, line/network references
+- **Declarations:** VAR_INPUT, VAR_OUTPUT, VAR_IN_OUT, VAR_STATIC, VAR_TEMP, constants
+- **Types:** UDTs, arrays, structures, optimized vs standard access metadata when known
+- **Flows:** call tree, cross references, external write sources, HMI/SCADA inputs
+- **Hardware:** CPU, communication settings, network interfaces, safety-related mapping
+- **Verification:** baseline compile status if available, and whether simulation was run
+
 For each pass:
 1. Load the reference file
 2. Work through every checklist item against the provided code
-3. Record each finding with: severity, category tag, location, description, remediation
+3. Record each finding with: severity, category tag, location, evidence, inference level,
+   description, impact, remediation, and verification requirement
 4. Produce a compact summary of findings from this pass
 5. Proceed to next pass
+
+After all passes, run a final verification synthesis:
+- Challenge high/critical findings against the context manifest
+- Downgrade or label findings that depend on missing UDTs, call paths, or hardware mapping
+- Flag any proposed remediation that requires `compile_check`, simulation, or safety review
+- Do not present generated PLC code as deployable without compile and engineering validation
 
 ### Hardware reviewer conditionality
 
@@ -118,6 +139,9 @@ no MCP access), the Hardware Reviewer pass still runs but produces a single find
   The following checks could not be performed: PUT/GET access status, web server
   settings, communication protocol security, access level configuration,
   protection level status.
+- **Evidence:** No `read_hardware_config` result or hardware export was available.
+- **Inference level:** Confirmed limitation
+- **Verification required:** Provide hardware export or enable MCP hardware retrieval.
 - **Remediation:** Provide hardware configuration export or enable MCP server
   access for a complete security assessment.
 ```
@@ -134,7 +158,19 @@ gets the highest severity assigned and cross-references both categories), and so
 **Input format:** SCL / SimaticML XML (LAD) / SimaticML XML (FBD)
 **Analysis date:** [date]
 **Passes completed:** Process Architect, Security Practices, Threat Mapping,
-                      Compiler Critic, Hardware Reviewer
+                      Compiler Critic, Hardware Reviewer, Verification Synthesis
+
+### Context Manifest
+
+| Context item | Status | Source |
+|--------------|--------|--------|
+| Block logic | Provided / Retrieved / Missing | Paste / file / `get_block_content` |
+| Variable declarations | Complete / Partial / Missing | block interface / XML / YAML |
+| UDT and array definitions | Complete / Partial / Missing | source / `get_block_content` |
+| Call tree and cross references | Complete / Partial / Missing | `browse_project_tree` / `read_cross_references` |
+| Tag tables and external inputs | Complete / Partial / Missing | `list_tag_tables` |
+| Hardware and network config | Complete / Partial / Missing | `read_hardware_config` / export |
+| Compile baseline | Clean / Warnings / Errors / Not run | `compile_check` / not available |
 
 ### Summary
 
@@ -151,9 +187,13 @@ gets the highest severity assigned and cross-references both categories), and so
 #### [CRITICAL] Finding title
 - **Category:** TOP20-P08 / CWE-787 / T0836 / HW-PUTGET (one or more)
 - **Location:** FB_MixerControl, Line 47 / Network 3
+- **Evidence:** Direct source evidence or retrieved MCP context supporting the finding
+- **Inference level:** Confirmed / Probable / Suspicious / Context-limited
+- **Confidence:** High / Medium / Low
 - **Description:** Clear explanation of the issue
 - **Impact:** What could happen if this is exploited or left unaddressed
 - **Remediation:** Specific, actionable fix with code example where applicable
+- **Verification required:** compile_check / simulation / safety review / hardware review
 - **References:** Relevant standard or practice citation
 
 ---

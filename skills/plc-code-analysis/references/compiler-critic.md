@@ -111,6 +111,7 @@ errors differently. Code migrated between generations may have incorrect error
 handling that causes the CPU to go to STOP on minor faults.
 
 **What to check:**
+
 - Are error OBs present? Specifically OB80 (time error), OB82 (diagnostic interrupt),
   OB121 (programming error), OB122 (I/O access error).
 - If error OBs are missing, a runtime error will cause the CPU to STOP.
@@ -143,7 +144,7 @@ exceed the destination buffer size.
 
 **Compliant pattern:**
 
-```
+```scl
 // Safe: Count limited to destination capacity
 MoveCount := MIN(ReceivedLength, SIZEOF(DestBuffer));
 MOVE_BLK(SRC := SourceData, COUNT := MoveCount, DEST => DestBuffer);
@@ -185,7 +186,7 @@ MAX to MIN (or vice versa), a counter to wrap to zero, or a timer to expire imme
 
 **Critical scenario:**
 
-```
+```scl
 // DANGEROUS: Unsigned counter wrapping
 ProductionCount := ProductionCount + 1;
 // If ProductionCount is INT and reaches 32767, next increment = -32768

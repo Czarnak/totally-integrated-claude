@@ -8,14 +8,14 @@ examines infrastructure security rather than code logic.
 
 This pass requires hardware configuration data. Sources may include:
 
-- MCP `GetHardwareConfig` output
+- MCP `read_hardware_config` output
 - Exported hardware configuration files (AML, HW config screenshots)
 - CPU property settings visible in code comments or documentation
 - Information embedded in SimaticML XML block attributes
 
 If no hardware configuration data is available from any source, produce the standard
 "Hardware configuration not available" INFO finding as defined in SKILL.md and skip
-all checks below.
+all checks below. Mark any code-only hardware observations as inference-based.
 
 Sources: Siemens S7-1200/S7-1500 system manuals, Top 20 Secure PLC Coding Practices,
 CISA ICS advisories, Siemens security configuration guides.

@@ -23,13 +23,15 @@ the PLC.
 ### T0858 — Unauthorized Command Message
 
 **Code indicators:**
+
 - Logic branches that accept commands from sources other than the documented HMI/SCADA
 - "Backdoor" or "test" modes that bypass normal safety interlocks
 - Debug commands that remain active in production code
 - Undocumented function codes or command values in communication handling blocks
 
 **What to look for in SCL:**
-```
+
+```scl
 // SUSPICIOUS: Bypass interlock for "testing"
 IF Debug_Mode THEN
     Motor_Start := TRUE;  // Skips all interlock checks
@@ -37,6 +39,7 @@ END_IF;
 ```
 
 **What to look for in LAD/FBD XML:**
+
 - Networks with comments containing "test," "debug," "bypass," "temporary" that
   control actuator outputs
 - Parallel branches that provide alternative paths around interlock contacts
@@ -49,6 +52,7 @@ END_IF;
 ### T0836 — Modify Parameter
 
 **Code indicators:**
+
 - Variables controlling motor speeds, valve positions, chemical concentrations, pressure
   setpoints, or temperature limits that are writable from external sources without
   bounds checking
@@ -57,6 +61,7 @@ END_IF;
   confirmation
 
 **What to look for:**
+
 - All `VAR_INPUT` and `VAR_IN_OUT` parameters that directly or transitively control
   physical actuators
 - DB variables tagged for HMI access that contain process-critical setpoints
@@ -64,6 +69,7 @@ END_IF;
   adversarial: what could an attacker SET these to?)
 
 **Severity assessment:**
+
 - Parameter controls a safety-critical actuator → CRITICAL
 - Parameter affects process quality/efficiency → HIGH
 - Parameter affects non-critical auxiliary function → MEDIUM
@@ -79,12 +85,14 @@ Techniques that directly affect the physical process.
 ### T0827 — Inhibit Response Function
 
 **Code indicators:**
+
 - Logic that can disable or suppress safety system responses
 - Standard program code that writes to or influences safety program variables
 - Interlock bypass logic without time limitation or automatic re-engagement
 - Alarm suppression without timeout
 
 **What to look for:**
+
 - Any path in standard (non-safety) code that can affect F-program behavior
 - Variables that gate safety interlock evaluation (e.g., `Interlock_Bypass := TRUE`)
 - Logic that prevents OB35 (safety cyclic interrupt) from executing or that modifies
@@ -98,12 +106,14 @@ Techniques that directly affect the physical process.
 ### T0831 — Manipulation of Control
 
 **Code indicators:**
+
 - Logic that allows unrestricted modification of control loop parameters (PID gains,
   setpoints, output limits) from external interfaces
 - Control mode switches without authentication or logging
 - Auto/Manual transitions that don't preserve safety constraints in manual mode
 
 **What to look for:**
+
 - PID block instances where `KP`, `TI`, `TD`, `LMN_HLM`, `LMN_LLM` are writable
   from HMI without validation
 - Mode transitions that disable output limiting in manual mode
@@ -121,12 +131,14 @@ Techniques to hide adversarial activity from operators and monitoring systems.
 ### T0856 — Spoof Reporting Message
 
 **Code indicators:**
+
 - Code that "freezes" or "replays" old sensor values during specific operations
 - Logic that substitutes actual readings with stored/calculated values
 - Timer-gated value replacement (show old data while performing unauthorized action)
 
 **What to look for in SCL:**
-```
+
+```scl
 // SUSPICIOUS: Value freezing pattern
 IF Special_Operation THEN
     HMI_Display_Temperature := Stored_Temperature;  // Frozen value
@@ -136,6 +148,7 @@ END_IF;
 ```
 
 **What to look for in LAD/FBD XML:**
+
 - MOVE instructions that copy values from static/stored variables to HMI output
   variables, conditioned on specific triggers
 - Parallel paths where one writes actual values and another writes stored values,
@@ -149,6 +162,7 @@ END_IF;
 ### T0833 — Modify Control Logic
 
 **Code indicators:**
+
 - Unexpected changes in block checksums or modification timestamps without
   corresponding change requests
 - Logic blocks with suspiciously recent modification dates compared to the rest
@@ -156,7 +170,8 @@ END_IF;
 - Code patterns that don't match the project's coding style
 
 **What to look for:**
-- If block metadata is available (via MCP `GetBlockInfo` or exported attributes):
+
+- If block metadata is available (via `get_block_content`, `browse_project_tree`, or exported attributes):
   compare modification timestamps across blocks. Outliers may indicate unauthorized
   modification.
 - Blocks with know-how protection disabled when project standard requires it
@@ -175,6 +190,7 @@ Techniques to maintain presence in the PLC after initial access.
 ### Logic bombs and time-based triggers
 
 **Code indicators:**
+
 - System clock reads (`RD_SYS_T`, `RD_LOC_T`) used for non-standard purposes
 - Logic that only executes on specific dates, times, or after elapsed durations
   unrelated to the process
@@ -182,7 +198,8 @@ Techniques to maintain presence in the PLC after initial access.
   without clear process justification
 
 **What to look for in SCL:**
-```
+
+```scl
 // SUSPICIOUS: Date-based conditional execution
 RD_SYS_T(OUT => CurrentTime);
 IF (CurrentTime.YEAR = 2026) AND (CurrentTime.MONTH = 6) AND (CurrentTime.DAY = 15) THEN
@@ -190,7 +207,7 @@ IF (CurrentTime.YEAR = 2026) AND (CurrentTime.MONTH = 6) AND (CurrentTime.DAY = 
 END_IF;
 ```
 
-```
+```scl
 // SUSPICIOUS: Cycle-counting trigger
 CycleCounter := CycleCounter + 1;
 IF CycleCounter >= 1000000 THEN
@@ -199,6 +216,7 @@ END_IF;
 ```
 
 **Exceptions (not suspicious):**
+
 - Scheduled maintenance reminders based on runtime hours
 - Time-of-day energy management (load shedding during peak hours)
 - Batch timing and recipe sequencing
@@ -214,12 +232,14 @@ END_IF;
 ### T0806 — Brute Force I/O
 
 **Code indicators:**
+
 - Logic that iterates through a wide range of I/O addresses using indirect addressing
 - Loops that scan peripheral inputs (%I) or write to outputs (%Q) using computed
   addresses
 - State machine patterns that systematically test I/O combinations
 
 **What to look for:**
+
 - `FOR` loops with `PEEK` or `POKE` over address ranges
 - Indirect addressing patterns that sweep through I/O areas
 - Array-based I/O mapping where the array is externally writable
@@ -232,11 +252,13 @@ END_IF;
 ### T0855 — PLC Mode Control
 
 **Code indicators:**
+
 - Use of system functions that can change PLC operating mode (RUN/STOP/PROGRAM)
 - Logic that triggers CPU stop under conditions other than safety emergencies
 - Remote-triggered mode transitions
 
 **What to look for:**
+
 - SFC 46 (`STP`) calls or equivalent stop commands
 - `SET_SW` usage triggered by non-safety events
 - Logic that conditionally forces STOP mode based on external input values
@@ -260,6 +282,7 @@ For each technique listed above:
 
 Some findings from this pass will overlap with the Security Practices pass (especially
 TOP20-P08 and T0836). When this happens:
+
 - Keep both findings — they serve different purposes (compliance vs. threat model)
 - Cross-reference them in the description: "See also: TOP20-P08"
 - Use the higher severity of the two

@@ -140,7 +140,8 @@ external source. Check if there is a range check (MIN/MAX comparison) BEFORE the
 is used in control logic.
 
 **Compliant pattern in SCL:**
-```
+
+```scl
 IF (HMI_Setpoint >= MIN_ALLOWED) AND (HMI_Setpoint <= MAX_ALLOWED) THEN
     Active_Setpoint := HMI_Setpoint;
 ELSE
@@ -150,6 +151,7 @@ END_IF;
 ```
 
 **Violation indicators:**
+
 - Direct assignment: `Motor_Speed := HMI_SpeedRef;` without range check
 - Setpoint used in calculation without validation: `Flow_Rate := HMI_Factor * Base_Flow;`
 - Array index from external source without bounds check
@@ -169,7 +171,8 @@ blocks without intervening comparison/limit blocks (LIMIT, MIN, MAX, or compare 
 VARIANT or ANY pointer.
 
 **Compliant:** Every array access with a variable index has a preceding bounds check:
-```
+
+```scl
 IF (Index >= 0) AND (Index <= UPPER_BOUND(MyArray)) THEN
     Value := MyArray[Index];
 ELSE
@@ -178,6 +181,7 @@ END_IF;
 ```
 
 **Violation indicators:**
+
 - `MyArray[ExternalIndex]` without bounds check
 - `MOVE_BLK` or `MOVE_BLK_VARIANT` with length derived from external input
 - Pointer arithmetic without validation
@@ -194,11 +198,13 @@ END_IF;
 setpoints in the same DB?
 
 **Compliant:** Separate DBs for:
+
 - HMI-writable setpoints (operator interface DB)
 - PLC-internal status and calculations (process DB, read-only to external)
 - Configuration parameters (protected config DB)
 
 **Violation indicators:**
+
 - Single DB containing both `Motor_Speed_Setpoint` (writable) and
   `Motor_Current_Actual` (read-only status) in the same structure
 - No architectural separation between operator inputs and process outputs
@@ -277,7 +283,7 @@ Permanent alarm suppression without timeout. Alarm conditions that fail silently
 ### Practices #15–#20 — Summary checks
 
 | Practice | Check | Severity | Tag |
-|----------|-------|----------|-----|
+| ---------- | ------- | ---------- | ----- |
 | #15 — Validate Timer, Pulse, and Counter Usage | Timers/counters with external presets without validation. Counters without overflow handling. | MEDIUM | `TOP20-P15` |
 | #16 — Validate and Alert for Paired Inputs/Outputs | Complementary signals (open/close) without consistency check. Both states active simultaneously. | MEDIUM | `TOP20-P16` |
 | #17 — Encode Raise/Lower Commands with State | Commands without position tracking. Move commands without target confirmation. | LOW | `TOP20-P17` |
@@ -297,6 +303,7 @@ Analyze all communication-related code for security weaknesses.
 network can read/write ANY memory area on the PLC.
 
 **What to flag:**
+
 - Any use of PUT or GET instructions: severity HIGH, tag `COMM-PUTGET`
 - Recommend replacement with TSEND_C / TRCV_C or OPC UA with certificate auth
 - If PUT/GET is present and justified, check for compensating controls (IP filtering,
@@ -307,6 +314,7 @@ network can read/write ANY memory area on the PLC.
 **Risk:** Hardcoded IPs prevent dynamic network reconfiguration and simplify spoofing.
 
 **What to flag:**
+
 - Static IP literals in TCON connection parameters: severity MEDIUM, tag `COMM-HARDCODED-IP`
 - Recommend symbolic addressing or configuration DB with protected access
 
@@ -316,6 +324,7 @@ network can read/write ANY memory area on the PLC.
 registers.
 
 **What to flag:**
+
 - MB_SERVER usage without IP address filtering in block parameters: severity HIGH,
   tag `COMM-MODBUS`
 - Modbus holding registers mapped to safety-critical setpoints: severity CRITICAL,
@@ -327,6 +336,7 @@ registers.
 crafted.
 
 **What to flag:**
+
 - TRCV data used directly without length validation: severity MEDIUM, tag `COMM-RECV`
 - Received buffer not checked against expected message structure: severity MEDIUM
 - No timeout handling on TRCV (stale data risk): severity LOW
@@ -334,6 +344,7 @@ crafted.
 ### Communication security preference order
 
 For recommendations, prefer protocols in this order:
+
 1. OPC UA with certificate-based authentication (most secure)
 2. TSEND_C / TRCV_C with connection monitoring (good)
 3. PUT/GET with network segmentation (acceptable only if legacy requirement)
