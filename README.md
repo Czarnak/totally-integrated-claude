@@ -22,6 +22,8 @@ Provides a routed skill framework covering the full TIA Portal Openness API surf
 | Skill | Purpose |
 | --- | --- |
 | `tia-openness-roadmap` | **Entry point.** Routes all TIA Portal tasks to the correct implementation path and domain skill. Load this first for every TIA Portal task. |
+| `plc-code-analysis` | **Standalone.** Multi-perspective security and quality analysis for PLC code (SCL/LAD/FBD) via SimaticML or MCP. |
+| `tia-portal-mcp` | **Interactive.** Direct TIA Portal interaction via MCP tools (browse tree, read/write logic, list tags, hardware config). |
 | `tia-python` | Python TIA Scripting: PLC blocks/tags/UDTs, HMI tags/screens, library types/versions, project lifecycle, CAx import/export. |
 | `tia-csharp-common` | C# foundation: TIA Portal process attach, `ExclusiveAccess`, `Transaction`, disposable patterns. Required first load for every C# task. |
 | `tia-project-general` | C# project & portal lifecycle: open, create, save, archive, retrieve, UMAC/UMC, language settings, diagnostics. |
@@ -135,6 +137,8 @@ Claude will load `tia-openness-roadmap`, select the correct implementation path 
 
 | Task | Path | Domain skill |
 | --- | --- | --- |
+| Explore project structure interactively | MCP | `tia-portal-mcp` |
+| Analyze exported SimaticML XML for security issues | Standalone | `plc-code-analysis` |
 | Read/write PLC blocks and tags | Python | `tia-python` |
 | HMI screen access and export | Python | `tia-python` |
 | Device slot/subslot manipulation | C# | `tia-devices-general` |
@@ -153,10 +157,6 @@ Claude will load `tia-openness-roadmap`, select the correct implementation path 
 - C# LSP plugin from [Claude Plugins Official](https://github.com/anthropics/claude-plugins-official)
 - [Tia Portal MCP Server](https://github.com/Czarnak/tia-portal-mcp)
 
-## TODO
-
-- Add Siemens languages skills (SCL, LAD, SimaticML)
-
 ## Sources
 
 - [TIA Portal Openness docs](https://docs.tia.siemens.cloud/r/en-us/v21/tia-portal-openness-api-for-automation-of-engineering-workflows/)
@@ -165,7 +165,8 @@ Claude will load `tia-openness-roadmap`, select the correct implementation path 
 
 ## Examples
 
-- [PLC Block Scanner](https://github.com/Czarnak/plc-block-scanner)
+- [PLC Block Scanner](https://github.com/Czarnak/plc-block-scanner) - as simple as possible, strictly as an example.
+- [TIA Git Add-In](https://github.com/Czarnak/tia-git-addin) - Add-In for TIA Portal V21 making version control comfortable for PLC engineers.
 
 ## License
 
