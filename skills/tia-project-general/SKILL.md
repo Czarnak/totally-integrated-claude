@@ -1,11 +1,5 @@
 ---
 name: tia-project-general
-description: >
-  Routed by tia-openness-roadmap. C# Openness implementation of project and portal lifecycle:
-  opening, attaching, creating, archiving, retrieving, saving, copying, closing, deleting
-  projects, project server sessions, transactions, exclusive access, UMAC/UMC, project library
-  entry points, project-level CAx exchange, authentication events, project history, language
-  settings, diagnostics, and advanced multiuser/VCI workflows.
 ---
 
 # tia-project-general

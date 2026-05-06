@@ -1,10 +1,5 @@
 ---
 name: tia-devices-general
-description: >
-  Routed by tia-openness-roadmap. C# Openness implementation of device-level operations:
-  enumerating devices, creating and deleting devices, plugging and moving device items,
-  slot/subslot/module manipulation, hardware identifiers, addresses, channels, compiling
-  hardware and software, device properties, and software container traversal.
 ---
 
 # tia-devices-general

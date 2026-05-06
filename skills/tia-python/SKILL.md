@@ -1,9 +1,5 @@
 ---
 name: tia-python
-description: >
-  Internal reference skill — do NOT load directly from user queries. This skill is loaded by
-  tia-openness-roadmap when the Python implementation path is selected. Contains API reference
-  for the siemens_tia_scripting library.
 ---
 
 # TIA Scripting Python – Skill

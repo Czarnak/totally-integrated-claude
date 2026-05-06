@@ -1,10 +1,5 @@
 ---
 name: tia-hmi-operations
-description: >
-  Routed by tia-openness-roadmap. C# Openness implementation of HMI engineering: HMI tags
-  and tag tables, screens and screen items, templates, popup and slide-in screens, scripts,
-  cycles, alarms and alarm classes, connections, text lists, graphic lists, HMI import/export,
-  HMI compile, Unified runtime settings, logs, events, dynamization, and plant model.
 ---
 
 # tia-hmi-operations

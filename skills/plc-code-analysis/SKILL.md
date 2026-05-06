@@ -1,14 +1,6 @@
 ---
 name: plc-code-analysis
-description: >
-  Standalone skill for multi-perspective PLC code security and quality analysis.
-  Triggers on: "review", "audit", "analyze", "security check", "vulnerability scan",
-  "code review", "check this code", "is this safe", "find issues" when combined with
-  PLC, SCL, ST, LAD, FBD, Structured Text, or block context. Also triggers when the user
-  pastes PLC code and asks for feedback, or uploads exported SimaticML XML files.
-  This skill is independent of tia-openness-roadmap — it does not perform engineering
-  automation. It analyzes code that has already been exported, pasted, or is accessible
-  via the TIA Portal MCP server.
+disable-model-invocation: true
 ---
 
 # plc-code-analysis
