@@ -1,10 +1,5 @@
 ---
 name: tia-import-export
-description: >
-  Routed by tia-openness-roadmap. C# Openness implementation of import/export and round-trip
-  engineering: XML, SimaticML, AML, CAx, choosing between file-based exchange and direct
-  object-model editing, bulk import/export, folder structure planning, overwrite behavior,
-  and object-specific import/export compositions.
 ---
 
 # tia-import-export

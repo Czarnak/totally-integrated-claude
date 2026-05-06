@@ -1,9 +1,5 @@
 ---
 name: tia-networks
-description: >
-  Routed by tia-openness-roadmap. C# Openness implementation of topology and low-level network
-  engineering: subnets, nodes, IO systems, DP master systems, ports, interfaces, addresses,
-  channels, transfer areas, network topology manipulation, and AML/CAx network exchange.
 ---
 
 # tia-networks

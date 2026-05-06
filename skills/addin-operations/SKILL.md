@@ -1,9 +1,6 @@
 ---
 name: addin-operations
-description: >
-  Routed by tia-openness-roadmap. Handles TIA Portal Add-In development in Visual Studio Code:
-  creating Add-In C# projects, adding Add-In templates, compiling and debugging Add-Ins,
-  converting Add-Ins from older TIA Portal versions, and configuring Add-In project parameters.
+allowed-tools: Bash(dotnet new *)
 ---
 
 # TIA Portal Add-In Development — Visual Studio Code
@@ -14,7 +11,6 @@ Source: TIA Portal Add-In Development Tools Manual (11/2025)
 
 Add-In development in VS Code using C# and the dotnet Add-In SDK.
 Do not mix with Python wrapper calls.
-Always load `tia-csharp-common` first (done by roadmap).
 
 ---
 

@@ -1,9 +1,5 @@
 ---
 name: tia-simatic-drives
-description: >
-  Routed by tia-openness-roadmap. Handles drive-specific engineering: Startdrive, SINAMICS,
-  SIMATIC Drive Controller, PROFIdrive integrated properties, drive telegrams, and integrated
-  drive configuration. Always uses C# TIA Portal Openness.
 ---
 
 # tia-simatic-drives

@@ -1,11 +1,5 @@
 ---
 name: tia-csharp-common
-description: >
-  Internal reference skill — do NOT load directly from user queries. Loaded automatically by
-  tia-openness-roadmap at the start of every C# Openness implementation path.
-  Contains mandatory bootstrap patterns, object model contracts, exclusive access,
-  transactions, event handlers, exception handling, and attribute access that apply
-  across all C# domain skills.
 ---
 
 # TIA Portal Openness C# — Common Foundation

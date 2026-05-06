@@ -5,7 +5,6 @@ description: >
   when the user mentions TIA Portal, TIA Openness, TIA Scripting, Siemens PLC, Siemens HMI,
   TIA Portal Add-In, or any automation/engineering task targeting TIA Portal.
   This skill routes to the correct domain skill and selects MCP, Python, or C# implementation.
-  Do not skip this skill and jump directly to domain skills.
 ---
 
 # tia-openness-roadmap
