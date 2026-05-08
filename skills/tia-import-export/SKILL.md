@@ -1,5 +1,7 @@
 ---
 name: tia-import-export
+description: >
+  C# Openness implementation of import/export and round-trip engineering.
 ---
 
 # tia-import-export

@@ -1,5 +1,6 @@
 ---
 name: tia-project-general
+description: C# Openness implementation of project and portal lifecycle.
 ---
 
 # tia-project-general

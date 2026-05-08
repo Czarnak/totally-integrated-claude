@@ -1,5 +1,7 @@
 ---
 name: tia-hmi-operations
+description: >
+  C# Openness implementation of HMI engineering.
 ---
 
 # tia-hmi-operations

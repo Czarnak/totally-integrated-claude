@@ -1,5 +1,7 @@
 ---
 name: tia-networks
+description: >
+  C# Openness implementation of topology and low-level network engineering.
 ---
 
 # tia-networks

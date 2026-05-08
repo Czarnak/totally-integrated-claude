@@ -1,5 +1,13 @@
 ---
 name: tia-portal-mcp
+description: >
+  Use when the TIA Portal MCP server is available and the task involves reading
+  or modifying a TIA Portal project interactively: browsing the project tree,
+  reading or writing PLC block logic (SIMATIC SD YAML), listing tag tables,
+  inspecting hardware config, running cross-reference diagnostics, searching the
+  equipment catalog, adding/configuring network devices, or running compile checks.
+  Prefer MCP tools over TIA Openness scripts for single read/write operations;
+  use TIA Openness (tia-python or C# skills) for complex multi-step automation.
 ---
 
 # tia-portal-mcp

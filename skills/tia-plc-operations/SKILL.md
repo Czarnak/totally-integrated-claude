@@ -1,5 +1,6 @@
 ---
 name: tia-plc-operations
+description: C# Openness implementation of PLC software engineering.
 ---
 
 # tia-plc-operations

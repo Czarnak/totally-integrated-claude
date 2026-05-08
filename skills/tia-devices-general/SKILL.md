@@ -1,5 +1,7 @@
 ---
 name: tia-devices-general
+description: >
+  C# Openness implementation of device-level operations
 ---
 
 # tia-devices-general

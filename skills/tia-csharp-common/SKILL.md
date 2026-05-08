@@ -1,5 +1,6 @@
 ---
 name: tia-csharp-common
+description: Internal reference skill — do NOT load directly from user queries.
 ---
 
 # TIA Portal Openness C# — Common Foundation
