@@ -91,3 +91,78 @@ private void ApplySplitterDistances()
 
 Never assign `Panel2MinSize` or `SplitterDistance` in the constructor — not even
 to 0 or a small value.
+
+---
+
+## WinForms `.resx` resources — avoid preserialized format
+
+SDK-style projects with **non-string** `.resx` resources (icons, images, `ImageList`
+entries) emit **preserialized** `.resources` files at build time. The runtime then
+demands `System.Resources.Extensions`, which transitively requires
+`System.Runtime.CompilerServices.Unsafe`. TIA Portal's Add-In sandbox runs under
+partial trust and rejects `Unsafe`'s verification-skipping IL with:
+
+```text
+System.Security.VerificationException: Operation could destabilize the runtime.
+   at System.Resources.Extensions.TypeNameComparer...
+```
+
+The failure surfaces only when the affected form/menu item is first instantiated
+— the Add-In loads fine, then dies silently on first use.
+
+**Pattern:** convert each `.resx` to a classic .NET Framework `.resources` binary
+ahead of time and embed it directly. Drop both `System.Resources.Extensions` and
+`System.Runtime.CompilerServices.Unsafe` from project references.
+
+```xml
+<ItemGroup>
+  <EmbeddedResource Include="Forms\MainForm.resources">
+    <LogicalName>MyAddIn.Forms.MainForm.resources</LogicalName>
+  </EmbeddedResource>
+</ItemGroup>
+```
+
+A small converter using `ResXResourceReader` + `ResourceWriter` (GAC types in
+`System.Windows.Forms` / `mscorlib`) can produce the `.resources` files as a
+pre-build step.
+
+The `LogicalName` must exactly match what `ComponentResourceManager` requests
+(`<namespace>.<formname>.resources`), otherwise the form falls back to an empty
+resource set and designer-bound icons/images go missing with no exception.
+
+---
+
+## Add-In package identity is cached
+
+TIA Portal caches loaded Add-In assemblies by package identity. Building a new
+`.addin` with the same `AddInVersion` + assembly version produces a package that
+TIA Portal silently ignores in favour of the cached copy — code changes appear
+to have no effect, even after closing and reopening TIA Portal.
+
+**Pattern during iterative debugging:** bump **both** the assembly
+`[assembly: AssemblyVersion(...)]` and the package version field
+(`Config.xml` → `AddInVersion`, or the V21 publisher config equivalent) on every
+build that needs to be reloaded. Patch-version bumps (`21.0.0.1` → `21.0.0.2`)
+are sufficient.
+
+The cache survives process restarts; only an identity change forces a reload.
+
+---
+
+## Engineering objects as fields/properties — publisher warning
+
+The V21 publisher warns when any Add-In type stores a Siemens engineering object
+(`MasterCopy`, `Device`, `PlcBlock`, …) as a **field or property**:
+
+```text
+warning : '<TypeName>.<MemberName>' returns or accepts an engineering object.
+```
+
+Package creation still succeeds, but the field is a real correctness risk.
+Add-Ins are not unloaded between executions, so the cached Add-In instance
+outlives the project that owned the object — the stored reference becomes
+invalid the moment the user closes/reopens the project, and the next call into
+the Add-In faults on the stale handle.
+
+**Pattern:** treat all engineering objects as method-local. Pass them through
+parameters; never persist them on the Add-In instance.

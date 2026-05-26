@@ -30,7 +30,9 @@ Load ONLY the reference file(s) relevant to the task. Do not load all files at o
 | `references/assembly-references.md` | Adding PLC software, block, or tag access to an Add-In csproj |
 | `references/attribute-helper.md` | Reading/writing engineering object attributes via `GetAttributeInfos` or `SetAttributes` |
 | `references/threading-and-callbacks.md` | Showing any WinForms UI from an Add-In; understanding status callback constraints |
-| `references/runtime-gotchas.md` | Assembly location resolution failures; NuGet/GAC errors; SplitContainer sizing crashes |
+| `references/runtime-gotchas.md` | Assembly location resolution failures; NuGet/GAC errors; SplitContainer sizing crashes; WinForms `.resx` partial-trust failures; package-identity caching; engineering-object field warnings |
+| `references/package-and-publisher.md` | `.addin` package internals; V21 publisher config; `PlatformTarget`; verifying a published package |
+| `references/migrate-from-older-version.md` | Converting a V20 (or earlier) Add-In to V21; decompiling an existing `.addin` when source is lost |
 | `references/skeleton.md` | Starting a new context-menu Add-In from scratch |
 
 For tasks spanning multiple areas, load all relevant reference files before generating code.
@@ -196,3 +198,5 @@ Automatic conversion of older Add-Ins is therefore not possible — manual adjus
    - Feedback API
    - Progress API
    - MessageBox API
+
+> For the full step-by-step migration (decompiling a `.addin` when source is lost, fixing menu delegate syntax, `.resx` conversion, V21 publisher config), load `references/migrate-from-older-version.md`.

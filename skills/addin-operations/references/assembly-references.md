@@ -48,3 +48,23 @@ element (condition `== ''`) and one at the outer level (condition `!= ''`). Add 
 ```
 
 `<Private>False</Private>` means Copy Local = false — mandatory for all Siemens assemblies.
+
+> **csproj formatting trap:** keep each `<HintPath>` on a single line. A line
+> break inside `Portal V21` (or any other path segment) makes MSBuild treat the
+> reference as invalid. The build then fails with **cascading missing-type
+> errors** (`MasterCopy`, `ImportOptions`, `LibraryTypeVersionState`, …) that
+> look like API mismatches but are actually load failures.
+>
+> To keep paths readable, define a shared property once and use it in every
+> `<HintPath>`:
+>
+> ```xml
+> <PropertyGroup>
+>   <TiaPortalPublicApiV21>$(TiaPortalLocation)\PublicAPI\V21\net48</TiaPortalPublicApiV21>
+> </PropertyGroup>
+>
+> <Reference Include="Siemens.Engineering.Step7">
+>   <HintPath>$(TiaPortalPublicApiV21)\Siemens.Engineering.Step7.dll</HintPath>
+>   <Private>False</Private>
+> </Reference>
+> ```

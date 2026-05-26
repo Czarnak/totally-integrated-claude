@@ -12,6 +12,37 @@ for the user to close the dialog. TIA Portal's watchdog detects that the callbac
 returned and silently kills the operation. **There is no exception, no error message — the
 Add-In appears to do nothing.**
 
+### Diagnosing silent failures — file logging
+
+Because the watchdog kill produces no exception and no UI, the only way to
+diagnose startup and callback failures during development is a side-channel log
+file. Write to `%TEMP%` so it works from the partial-trust sandbox:
+
+```csharp
+private static readonly string LogPath =
+    Path.Combine(Path.GetTempPath(), "MyAddIn.log");
+
+private static void Log(string msg)
+{
+    try
+    {
+        File.AppendAllText(LogPath,
+            $"{DateTime.Now:HH:mm:ss.fff} {msg}{Environment.NewLine}");
+    }
+    catch { /* never let logging crash the Add-In */ }
+}
+```
+
+**Log `ex.ToString()`, not `ex.Message`.** Add-Ins are invoked via reflection,
+so the outermost exception is usually `TargetInvocationException` whose
+`.Message` is the generic "Exception has been thrown by the target of an
+invocation." The actionable detail lives in `InnerException`, which only
+`ToString()` includes.
+
+Wrap top-level entry points (constructor, `BuildContextMenuItems`, every action
+and status callback) in `try { … } catch (Exception ex) { Log(ex.ToString()); throw; }`
+during development. Remove or downgrade once the Add-In stabilises.
+
 ### Required pattern: two-phase collect/show
 
 ```text
