@@ -38,14 +38,19 @@ For bulk automation, looped operations, or scripted workflows, fall back to `tia
 
 ## Safety convention
 
-Three tools are **write-protected** and require the caller to pass `confirm: true` explicitly.
-Never pass `confirm: true` without first reading back the current state and confirming intent with the user.
+All MCP write tools are **write-protected**. They require a preview call first, then the
+write call must include both `confirm: true` and the preview response's `safetyToken`.
+Never invent or reuse a token. Tokens are short-lived, single-use, and bound to the
+target, requested input, project path, and current project state.
 
-| Tool | Write-protected |
+| Write tool | Required preview |
 |---|---|
-| `update_block_logic` | yes — requires `confirm: true` |
-| `add_network_device` | yes — requires `confirm: true` |
-| `configure_network_device` | yes — requires `confirm: true` |
+| `update_block_logic` | `preview_update_block_logic` |
+| `create_tag_table` / `delete_tag_table` | `preview_create_tag_table` / `preview_delete_tag_table` |
+| `create_tag` / `update_tag` / `delete_tag` | `preview_create_tag` / `preview_update_tag` / `preview_delete_tag` |
+| `create_user_constant` / `update_user_constant` / `delete_user_constant` | matching `preview_*_user_constant` tool |
+| `add_network_device` / `configure_network_device` | `preview_add_network_device` / `preview_configure_network_device` |
+| `open_project` / `create_project` / `save_project` / `save_project_as` / `archive_project` / `close_project` | matching `preview_*` lifecycle tool |
 
 ---
 
@@ -79,13 +84,15 @@ Returns YAML string. Parse or display as-is; pass back (modified) to `update_blo
 ### update_block_logic
 
 Imports SIMATIC SD YAML to update or create a PLC block. Always call `get_block_content` first
-to obtain the current YAML before editing, unless creating a block from scratch.
+to obtain the current YAML before editing, unless creating a block from scratch. Then call
+`preview_update_block_logic` and show the diff/summary to the user before applying.
 
 | Parameter | Type | Required | Notes |
 |---|---|---|---|
 | `blockPath` | string | yes | Target block path |
 | `yamlContent` | string | yes | Valid SIMATIC SD YAML |
 | `confirm` | bool | yes | Must be `true` to execute — default `false` is a no-op |
+| `safetyToken` | string | yes | Token returned by `preview_update_block_logic` for this exact request |
 | `projectPath` | string | no | |
 
 ---
@@ -153,6 +160,7 @@ Inserts a device from the hardware catalog into the project.
 | `deviceName` | string | yes | Name for the new device in the project |
 | `deviceItemName` | string | no | Name for root device item; defaults to `deviceName` |
 | `confirm` | bool | yes | Must be `true` to execute |
+| `safetyToken` | string | yes | Token returned by `preview_add_network_device` |
 | `projectPath` | string | no | |
 
 ---
@@ -170,6 +178,7 @@ Sets network identity and interface properties for a device already present in t
 | `subnetName` | string | no | Subnet to connect to |
 | `ioSystemName` | string | no | IO system to connect to |
 | `confirm` | bool | yes | Must be `true` to execute |
+| `safetyToken` | string | yes | Token returned by `preview_configure_network_device` |
 | `projectPath` | string | no | |
 
 ---
@@ -198,17 +207,20 @@ Invokes TIA Portal compile on PLC software and returns errors and warnings.
 
 1. `get_block_content(blockPath)` — capture current YAML
 2. Edit the YAML (preserve structure and indentation)
-3. Show the diff to the user and confirm
-4. `update_block_logic(blockPath, yamlContent, confirm=true)`
-5. `compile_check(blockPath)` — verify no errors introduced
+3. `preview_update_block_logic(blockPath, yamlContent)` — get diff and `safetyToken`
+4. Show the preview to the user and confirm intent
+5. `update_block_logic(blockPath, yamlContent, confirm=true, safetyToken=...)`
+6. Review returned `compile_check` verification
 
 ### Add and configure a new device
 
 1. `search_equipment_catalog(query)` — find the exact `typeIdentifier`
-2. Confirm device and name with user
-3. `add_network_device(typeIdentifier, deviceName, confirm=true)`
-4. `configure_network_device(deviceName, ipAddress, ..., confirm=true)`
-5. `read_hardware_config` — verify result
+2. `preview_add_network_device(typeIdentifier, deviceName)` — get `safetyToken`
+3. Confirm device and name with user
+4. `add_network_device(typeIdentifier, deviceName, confirm=true, safetyToken=...)`
+5. `preview_configure_network_device(deviceName, ipAddress, ...)` — get `safetyToken`
+6. `configure_network_device(deviceName, ipAddress, ..., confirm=true, safetyToken=...)`
+7. Review returned `read_hardware_config` verification
 
 ### Audit unused objects
 

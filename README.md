@@ -4,6 +4,8 @@ A Claude Code plugin for **Siemens TIA Portal engineering automation**.
 
 Provides a routed skill framework covering the full TIA Portal Openness API surface — Python TIA Scripting for everyday tasks and C# Openness for advanced object-model work — plus an LSP server for Siemens PLC source languages.
 
+![image](img/repo_graphic.png)
+
 ---
 
 ## Features
@@ -14,6 +16,7 @@ Provides a routed skill framework covering the full TIA Portal Openness API surf
 - **TIA Portal Add-In development** — VS Code–based Add-In authoring workflow
 - **LSP language server** - syntax highlighting, diagnostics, and code intelligence for Siemens PLC source files
 - **TIA Portal MCP server** - work with your agent directly in TIA Portal V21 (separate installation required, see below)
+- **MCP write safety hooks** - Claude Code blocks TIA Portal writes unless the call includes `confirm=true` and a server-issued `safetyToken`
 
 ---
 
@@ -132,6 +135,23 @@ How do I read all PLC tag tables from an open TIA Portal project?
 ```
 
 Claude will load `tia-openness-roadmap`, select the correct implementation path (Python or C#), and load the matching domain skill automatically.
+
+### TIA Portal MCP write safety
+
+TIA Portal MCP write tools use a preview-then-apply workflow. First call the matching `preview_*` tool, review the summary/diff and `currentStateHash`, then pass the returned `safetyToken` to the write tool with `confirm=true`.
+
+Examples:
+
+| Write | Required preview |
+| --- | --- |
+| `update_block_logic` | `preview_update_block_logic` |
+| `create_tag_table`, `delete_tag_table` | `preview_create_tag_table`, `preview_delete_tag_table` |
+| `create_tag`, `update_tag`, `delete_tag` | `preview_create_tag`, `preview_update_tag`, `preview_delete_tag` |
+| `create_user_constant`, `update_user_constant`, `delete_user_constant` | matching `preview_*_user_constant` tool |
+| `add_network_device`, `configure_network_device` | `preview_add_network_device`, `preview_configure_network_device` |
+| `open_project`, `create_project`, `save_project`, `save_project_as`, `archive_project`, `close_project` | matching `preview_*_project` tool |
+
+Claude Code also loads `hooks/tia-write-guard.ps1` through `hooks/hooks.json` as defense-in-depth. The MCP server is still the authority: other clients must use the same preview token flow.
 
 ### Routing examples
 
