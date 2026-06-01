@@ -75,6 +75,7 @@ Standalone skill for TIA Portal Add-In development (always C#, VS Code workflow)
 | list tag tables and tags | MCP | `tia-portal-mcp` |
 | inspect hardware topology / IP addresses | MCP | `tia-portal-mcp` |
 | cross-reference diagnostics / unused objects | MCP | `tia-portal-mcp` |
+| prerequisite / environment / missing install diagnostics | Diagnostic probe | `tia-doctor` |
 | add a single device to the project | MCP | `tia-portal-mcp` |
 | configure device network identity (IP, PN name) | MCP | `tia-portal-mcp` |
 | compile check / view errors and warnings | MCP | `tia-portal-mcp` |
@@ -127,11 +128,14 @@ Choose **C#** when:
 Use this exact structure:
 
 - `Use skill(s): ...`
-- `Implementation path: MCP` or `Implementation path: Python` or `Implementation path: C# Openness`
+- `Implementation path: MCP` or `Implementation path: Python` or `Implementation path: C# Openness` or `Implementation path: Diagnostic probe`
 - `Reason: ...`
 - `Execution order: ...`
 
 ## Post-routing action — MANDATORY
+
+**If Diagnostic probe:** read `skills/tia-doctor/SKILL.md` and run its probe command.
+Report the probe output and remediation items. Do not create or modify projects.
 
 **If MCP:** read `skills/tia-portal-mcp/SKILL.md`. Use the MCP tools directly — no code generation.
 

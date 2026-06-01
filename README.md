@@ -17,6 +17,7 @@ Provides a routed skill framework covering the full TIA Portal Openness API surf
 - **LSP language server** - syntax highlighting, diagnostics, and code intelligence for Siemens PLC source files
 - **TIA Portal MCP server** - work with your agent directly in TIA Portal V21 (separate installation required, see below)
 - **MCP write safety hooks** - Claude Code blocks TIA Portal writes unless the call includes `confirm=true` and a server-issued `safetyToken`
+- **Environment diagnostics** - manually run `tia-doctor` to check TIA Portal, Openness, Python TIA Scripting, MCP, and LSP prerequisites
 
 ---
 
@@ -25,6 +26,7 @@ Provides a routed skill framework covering the full TIA Portal Openness API surf
 | Skill | Purpose |
 | --- | --- |
 | `tia-openness-roadmap` | **Entry point.** Routes all TIA Portal tasks to the correct implementation path and domain skill. Load this first for every TIA Portal task. |
+| `tia-doctor` | **Manual diagnostic.** Checks local prerequisites and reports exact remediation steps without mutating the machine. |
 | `plc-code-analysis` | **Standalone.** Multi-perspective security and quality analysis for PLC code (SCL/LAD/FBD) via SimaticML or MCP. |
 | `tia-portal-mcp` | **Interactive.** Direct TIA Portal interaction via MCP tools (browse tree, read/write logic, list tags, hardware config). |
 | `tia-python` | Python TIA Scripting: PLC blocks/tags/UDTs, HMI tags/screens, library types/versions, project lifecycle, CAx import/export. |
@@ -64,7 +66,8 @@ The plugin ships a compiled LSP server (`bin/siemens-lsp.exe`) providing languag
 ### For Python TIA Scripting
 
 - Siemens TIA Portal V17 or later
-- TIA Scripting Python package installed (shipped with TIA Portal)
+- TIA Scripting Python downloaded from Siemens Industry Online Support
+- Python 3.12.x for the current `siemens_tia_scripting` wheel
 
 ### For C# Openness
 
@@ -76,6 +79,32 @@ The plugin ships a compiled LSP server (`bin/siemens-lsp.exe`) providing languag
 
 - Visual Studio 2022 or VS Code with C# Dev Kit
 - TIA Portal Add-In SDK (available from Siemens Industry Online Support)
+
+TIA Scripting Python is not installed from PyPI by package name. Download the
+TIA Scripting Python ZIP from Siemens, then use one of Siemens' supported setup
+paths:
+
+- File import: unzip it and set `TIA_SCRIPTING` to the extracted `binaries`
+  directory.
+- Wheel install: from the extracted `binaries` directory, install the matching
+  wheel file, for example:
+
+```powershell
+cd C:\Path\To\Your\TIA_Scripting_Python\binaries
+py -3.12 -m pip install .\siemens_tia_scripting-x.x.x-cp312-cp312-win_amd64.whl
+```
+
+To check a local machine, run the bundled doctor probe:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File skills\tia-doctor\probe.ps1
+```
+
+For machine-readable output:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File skills\tia-doctor\probe.ps1 -Json
+```
 
 ---
 
@@ -153,6 +182,14 @@ Examples:
 
 Claude Code also loads `hooks/tia-write-guard.ps1` through `hooks/hooks.json` as defense-in-depth. The MCP server is still the authority: other clients must use the same preview token flow.
 
+### Environment diagnostics
+
+Use `tia-doctor` when TIA Portal automation fails because of missing local
+prerequisites. It is a read-only PowerShell probe that checks TIA Portal,
+Openness assemblies, membership in the `Siemens TIA Openness` Windows user
+group, Python TIA Scripting, `tia-mcp`, and the bundled Siemens PLC language
+server.
+
 ### Routing examples
 
 | Task | Path | Domain skill |
@@ -176,6 +213,11 @@ Claude Code also loads `hooks/tia-write-guard.ps1` through `hooks/hooks.json` as
 
 - C# LSP plugin from [Claude Plugins Official](https://github.com/anthropics/claude-plugins-official)
 - [Tia Portal MCP Server](https://github.com/Czarnak/tia-portal-mcp)
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contributor setup, validation
+commands, test expectations, skill authoring rules, and safety requirements.
 
 ## Sources
 

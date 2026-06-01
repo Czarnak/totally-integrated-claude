@@ -10,6 +10,26 @@ Requires: Python 3.12.x, TIA Portal V15.1+, TIA Portal Openness V15.1+
 
 ---
 
+## Installation
+
+Do not use `pip install siemens_tia_scripting` or `pip install siemens-tia-scripting`
+from PyPI. Download TIA Scripting Python from Siemens Industry Online Support,
+unzip it, then choose one Siemens-supported setup path:
+
+- **File import:** set the `TIA_SCRIPTING` environment variable to the extracted
+  `binaries` directory and append it to `sys.path`.
+- **Wheel install:** navigate to the extracted `binaries` directory and install
+  the matching wheel file, for example:
+
+```powershell
+cd C:\Path\To\Your\TIA_Scripting_Python\binaries
+py -3.12 -m pip install .\siemens_tia_scripting-x.x.x-cp312-cp312-win_amd64.whl
+```
+
+Replace `x.x.x` with the version in the downloaded wheel filename.
+
+---
+
 ## Setup Boilerplate
 
 ```python
@@ -185,3 +205,19 @@ For pipelines that span multiple domains, load all relevant files before generat
 - **`import_*` methods take a directory path**, not a file path — point to the folder containing exported XML files.
 - **Transactions** — use `project.start_transaction()` / `project.end_transaction()` for bulk changes that should be undoable.
 - **`set_property` values are always strings** — even for booleans and numbers.
+
+## Destructive-operation safety
+
+These rules are mandatory for generated Python TIA Scripting code:
+
+- Treat `delete()` and any bulk overwrite/import operation as destructive.
+- Never call `delete()` as a bare one-line mutation. Wrap destructive changes in
+  `project.start_transaction()` / `project.end_transaction()` when the API supports
+  that operation inside a transaction.
+- Ensure transaction cleanup is explicit. If generated code starts a transaction,
+  it must end or roll back the transaction on every error path.
+- Run or request a `compile_check` through MCP after generated block, tag,
+  hardware, or HMI changes. Do not present generated project changes as deployable
+  until that check passes.
+- If Python TIA Scripting cannot provide transaction or exclusive-access safety for
+  a destructive operation, route the task to C# Openness or MCP instead.

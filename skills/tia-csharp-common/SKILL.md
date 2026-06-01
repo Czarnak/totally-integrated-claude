@@ -433,6 +433,25 @@ cannot be called while a transaction is active.
 
 ---
 
+## Destructive-operation safety
+
+These rules are mandatory for generated C# Openness code:
+
+- **Never bare `.Delete()`**. Any destructive operation must be inside an active
+  `ExclusiveAccess` scope and a `Transaction` when the API permits transactions.
+- Use `using` blocks for `ExclusiveAccess`, `Transaction`, `TiaPortal`, projects,
+  and other disposable Openness objects so rollback and release behavior is explicit.
+- Call `transaction.CommitOnDispose()` only after every validation and mutation in
+  the transaction has succeeded.
+- Run or request a `compile_check` after generated block, tag, hardware, or HMI
+  changes. Do not present generated project changes as deployable until that check
+  passes.
+- If an API refuses to run inside a transaction, state that limitation explicitly,
+  use the narrowest possible `ExclusiveAccess` scope, and require a preview or
+  user confirmation before the destructive call.
+
+---
+
 ## Exception handling
 
 Two top-level categories:
