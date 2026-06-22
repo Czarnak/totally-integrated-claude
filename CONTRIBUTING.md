@@ -3,7 +3,7 @@
 Thanks for improving `totally-integrated-claude`. This repository ships agent
 skills, manifests, hooks, and bundled language-server configuration for Siemens
 TIA Portal automation. Changes should stay portable across Claude Code, Codex,
-and Gemini unless a file is explicitly client-specific.
+and Antigravity unless a file is explicitly client-specific.
 
 ## Development Setup
 
@@ -36,9 +36,9 @@ git diff --check
 
 The validator checks:
 
-- Manifest JSON shape for Claude, Codex, Gemini, and marketplace metadata.
+- Manifest JSON shape for Claude, Codex, Antigravity, and marketplace metadata.
 - Version sync across `.claude-plugin/plugin.json`,
-  `.codex-plugin/plugin.json`, and `gemini-extension.json`.
+  `.codex-plugin/plugin.json`, and `plugin.json`.
 - Referenced paths in manifests and `tia-openness-roadmap`.
 - `SKILL.md` frontmatter with `name` and `description`.
 

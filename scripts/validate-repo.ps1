@@ -98,7 +98,7 @@ function Test-VersionSync {
     $paths = @(
         ".claude-plugin/plugin.json",
         ".codex-plugin/plugin.json",
-        "gemini-extension.json"
+        "plugin.json"
     )
     $versions = @{}
     foreach ($path in $paths) {
@@ -174,11 +174,11 @@ $manifestChecks = @(
         }
     },
     @{
-        Manifest = "gemini-extension.json"
-        RequiredFields = @("name", "version", "description", "author", "license", "keywords", "contextFileName", "mcpServers")
+        Manifest = "plugin.json"
+        RequiredFields = @("name", "version", "description", "author", "license", "keywords")
         ExpectedTypes = @{
             name = "string"; version = "string"; description = "string"; author = "object";
-            license = "string"; keywords = "array"; contextFileName = "string"; mcpServers = "object"
+            license = "string"; keywords = "array";
         }
     },
     @{

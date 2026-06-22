@@ -118,28 +118,22 @@ Install from GitHub or clone this repository and link it locally while developin
 /plugin marketplace add Czarnak/totally-integrated-claude
 ```
 
-### Gemini CLI
-
-Gemini CLI reads `gemini-extension.json`, bundled `skills/`, `GEMINI.md`, and
-the inline `mcpServers` configuration from the extension root.
+### Antigravity CLI
 
 Install from GitHub:
 
 ```bash
-gemini extensions install https://github.com/Czarnak/totally-integrated-claude
+agy plugin install https://github.com/Czarnak/totally-integrated-claude
 ```
 
-For local development, link the checkout instead:
+For local development, load the plugin:
 
 ```bash
-gemini extensions link .
-gemini extensions validate .
+agy plugin validate
+agy plugin install
 ```
 
 ### Codex
-
-Codex reads `.codex-plugin/plugin.json`, which points at the bundled `skills/`,
-`.mcp.json`, and `.lsp.json` files.
 
 Install the marketplace from GitHub:
 
