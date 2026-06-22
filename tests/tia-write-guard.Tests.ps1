@@ -54,37 +54,37 @@ Describe "tia-write-guard" {
         $inputJson = @{ tool_name = "Read"; tool_input = @{} } | ConvertTo-Json -Compress
         $result = Invoke-TiaWriteGuard -InputJson $inputJson
 
-        $result.ExitCode | Should Be 0
-        $result.Output.decision | Should Be "allow"
+        $result.ExitCode | Should -Be 0
+        $result.Output.decision | Should -Be "allow"
     }
 
     It "denies missing confirm on write tools" {
         $inputJson = @{ tool_name = "mcp__tia-portal__delete_tag"; tool_input = @{ safetyToken = "abc" } } | ConvertTo-Json -Compress
         $result = Invoke-TiaWriteGuard -InputJson $inputJson
 
-        $result.Output.decision | Should Be "deny"
-        $result.Output.reason | Should Match "confirm=true"
+        $result.Output.decision | Should -Be "deny"
+        $result.Output.reason | Should -Match "confirm=true"
     }
 
     It "denies missing safetyToken on write tools" {
         $inputJson = @{ tool_name = "mcp__tia-portal__delete_tag"; tool_input = @{ confirm = $true } } | ConvertTo-Json -Compress
         $result = Invoke-TiaWriteGuard -InputJson $inputJson
 
-        $result.Output.decision | Should Be "deny"
-        $result.Output.reason | Should Match "safetyToken"
+        $result.Output.decision | Should -Be "deny"
+        $result.Output.reason | Should -Match "safetyToken"
     }
 
     It "allows valid write tool confirmation and token" {
         $inputJson = @{ tool_name = "mcp__tia-portal__delete_tag"; tool_input = @{ confirm = $true; safetyToken = "abc" } } | ConvertTo-Json -Compress
         $result = Invoke-TiaWriteGuard -InputJson $inputJson
 
-        $result.Output.decision | Should Be "allow"
+        $result.Output.decision | Should -Be "allow"
     }
 
     It "denies malformed JSON" {
         $result = Invoke-TiaWriteGuard -InputJson "{not-json"
 
-        $result.Output.decision | Should Be "deny"
-        $result.Output.reason | Should Match "could not parse"
+        $result.Output.decision | Should -Be "deny"
+        $result.Output.reason | Should -Match "could not parse"
     }
 }

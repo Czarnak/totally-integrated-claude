@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     defaults:
       run:
         shell: pwsh
@@ -26,7 +26,9 @@ jobs:
       - name: Install Pester
         run: |
           Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-          Install-Module Pester -Scope CurrentUser -Force -SkipPublisherCheck
+          Install-Module Pester -RequiredVersion 5.7.1 -Scope CurrentUser -Force -SkipPublisherCheck
 
       - name: Run Pester tests
-        run: Invoke-Pester -Path ./tests -CI
+        run: |
+          Import-Module Pester -RequiredVersion 5.7.1 -Force
+          Invoke-Pester -Path ./tests -CI
