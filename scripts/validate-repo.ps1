@@ -180,20 +180,20 @@ function Test-SkillFrontmatter {
 $manifestChecks = @(
     @{
         Manifest = ".claude-plugin/plugin.json"
-        RequiredFields = @("name", "version", "description", "author", "license", "keywords", "skills", "lspServers", "mcpServers", "hooks")
+        RequiredFields = @("name", "version", "description", "author", "license", "keywords", "skills", "mcpServers", "hooks")
         ExpectedTypes = @{
             name = "string"; version = "string"; description = "string"; author = "object";
-            license = "string"; keywords = "array"; skills = "string"; lspServers = "string";
+            license = "string"; keywords = "array"; skills = "string";
             mcpServers = "string"; hooks = "string"
         }
     },
     @{
         Manifest = ".codex-plugin/plugin.json"
-        RequiredFields = @("name", "version", "description", "author", "license", "keywords", "skills", "hooks", "lspServers", "mcpServers", "interface")
+        RequiredFields = @("name", "version", "description", "author", "license", "keywords", "skills", "hooks", "mcpServers", "interface")
         ExpectedTypes = @{
             name = "string"; version = "string"; description = "string"; author = "object";
             license = "string"; keywords = "array"; skills = "string"; hooks = "string";
-            lspServers = "string"; mcpServers = "string"; interface = "object"
+            mcpServers = "string"; interface = "object"
         }
     },
     @{

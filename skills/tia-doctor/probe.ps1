@@ -270,38 +270,6 @@ function Test-TiaMcp {
     New-TiaDoctorResult -Id "tia-mcp" -Name "TIA MCP server" -Status "fail" -Required $true -Detail "tia-mcp was not found on PATH or in dotnet global tools." -Remediation "Install it with: dotnet tool install -g TiaMcpServer"
 }
 
-function Test-SiemensLsp {
-    $scriptRoot = if ([string]::IsNullOrWhiteSpace($PSScriptRoot)) { Split-Path -Parent $MyInvocation.MyCommand.Path } else { $PSScriptRoot }
-    $lspPath = Resolve-Path (Join-Path $scriptRoot "..\..\bin\siemens-lsp.exe") -ErrorAction SilentlyContinue
-    if ($null -eq $lspPath) {
-        return New-TiaDoctorResult -Id "siemens-lsp" -Name "Siemens PLC language server" -Status "fail" -Required $true -Detail "bin/siemens-lsp.exe is missing." -Remediation "Restore the bundled bin/siemens-lsp.exe asset."
-    }
-
-    $startInfo = [System.Diagnostics.ProcessStartInfo]::new()
-    $startInfo.FileName = $lspPath.Path
-    $startInfo.Arguments = "serve"
-    $startInfo.RedirectStandardOutput = $true
-    $startInfo.RedirectStandardError = $true
-    $startInfo.UseShellExecute = $false
-
-    try {
-        $process = [System.Diagnostics.Process]::Start($startInfo)
-        if (-not $process.WaitForExit(1500)) {
-            try {
-                $process.Kill()
-            } catch {
-            }
-            return New-TiaDoctorResult -Id "siemens-lsp" -Name "Siemens PLC language server" -Status "pass" -Required $true -Detail "siemens-lsp.exe serve starts and remains alive for stdio." -Remediation "No action required." -Evidence @{ path = $lspPath.Path }
-        }
-        if ($process.ExitCode -eq 0) {
-            return New-TiaDoctorResult -Id "siemens-lsp" -Name "Siemens PLC language server" -Status "pass" -Required $true -Detail "siemens-lsp.exe serve exited successfully." -Remediation "No action required." -Evidence @{ path = $lspPath.Path }
-        }
-        return New-TiaDoctorResult -Id "siemens-lsp" -Name "Siemens PLC language server" -Status "fail" -Required $true -Detail "siemens-lsp.exe serve exited with code $($process.ExitCode)." -Remediation "Restore or rebuild the bundled Siemens LSP binary." -Evidence @{ path = $lspPath.Path }
-    } catch {
-        return New-TiaDoctorResult -Id "siemens-lsp" -Name "Siemens PLC language server" -Status "fail" -Required $true -Detail "Could not start siemens-lsp.exe: $($_.Exception.Message)" -Remediation "Run this probe on Windows and restore the bundled Siemens LSP binary if it is corrupt." -Evidence @{ path = $lspPath.Path }
-    }
-}
-
 function Invoke-TiaDoctorProbe {
     @(
         Test-TiaPortalInstall
@@ -309,7 +277,6 @@ function Invoke-TiaDoctorProbe {
         Test-OpennessUserGroup
         Test-PythonTiaScripting
         Test-TiaMcp
-        Test-SiemensLsp
     )
 }
 

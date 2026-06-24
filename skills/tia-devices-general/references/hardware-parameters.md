@@ -316,29 +316,12 @@
 >
 > Represents supported services of the Certificate Management Configuration
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `ApplicationUri`: Represents ApplicationUri of supported services of the Certificate Management Configuration
 - 🔧 `Guid`: Represents FolderGuid of supported services of the Certificate Management Configuration
 - 🔧 `Id`: Certificate constant ID
 - 🔧 `ServiceGroupName`: Represents group name of supported services of the Certificate Management Configuration
 - 🔧 `ServiceType`: Available services names from modules
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.CertificateSupportedServiceComposition
 >
@@ -356,9 +339,6 @@
 - 📦 `Create(System.UInt32,System.String,Siemens.Engineering.HW.CertificateSupportedServiceName)`: Create a PLC supported service
 - 📦 `Find(System.Guid)`: Finds the particular service
 - 📦 `Find(System.UInt32)`: Finds the particular service
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.CertificateSupportedServiceName
 >
@@ -1604,24 +1584,9 @@
 >
 > The base for hardware modules like devices or device items
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
 - 📦 `GetService``1`: Gets an instance of type <c>T</c>.
-- 📦 `Siemens#Engineering#IEngineeringServiceProvider#GetServiceInfos`: Returns a collection of EngineeringServiceInfo objects describing the different services on this object.
 - 🔧 `DeviceItems`: Composition of device items
 - 🔧 `HwIdentifiers`: Composition of HW identifiers
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Items`: Associated device items for this device
 - 🔧 `Name`: The name of the device
 - 🔧 `TypeIdentifier`: The type identifier of this device
@@ -1633,9 +1598,6 @@
 - 📦 `PlugCopy(Siemens.Engineering.HW.DeviceItem,System.Int32)`: Copies a plug to a given device
 - 📦 `PlugMove(Siemens.Engineering.HW.DeviceItem,System.Int32)`: Moves a plug to a given device
 - 📦 `PlugNew(System.String,System.String,System.Int32)`: Creates and plugs a device item in a given hardware object.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.HardwareResource
 >
@@ -1807,9 +1769,6 @@
 - 📦 `Contains(Siemens.Engineering.HW.ISyncDomainParticipant)`: Determines if <paramref name="item"/> is contained within.
 - 📦 `IndexOf(Siemens.Engineering.HW.ISyncDomainParticipant)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Add(Siemens.Engineering.HW.ISyncDomainParticipant)`: Adds an <paramref name="item"/>.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.IconButton1
 >
@@ -2055,27 +2014,10 @@
 >
 > Represents an IO connector
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `ConnectedToIoSystem`: The connected IO system
 - 📦 `ConnectToIoSystem(Siemens.Engineering.HW.IoSystem)`: Connects to the IO System
 - 📦 `DisconnectFromIoSystem`: Disconnects a device from the given IO system
 - 📦 `GetIoController`: Returns the IO controller for this connector
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.IoConnectorAssociation
 >
@@ -2090,9 +2032,6 @@
 - 📦 `Any`: Determines if any item is contained within.
 - 📦 `Contains(Siemens.Engineering.HW.IoConnector)`: Determines if <paramref name="item"/> is contained within.
 - 📦 `IndexOf(Siemens.Engineering.HW.IoConnector)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.IoConnectorComposition
 >
@@ -2107,34 +2046,14 @@
 - 📦 `Any`: Determines if any item is contained within.
 - 📦 `Contains(Siemens.Engineering.HW.IoConnector)`: Determines if <paramref name="item"/> is contained within.
 - 📦 `IndexOf(Siemens.Engineering.HW.IoConnector)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.IoController
 >
 > Represents an IO controller
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
 - 🔧 `Addresses`: Composition of addresses
 - 🔧 `IoSystem`: Composition of IO system
 - 📦 `CreateIoSystem(System.String)`: Creates an IO system
-- 🔧 `Parent`: EOM parent of this object
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.IoControllerComposition
 >
@@ -2149,37 +2068,17 @@
 - 📦 `Any`: Determines if any item is contained within.
 - 📦 `Contains(Siemens.Engineering.HW.IoController)`: Determines if <paramref name="item"/> is contained within.
 - 📦 `IndexOf(Siemens.Engineering.HW.IoController)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.IoSystem
 >
 > Represents an IO system
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
 - 🔧 `HwIdentifiers`: Composition of HW identifiers
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `ConnectedIoDevices`: The connected IO devices
 - 🔧 `Name`: The name of the IO system
 - 🔧 `Number`: The number of this IO system
 - 🔧 `Subnet`: Associated Subnet
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.IoSystemAssociation
 >
@@ -2194,9 +2093,6 @@
 - 📦 `Any`: Determines if any item is contained within.
 - 📦 `Contains(Siemens.Engineering.HW.IoSystem)`: Determines if <paramref name="item"/> is contained within.
 - 📦 `IndexOf(Siemens.Engineering.HW.IoSystem)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.IpProtocolSelection
 >
@@ -2454,21 +2350,7 @@
 >
 > Address mapping between local and remote partner
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
 - 🔧 `Addresses`: Addresses of the transfer area
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Comment`: Comment
 - 🔧 `DataLength`: Transfer area data length
 - 🔧 `Direction`: Direction of data communication between local and partner device
@@ -2476,9 +2358,6 @@
 - 🔧 `PartnerTransferAreas`: Partner transfer areas
 - 🔧 `Type`: Transfer area type
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.MulticastableTransferAreaAssociation
 >
@@ -2493,9 +2372,6 @@
 - 📦 `Any`: Determines if any item is contained within.
 - 📦 `Contains(Siemens.Engineering.HW.MulticastableTransferArea)`: Determines if <paramref name="item"/> is contained within.
 - 📦 `IndexOf(Siemens.Engineering.HW.MulticastableTransferArea)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.MulticastableTransferAreaComposition
 >
@@ -2514,9 +2390,6 @@
 - 📦 `Create(Siemens.Engineering.HW.Features.NetworkInterface,Siemens.Engineering.HW.TransferAreaType)`: Create a transfer area
 - 📦 `Create(Siemens.Engineering.HW.Features.NetworkInterface,Siemens.Engineering.HW.TransferAreaType,System.String)`: Create transfer area
 - 📦 `Create(Siemens.Engineering.HW.Features.NetworkInterface,Siemens.Engineering.HW.TransferAreaType,System.String,System.Int32)`: Create a transfer area
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.NetType
 >
@@ -2614,26 +2487,9 @@
 >
 > Represents a OpcUa User Management object
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `UserName`: The name of the OpcUa User
 - 📦 `SetPassword(System.Security.SecureString)`: Set Password for OpcUa User
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.OpcUaUserComposition
 >
@@ -2650,9 +2506,6 @@
 - 📦 `IndexOf(Siemens.Engineering.HW.OpcUaUser)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Create(System.String,System.Security.SecureString)`: Creates a OpcUa User
 - 📦 `Find(System.String)`: Finds a given OpcUa User
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.OperatingHoursMonitoringResponse
 >
@@ -3274,27 +3127,10 @@
 >
 > Represents a WebserverUser
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Active`: get and set user activation
 - 🔧 `Permissions`: Represents webserver permission for WebserverUser
 - 🔧 `UserName`: The name of the WebServer User
 - 📦 `SetPassword(System.Security.SecureString)`: Set Password for Web server user
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.SimpleWebserverUserComposition
 >
@@ -3310,9 +3146,6 @@
 - 📦 `Contains(Siemens.Engineering.HW.SimpleWebserverUser)`: Determines if <paramref name="item"/> is contained within.
 - 📦 `IndexOf(Siemens.Engineering.HW.SimpleWebserverUser)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Find(System.String)`: Finds a given webserver user
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.SimpleWebserverUserPermissions
 >
@@ -3778,21 +3611,7 @@
 >
 > Addressmapping between local I-Slave / I-device and remote partner
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
 - 🔧 `LocalAddresses`: Local addresses of a transfer area
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `PartnerAddresses`: Partner addresses of a transfer area
 - 🔧 `TransferAreaMappingRules`: Mapping rules for transfer areas
 - 🔧 `Direction`: Direction of data communication between local and partner device
@@ -3803,9 +3622,6 @@
 - 🔧 `PositionNumber`: Subslotnumber / Slotnumber of transfer area
 - 🔧 `Type`: Transfer area type
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.TransferAreaComposition
 >
@@ -3824,9 +3640,6 @@
 - 📦 `Create(System.String,Siemens.Engineering.HW.TransferAreaType,System.Int32)`: Create a transfer area
 - 📦 `Find(System.Int32)`: Find a transfer area by position number
 - 📦 `Find(System.Int32,System.Int32)`: Find a transfer area by position number
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.TransferAreaDirection
 >
@@ -3836,20 +3649,6 @@
 >
 > Mapping rule for transfer area
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Begin`: Bit address of the begin of the mapped data
 - 🔧 `End`: Bit address of the end of the mapped data
 - 🔧 `IoType`: Type of data to be mapped (Input or Output)
@@ -3857,9 +3656,6 @@
 - 🔧 `PositionNumber`: Transfer area mapping rule number
 - 🔧 `Target`: I/O module or sub-module to be mapped
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.TransferAreaMappingRuleComposition
 >
@@ -3875,9 +3671,6 @@
 - 📦 `Contains(Siemens.Engineering.HW.TransferAreaMappingRule)`: Determines if <paramref name="item"/> is contained within.
 - 📦 `IndexOf(Siemens.Engineering.HW.TransferAreaMappingRule)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Create`: Mapping rules for transfer areas
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.TransferAreaType
 >
@@ -3999,26 +3792,9 @@
 >
 > Represents configurations of the web application.
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `ApplicationType`: Represents whether the application is default.
 - 🔧 `IsDefault`: Represents whether the application is default.
 - 🔧 `Name`: Represents name of the web application.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.WebApplicationConfigurationComposition
 >
@@ -4034,9 +3810,6 @@
 - 📦 `Contains(Siemens.Engineering.HW.WebApplicationConfiguration)`: Determines if <paramref name="item"/> is contained within.
 - 📦 `IndexOf(Siemens.Engineering.HW.WebApplicationConfiguration)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Find(System.String)`: Find web application configuration details by Name
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.WebApplicationType
 >
@@ -4050,27 +3823,10 @@
 >
 > Represents a WebserverUser
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Permissions`: Represents webserver permission for WebserverUser
 - 🔧 `UserName`: The name of the WebServer User
 - 📦 `SetPassword(System.Security.SecureString)`: Set Password for Web server user
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.WebserverUserComposition
 >
@@ -4087,9 +3843,6 @@
 - 📦 `IndexOf(Siemens.Engineering.HW.WebserverUser)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Create(System.String,Siemens.Engineering.HW.WebserverUserPermissions,System.Security.SecureString)`: Creates the webserver user
 - 📦 `Find(System.String)`: Finds a given webserver user
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.WebserverUserPermissions
 >
@@ -4103,24 +3856,7 @@
 >
 > Represents custom data type attribute (StructuredData) on hardware object.
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.CustomDataTypes.StructuredDataComposition
 >
@@ -4136,60 +3872,30 @@
 - 📦 `Contains(Siemens.Engineering.HW.CustomDataTypes.StructuredData)`: Determines if <paramref name="item"/> is contained within.
 - 📦 `IndexOf(Siemens.Engineering.HW.CustomDataTypes.StructuredData)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Create`: Creates a new empty row
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.CustomDataTypes.TableData
 >
 > Represents Complex data in the form of Table
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Rows`: Collection of Structured Data
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Features.CommunicationManagement
 >
 > Base class for communication related services
 
 - 🔧 `Connections`: Composition of connection
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Features.DefaultWebPagesFeature
 >
 > The DefaultWebPagesFeature Class, Provides information about web application configuration and means to manipulate the configuration.
 
 - 🔧 `WebApplicationConfigurations`: Represents composition of all the configurations of the web applications.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Features.GsdExportProvider
 >
 > Gsd export functionality of I-Device
 
-- 🔧 `Parent`: EOM parent of this object
 - 📦 `Export(System.IO.FileInfo,System.String,System.String)`: Export configuration to Gsd file
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Features.IGsdObject
 >
@@ -4208,18 +3914,12 @@
 - 📦 `Connect(Siemens.Engineering.HW.DeviceItem)`: Connects to the partner port
 - 📦 `Disconnect`: Disconnects from the partner port
 - 📦 `GetPartnerPort`: Gets the partner port details
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Features.OpcUaUserManagement
 >
 > Represents a OpcUa User Management
 
 - 🔧 `OpcUaUsers`: Composition of OpcUaUsers
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Features.PcInterfaceAssignment
 >
@@ -4232,9 +3932,6 @@
 - 📦 `AssignInterface(Siemens.Engineering.HW.PcInterfaceAssignmentMode)`: Assign interface to one of the following( None, PC Station)
 - 📦 `AssignInterface(Siemens.Engineering.HW.PcInterfaceAssignmentMode,Siemens.Engineering.HW.DeviceItem)`: Assign interface to Software PLC
 - 📦 `GetAvailableIPCExpansions`: Get available IPC expansion list that can be selected
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Features.PlcAccountLockingAtRuntimeFeature
 >
@@ -4244,9 +3941,6 @@
 - 🔧 `LockAccountForDuration`: The period of time for which the relevant user is blocked, LockAccountForDuration time is in minutes.
 - 🔧 `LoginRetryInterval`: LoginRetryInterval time is in minutes, LoginRetryInterval time is in minutes.
 - 🔧 `NumberOfFailedLoginAttempts`: The number of consecutive invalid login attempts.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Features.ResourceAssignment
 >
@@ -4254,9 +3948,6 @@
 
 - 🔧 `PlcPriority`: PLC Priority value.Set before export.(default 1)
 - 📦 `Export(System.IO.FileInfo)`: Export resource assignment to json file
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Features.SysLogConfigurationManager
 >
@@ -4265,34 +3956,14 @@
 - 🔧 `SysLogServerConfiguration`: Represents composition of all the server configurations of the system logging configurations.
 - 🔧 `EnableSystemLogging`: Enable or Disable the System Logging setting of the SysLog Configuration.
 - 🔧 `TransportProtocol`: Gets or sets the Transport Protocol of the System Logging Configuration.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Features.SysLogServerConfiguration
 >
 > Represents server configuration of the system logging configurations.
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `SysLogServerAddress`: Represents server address of the server configuration.
 - 🔧 `SysLogServerPort`: Represents port number of the server configuration.
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Features.SysLogServerConfigurationComposition
 >
@@ -4309,65 +3980,25 @@
 - 📦 `IndexOf(Siemens.Engineering.HW.Features.SysLogServerConfiguration)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Create(System.String,System.UInt16)`: Creates Server Configuation for syslog
 - 📦 `Find(System.String)`: Find SysLog Server details by Address
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Features.SystemWebPagesFeature
 >
 > The SystemWebPagesFeature Class, Provides information about enabling the system web pages for the PLC.
 
 - 🔧 `EnableSystemWebPages`: Enable or Disable the system web pages configuration.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Systemdiagnostics.Settings.SystemdiagnosticsSettingsDataProvider
 >
 > This class is used to export and import system diagnostics project relevant settings
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 📦 `Export(System.IO.FileInfo)`: This method is used to export system diagnostics project relevant settings
 - 📦 `Import(System.IO.FileInfo)`: This method is used to import system diagnostics project relevant settings
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Systemdiagnostics.Settings.SystemdiagnosticsSettingsExportImportResult
 >
 > Result of an diagnostic class export or import
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `State`: Result state of the process
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Systemdiagnostics.Settings.SystemdiagnosticsSettingsExportImportResultState
 >
@@ -4383,6 +4014,3 @@
 
 - 📦 `GenerateBlocks(Siemens.Engineering.HW.Features.WebDBGenerateOptions)`: Generate blocks
 - 📦 `GenerateBlocks(System.IO.DirectoryInfo,System.IO.FileInfo,System.String,Siemens.Engineering.HW.Features.WebDBGenerateOptions)`: Generate blocks
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.

@@ -26,26 +26,9 @@ module.Export("fileName");
 >
 > Dummy Description
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Name`: Name attribute description
 - 📦 `Export(System.IO.DirectoryInfo)`: Export script module
 - 📦 `Export(System.IO.DirectoryInfo,System.String)`: Export script module with specific file name
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.Scripts.HmiScriptModuleComposition
 >
@@ -63,9 +46,6 @@ module.Export("fileName");
 - 📦 `Export(System.IO.DirectoryInfo)`: Export scripts
 - 📦 `Import(System.IO.DirectoryInfo)`: Import scripts
 - 📦 `Import(System.IO.DirectoryInfo,System.String)`: Import scripts
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 5. Text and graphic lists
 
@@ -91,25 +71,8 @@ foreach (HmiGraphicList gl in hmiSoftware.HmiGraphicLists)
 >
 > Hmi graphic list
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Name`: Name of the hmi graphic list
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.TextGraphicList.HmiGraphicListComposition
 >
@@ -127,32 +90,12 @@ foreach (HmiGraphicList gl in hmiSoftware.HmiGraphicLists)
 - 📦 `Export(System.IO.DirectoryInfo,System.String)`: Export hmi graphic lists
 - 📦 `Import(System.IO.DirectoryInfo,System.String)`: Import hmi graphic lists
 - 📦 `Find(System.String)`: Finds the hmi graphic list based on the given name
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.TextGraphicList.HmiSystemTextList
 >
 > Hmi system text list
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Name`: Name of the hmi text list
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.TextGraphicList.HmiSystemTextListComposition
 >
@@ -170,33 +113,13 @@ foreach (HmiGraphicList gl in hmiSoftware.HmiGraphicLists)
 - 📦 `Export(System.IO.DirectoryInfo,System.String)`: Export hmi system text lists
 - 📦 `Import(System.IO.DirectoryInfo,System.String)`: Import hmi system text lists
 - 📦 `Find(System.String)`: Finds the hmi system text list based on the given name
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.TextGraphicList.HmiTextList
 >
 > Hmi text list
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Name`: Name of the hmi text list
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.TextGraphicList.HmiTextListComposition
 >
@@ -214,6 +137,3 @@ foreach (HmiGraphicList gl in hmiSoftware.HmiGraphicLists)
 - 📦 `Export(System.IO.DirectoryInfo,System.String)`: Export hmi text lists
 - 📦 `Import(System.IO.DirectoryInfo,System.String)`: Import hmi text lists
 - 📦 `Find(System.String)`: Finds the hmi text list based on the given name
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.

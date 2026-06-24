@@ -173,20 +173,6 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 >
 > Represents the base class for a connection information object
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `ConnectionType`: The connection type of the connection
 - 🔧 `IsValid`: Is the connection fully specified
 - 🔧 `LocalInterface`: Link to local interface
@@ -196,9 +182,6 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 - 🔧 `PartnerSubnetName`: Name of partner connected subnet
 - 🔧 `PartnerTarget`: Link to partner target
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.CommunicationConnections.ConnectionComposition
 >
@@ -214,9 +197,6 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 - 📦 `Contains(Siemens.Engineering.HW.CommunicationConnections.Connection)`: Determines if <paramref name="item"/> is contained within.
 - 📦 `IndexOf(Siemens.Engineering.HW.CommunicationConnections.Connection)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Create``1(Siemens.Engineering.HW.Node,Siemens.Engineering.HW.DeviceItem,Siemens.Engineering.HW.Node)`: Create a connection
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.CommunicationConnections.ConnectionType
 >
@@ -226,7 +206,6 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 >
 > Represents a fdl connection information object
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `LocalAddress`: Display of the address of the local interface.
 - 🔧 `LocalConnectionId`: Local ID of the connection end point.
 - 🔧 `LocalConnectionName`: Name of the local connection end point.
@@ -235,30 +214,22 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 - 🔧 `PartnerConnectionId`: Partner ID of the connection end point.
 - 🔧 `PartnerConnectionName`: Name of the partner connection end point.
 - 🔧 `PartnerLsap`: LSAP address of the partner connection end point.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.CommunicationConnections.HmiConnection
 >
 > Represents a hmi connection information object
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `AccessPoint`: Name of access point
 - 🔧 `LocalAddress`: Display of the address of the local interface.
 - 🔧 `LocalConnectionName`: Name of the local connection end point.
 - 🔧 `Online`: Initial runtime sate of the connection.
 - 🔧 `PartnerAddress`: Display of the address of the partner interface.
 - 🔧 `TimeSynchronizationMode`: Time synchronization mode.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.CommunicationConnections.IsoConnection
 >
 > Represents a iso connection information object
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `LocalActiveEstablishment`: Active establishment of local connection end point.
 - 🔧 `LocalAddress`: Display of the address of the local interface.
 - 🔧 `LocalConnectionId`: Local ID of the connection end point.
@@ -269,15 +240,11 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 - 🔧 `PartnerConnectionId`: Partner ID of the connection end point.
 - 🔧 `PartnerConnectionName`: Name of the partner connection end point.
 - 🔧 `PartnerTsap`: TSAP (ASCII) of partner connection end point.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.CommunicationConnections.IsoOnTcpConnection
 >
 > Represents a isoOnTcp connection information object
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `LocalActiveEstablishment`: Active establishment of local connection end point.
 - 🔧 `LocalAddress`: Display of the address of the local interface.
 - 🔧 `LocalConnectionId`: Local ID of the connection end point.
@@ -288,15 +255,11 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 - 🔧 `PartnerConnectionId`: Partner ID of the connection end point.
 - 🔧 `PartnerConnectionName`: Name of the partner connection end point.
 - 🔧 `PartnerTsap`: TSAP (ASCII) of partner connection end point.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.CommunicationConnections.PtpConnection
 >
 > Represents a ptp connection information object
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Direction`: Direction of the connection
 - 🔧 `LocalConnectionId`: Local ID of the connection end point.
 - 🔧 `LocalConnectionName`: Name of the local connection end point.
@@ -306,9 +269,6 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 - 🔧 `LocalSlot`: Slot number of the local connection end point.
 - 🔧 `LocalTsap`: TSAP (ASCII) of local connection end point.
 - 🔧 `PartnerCpuNumber`: RK512 CPU number of the partner connection end point.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.CommunicationConnections.PtpConnectionDirection
 >
@@ -318,7 +278,6 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 >
 > Represents a s7 connection information object
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `LocalActiveEstablishment`: Active establishment of local connection end point.
 - 🔧 `LocalAddress`: Display of the address of the local interface.
 - 🔧 `LocalConnectionId`: Local ID of the connection end point.
@@ -337,15 +296,11 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 - 🔧 `PartnerSlot`: Slot number of the partner connection end point.
 - 🔧 `PartnerTsap`: TSAP (ASCII) of partner connection end point.
 - 🔧 `PartnerUseSimaticACC`: A selected &apos;SIMATIC-ACC&apos; is used as TSAP of the partner connection end point
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.CommunicationConnections.TcpConnection
 >
 > Represents a tcp connection information object
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `LocalActiveEstablishment`: Active establishment of local connection end point.
 - 🔧 `LocalAddress`: Display of the address of the local interface.
 - 🔧 `LocalConnectionId`: Local ID of the connection end point.
@@ -356,15 +311,11 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 - 🔧 `PartnerConnectionId`: Partner ID of the connection end point.
 - 🔧 `PartnerConnectionName`: Name of the partner connection end point.
 - 🔧 `PartnerPort`: Port of partner connection end point.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.CommunicationConnections.UdpConnection
 >
 > Represents a udp connection information object
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `LocalAddress`: Display of the address of the local interface.
 - 🔧 `LocalConnectionId`: Local ID of the connection end point.
 - 🔧 `LocalConnectionName`: Name of the local connection end point.
@@ -373,34 +324,14 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 - 🔧 `PartnerConnectionId`: Partner ID of the connection end point.
 - 🔧 `PartnerConnectionName`: Name of the partner connection end point.
 - 🔧 `PartnerPort`: Port of partner connection end point.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.MrpDomain
 >
 > Media Redundancy Protocol Domain
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `DomainParticipants`: Association of Network Interfaces
 - 🔧 `Name`: Name of the Mrp Domain
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.MrpDomainComposition
 >
@@ -417,36 +348,16 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 - 📦 `IndexOf(Siemens.Engineering.HW.MrpDomain)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Create(System.String)`: Create Mrp Domain on Subnet
 - 📦 `Find(System.String)`: Finds a given Mrp Domain
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.MrpInstance
 >
 > Mrp Instance of a Profinet Interface
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `ConnectedMrpDomain`: The MrpDomain which is connected to this instance
 - 🔧 `Interface`: Interface of the MrpInstance
 - 🔧 `Name`: Name of the Mrp Instance
 - 🔧 `RingPort1`: Ring port 1 of the MrpInstance
 - 🔧 `RingPort2`: Ring port 2 of the MrpInstance
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.MrpInstanceComposition
 >
@@ -461,30 +372,12 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 - 📦 `Any`: Determines if any item is contained within.
 - 📦 `Contains(Siemens.Engineering.HW.MrpInstance)`: Determines if <paramref name="item"/> is contained within.
 - 📦 `IndexOf(Siemens.Engineering.HW.MrpInstance)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Node
 >
 > Node is an object which is used as an interface from DeviceItem to Subnet
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
 - 📦 `GetService``1`: Gets an instance of type <c>T</c>.
-- 📦 `Siemens#Engineering#IEngineeringServiceProvider#GetServiceInfos`: Returns a collection of EngineeringServiceInfo objects describing the different services on this object.
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `ConnectedSubnet`: The connected subnet
 - 🔧 `Name`: The name of the node
 - 🔧 `NodeId`: The id of this node
@@ -492,9 +385,6 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 - 📦 `ConnectToSubnet(Siemens.Engineering.HW.Subnet)`: Connects to the Subnet
 - 📦 `CreateAndConnectToSubnet(System.String)`: Create and connect to a subnet
 - 📦 `DisconnectFromSubnet`: Disconnects a device from the given Subnet
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.NodeAssociation
 >
@@ -509,9 +399,6 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 - 📦 `Any`: Determines if any item is contained within.
 - 📦 `Contains(Siemens.Engineering.HW.Node)`: Determines if <paramref name="item"/> is contained within.
 - 📦 `IndexOf(Siemens.Engineering.HW.Node)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.NodeComposition
 >
@@ -527,39 +414,18 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 - 📦 `Contains(Siemens.Engineering.HW.Node)`: Determines if <paramref name="item"/> is contained within.
 - 📦 `IndexOf(Siemens.Engineering.HW.Node)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Find(System.String)`: Finds a given node
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Subnet
 >
 > Represents a Subnet, one of the following (SubnetMpi or SubnetIE) represents the net object
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
 - 📦 `GetService``1`: Gets an instance of type <c>T</c>.
-- 📦 `Siemens#Engineering#IEngineeringServiceProvider#GetServiceInfos`: Returns a collection of EngineeringServiceInfo objects describing the different services on this object.
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `IoSystems`: Associated IO systems
 - 🔧 `Name`: The name of the Subnet
 - 🔧 `NetType`: Particular subnet net type
 - 🔧 `Nodes`: Associated nodes
 - 🔧 `TypeIdentifier`: The type identifier of this Subnet
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.SubnetComposition
 >
@@ -577,36 +443,16 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 - 📦 `CreateFrom(Siemens.Engineering.Library.MasterCopies.MasterCopy)`: Create subnet from MasterCopy
 - 📦 `Create(System.String,System.String)`: Creates a Subnet
 - 📦 `Find(System.String)`: Finds a given Subnet
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.SyncDomain
 >
 > Sync Domain
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `ConvertedName`: Converted name of the Sync Domain
 - 🔧 `DomainParticipants`: Association of Sync Domain Participants
 - 🔧 `IsDefault`: Default state of the Sync Domain
 - 🔧 `Name`: Name of the Sync Domain
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.SyncDomainComposition
 >
@@ -623,54 +469,33 @@ Channel inputChannel = channels.First(c => c.IoType == ChannelIoType.Input);
 - 📦 `IndexOf(Siemens.Engineering.HW.SyncDomain)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Create(System.String)`: Create Sync Domain on Subnet
 - 📦 `Find(System.String)`: Finds a given Sync Domain
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Features.MrpDomainOwner
 >
 > Represents a Mrp Domain owner
 
 - 🔧 `MrpDomains`: Composition of Mrp Domain
-- 🔧 `Parent`: EOM parent of this object
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Features.MrpInstancesOwner
 >
 > Service for accessing the Mrp Instances
 
 - 🔧 `MrpInstances`: Composition of Mrp Instances
-- 🔧 `Parent`: EOM parent of this object
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Features.SubnetFeature
 >
 > Base class for Subnet related services
 
 - 🔧 `OwnedBy`: Subnet Object that owns this role
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Features.SubnetOwner
 >
 > Represents a Subnet owner
 
 - 🔧 `Subnets`: Composition of Subnets
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.Features.SyncDomainOwner
 >
 > Represents a Sync Domain owner
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `SyncDomains`: Composition of Sync Domain
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.

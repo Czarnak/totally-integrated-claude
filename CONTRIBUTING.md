@@ -15,8 +15,8 @@ Recommended tools:
 - PowerShell 7 (`pwsh`) for validation and tests.
 - Windows PowerShell 5.1 compatibility for `skills/tia-doctor/probe.ps1`.
 - Pester for PowerShell tests. CI installs the current Pester version.
-- TIA Portal V17 or later when manually verifying Openness, TIA Scripting, MCP,
-  or LSP behavior.
+- TIA Portal V17 or later when manually verifying Openness, TIA Scripting, or MCP
+  behavior.
 
 Optional local environment check:
 

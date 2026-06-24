@@ -58,12 +58,8 @@ Enums: `HmiBackupMode`, `LoggingMethod`, `LoggingSettingType`, `SegmentSize`,
 >
 > Alarm logging
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Name`: Name
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.HmiLogging.HmiAlarmLogComposition
 >
@@ -80,19 +76,12 @@ Enums: `HmiBackupMode`, `LoggingMethod`, `LoggingSettingType`, `SegmentSize`,
 - 📦 `IndexOf(Siemens.Engineering.HmiUnified.HmiLogging.HmiAlarmLog)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Create(System.String)`: Create method for alarm log
 - 📦 `Find(System.String)`: Find method of alarmlog
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.HmiLogging.HmiAuditTrail
 >
 > Audit trail configuration
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Name`: Name
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.HmiLogging.HmiAuditTrailComposition
 >
@@ -107,20 +96,13 @@ Enums: `HmiBackupMode`, `LoggingMethod`, `LoggingSettingType`, `SegmentSize`,
 - 📦 `Any`: Determines if any item is contained within.
 - 📦 `Contains(Siemens.Engineering.HmiUnified.HmiLogging.HmiAuditTrail)`: Determines if <paramref name="item"/> is contained within.
 - 📦 `IndexOf(Siemens.Engineering.HmiUnified.HmiLogging.HmiAuditTrail)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.HmiLogging.HmiDataLog
 >
 > Data log configuration
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Name`: Name
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.HmiLogging.HmiDataLogComposition
 >
@@ -137,9 +119,6 @@ Enums: `HmiBackupMode`, `LoggingMethod`, `LoggingSettingType`, `SegmentSize`,
 - 📦 `IndexOf(Siemens.Engineering.HmiUnified.HmiLogging.HmiDataLog)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Create(System.String)`: Create Method of HmiDataLog
 - 📦 `Find(System.String)`: Find method of HmiDataLog
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.HmiLogging.HmiLoggingCommon.DeviceNode
 >
@@ -153,44 +132,13 @@ Enums: `HmiBackupMode`, `LoggingMethod`, `LoggingSettingType`, `SegmentSize`,
 >
 > Logging backup configuration
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `BackupMode`: Defines the backup mode
 - 🔧 `PrimaryPath`: Logging backup path
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.HmiLogging.HmiLoggingCommon.LogDuration
 >
 > Specifies the time period type
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Days`: Specifies number of days
 - 🔧 `Hours`: Specifies number of hours
 - 🔧 `Minutes`: Specifies minutes
@@ -199,91 +147,36 @@ Enums: `HmiBackupMode`, `LoggingMethod`, `LoggingSettingType`, `SegmentSize`,
 - 📦 `GetDoubleLogDuration`: Return timeperiod in double
 - 📦 `GetStringLogDuration`: Return Log Duration in String
 - 📦 `SetLogDuration(System.UInt32,System.UInt32,System.UInt32,System.UInt32,System.UInt32)`: Set timeperiod in double
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.HmiLogging.HmiLoggingCommon.LogSegment
 >
 > Logging segment configuration
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `SegmentMaxSize`: Defines the maximum size of a segment of the log on the storage medium in units of megabytes. When the value is set to 0, the size of the segment is not considered.
 - 🔧 `SegmentStartTime`: Start time of the logging segment
 - 🔧 `SegmentTimePeriod`: Segment Time Period
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.HmiLogging.HmiLoggingCommon.LogSettings
 >
 > Logging configuration
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `LogMaxSize`: Maximum size of data storage in MB
 - 🔧 `LogTimePeriod`: Log Time period
 - 🔧 `StorageDevice`: StorageDevice
 - 🔧 `StorageFolder`: Path for storage
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.HmiLogging.HmiLoggingCommon.LoggingBase
 >
 > Base class for Alarm and Data logging
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Backup`: Log backup
 - 🔧 `Segment`: Log segment for backup
 - 🔧 `Settings`: Logging settings
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.HmiLogging.HmiLoggingCommon.SegmentDuration
 >
 > Segment duration Class
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Days`: Days
 - 🔧 `Hours`: Hours
 - 🔧 `Minutes`: Minutes
@@ -292,9 +185,6 @@ Enums: `HmiBackupMode`, `LoggingMethod`, `LoggingSettingType`, `SegmentSize`,
 - 📦 `GetDoubleSegmentDuration`: Method for getting segment timeperiod
 - 📦 `GetStringSegmentDuration`: Return Segment Duration in String
 - 📦 `SetSegmentDuration(System.UInt32,System.UInt32,System.UInt32,System.UInt32,System.UInt32)`: Method for setting segment timeperiod
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 3. Logging tags
 
@@ -365,20 +255,6 @@ loggingTag.Delete();
 >
 > Represents the LoggingTag
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `AggregationDelay`: Compression Delay
 - 🔧 `AggregationMode`: Compression Mode
 - 🔧 `Cycle`: Logging Cycle
@@ -399,9 +275,6 @@ loggingTag.Delete();
 - 🔧 `TriggerTagBitNumber`: TriggerTagBitNumber
 - 📦 `Validate`: Validates the object
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.LoggingTags.HmiLoggingTagComposition
 >
@@ -418,9 +291,6 @@ loggingTag.Delete();
 - 📦 `IndexOf(Siemens.Engineering.HmiUnified.LoggingTags.HmiLoggingTag)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Create(System.String)`: Create method for Logging Tag
 - 📦 `Find(System.String)`: Find method for Logging Tag
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.LoggingTags.HmiSmoothingMode
 >

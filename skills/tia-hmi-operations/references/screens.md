@@ -369,28 +369,10 @@ screenUserGroup.Delete();
 >
 > Represents a screen
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
 - 📦 `GetService``1`: Gets an instance of type <c>T</c>.
-- 📦 `Siemens#Engineering#IEngineeringServiceProvider#GetServiceInfos`: Returns a collection of EngineeringServiceInfo objects describing the different services on this object.
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Name`: The name of the screen
 - 📦 `Export(System.IO.FileInfo,Siemens.Engineering.ExportOptions)`: Simatic ML export of a screen
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenComposition
 >
@@ -409,122 +391,44 @@ screenUserGroup.Delete();
 - 📦 `CreateFrom(Siemens.Engineering.Library.MasterCopies.MasterCopy)`: Create Screen from MasterCopy
 - 📦 `Import(System.IO.FileInfo,Siemens.Engineering.ImportOptions)`: Simatic ML import of a screen
 - 📦 `Find(System.String)`: Finds a given screen
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenFolder
 >
 > Represents a screen folder
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
 - 🔧 `Folders`: Composition of screen user folders
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Screens`: Composition of screens
 - 🔧 `Name`: The name of the screen folder
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenGlobalElements
 >
 > Represents the screen global elements
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 📦 `Export(System.IO.FileInfo,Siemens.Engineering.ExportOptions)`: Simatic ML export of screen global elements
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenLibraryType
 >
 > Represents a library type made from a screen
 
 - 🔧 `Name`: Name
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenLibraryTypeVersion
 >
 > Represents a library type version made from a screen
 
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
-
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenOverview
 >
 > Editor for elements in the overview
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 📦 `Export(System.IO.FileInfo,Siemens.Engineering.ExportOptions)`: Simatic ML export of a screen overview
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenPopup
 >
 > Pop-up screen
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Name`: Gets or sets the screen name.
 - 📦 `Export(System.IO.FileInfo,Siemens.Engineering.ExportOptions)`: Common export
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenPopupComposition
 >
@@ -542,58 +446,30 @@ screenUserGroup.Delete();
 - 📦 `CreateFrom(Siemens.Engineering.Library.MasterCopies.MasterCopy)`: Create ScreenPopup from MasterCopy
 - 📦 `Import(System.IO.FileInfo,Siemens.Engineering.ImportOptions)`: Import Action
 - 📦 `Find(System.String)`: Finds a given screen popup
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenPopupFolder
 >
 > Folder containing screen popups
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
 - 🔧 `Folders`: Composition of screen popup user folders
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `ScreenPopups`: Composition of screen popups
 - 🔧 `Name`: The name of the screen popup folder
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenPopupSystemFolder
 >
 > System folder containing screen popups
 
 - 🔧 `Folders`: Composition of screen popup user folders
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `ScreenPopups`: Composition of screen popups
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenPopupUserFolder
 >
 > User folder containing screen popups
 
 - 🔧 `Folders`: Composition of screen popup user folders
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `ScreenPopups`: Composition of screen popups
 - 🔧 `Name`: The name of the screen template user folder
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenPopupUserFolderComposition
 >
@@ -610,33 +486,13 @@ screenUserGroup.Delete();
 - 📦 `IndexOf(Siemens.Engineering.Hmi.Screen.ScreenPopupUserFolder)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Create(System.String)`: Creates a screen popup user folder
 - 📦 `Find(System.String)`: Finds a given screen popup user folder
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenSlidein
 >
 > Slide-In screen
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `SlideinType`: Type of a Slide-In screen.
 - 📦 `Export(System.IO.FileInfo,Siemens.Engineering.ExportOptions)`: Common export
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenSlideinComposition
 >
@@ -653,68 +509,27 @@ screenUserGroup.Delete();
 - 📦 `IndexOf(Siemens.Engineering.Hmi.Screen.ScreenSlidein)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Import(System.IO.FileInfo,Siemens.Engineering.ImportOptions)`: Import Action
 - 📦 `Find(Siemens.Engineering.Hmi.Screen.SlideinType)`: Find a slidein screen.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenSlideinSystemFolder
 >
 > Folder for slide-in screens
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `ScreenSlideins`: Returns a collection of slide-in screens in that folder.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenSystemFolder
 >
 > System folder containing screens
 
 - 🔧 `Folders`: Composition of screen user folders
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Screens`: Composition of screens
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenTemplate
 >
 > Represents a screen template
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Name`: The name of the screen template
 - 📦 `Export(System.IO.FileInfo,Siemens.Engineering.ExportOptions)`: Simatic ML export of a screen template
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenTemplateComposition
 >
@@ -732,58 +547,30 @@ screenUserGroup.Delete();
 - 📦 `CreateFrom(Siemens.Engineering.Library.MasterCopies.MasterCopy)`: Create ScreenTemplate from MasterCopy
 - 📦 `Import(System.IO.FileInfo,Siemens.Engineering.ImportOptions)`: Simatic ML import of a screen template
 - 📦 `Find(System.String)`: Finds a given screen template
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenTemplateFolder
 >
 > Folder containing screen templates
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
 - 🔧 `Folders`: Composition of screen template user folders
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `ScreenTemplates`: Composition of screen templates
 - 🔧 `Name`: The name of the screen template folder
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenTemplateSystemFolder
 >
 > System folder containing screen templates
 
 - 🔧 `Folders`: Composition of screen template user folders
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `ScreenTemplates`: Composition of screen templates
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenTemplateUserFolder
 >
 > User folder containing screen templates
 
 - 🔧 `Folders`: Composition of screen template user folders
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `ScreenTemplates`: Composition of screen templates
 - 🔧 `Name`: The name of the screen template user folder
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenTemplateUserFolderComposition
 >
@@ -800,22 +587,15 @@ screenUserGroup.Delete();
 - 📦 `IndexOf(Siemens.Engineering.Hmi.Screen.ScreenTemplateUserFolder)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Create(System.String)`: Creates a screen template user folder
 - 📦 `Find(System.String)`: Finds a given screen template user folder
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenUserFolder
 >
 > User folder containing screens
 
 - 🔧 `Folders`: Composition of screen user folders
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Screens`: Composition of screens
 - 🔧 `Name`: The name of the screen user folder
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScreenUserFolderComposition
 >
@@ -832,9 +612,6 @@ screenUserGroup.Delete();
 - 📦 `IndexOf(Siemens.Engineering.Hmi.Screen.ScreenUserFolder)`: Searches for <paramref name="item"/> and returns the zero-based index of the first occurrence within.
 - 📦 `Create(System.String)`: Creates a screen user folder
 - 📦 `Find(System.String)`: Finds a given screen user folder
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.ScrollBarOrientation
 >
@@ -893,34 +670,20 @@ screenUserGroup.Delete();
 > Represents a library type made from a style
 
 - 🔧 `Name`: Name
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.StyleLibraryTypeVersion
 >
 > Represents a library type version made from a style
-
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.StyleSheetLibraryType
 >
 > Represents a library type made from a style sheet
 
 - 🔧 `Name`: Name
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.StyleSheetLibraryTypeVersion
 >
 > Represents a library type version made from a style sheet
-
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.Hmi.Screen.SwitchDirection
 >

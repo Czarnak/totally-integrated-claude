@@ -178,9 +178,6 @@ string itemTypeId = deviceItem.TypeIdentifier;
 - 📦 `ShowInEditor`: Show the indicated item in the device view of the HW editor
 - 📦 `ShowInEditor(Siemens.Engineering.HW.View)`: Show the indicated item in the HW editor
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.DeviceImpl
 >
@@ -199,9 +196,6 @@ string itemTypeId = deviceItem.TypeIdentifier;
 - 🔧 `PositionNumber`: Position number of this device item
 - 📦 `ChangeType(System.String)`: Change the type of the device item
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HW.DeviceItemClassifications
 >
@@ -216,6 +210,3 @@ string itemTypeId = deviceItem.TypeIdentifier;
 > Base class for all Device related services
 
 - 🔧 `OwnedBy`: Device Object that owns this role
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.

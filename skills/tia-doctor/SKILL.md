@@ -1,6 +1,6 @@
 ---
 name: tia-doctor
-description: Manual prerequisite probe for TIA Portal, Openness, Python TIA Scripting, TIA MCP, and Siemens LSP.
+description: Manual prerequisite probe for TIA Portal, Openness, Python TIA Scripting, and TIA MCP.
 disable-model-invocation: true
 license: MIT
 ---
@@ -40,7 +40,6 @@ The probe checks:
 - Current Windows user membership in the `Siemens TIA Openness` local group.
 - `siemens_tia_scripting` importability through `py` or `python`.
 - `tia-mcp` command or `TiaMcpServer` dotnet global tool.
-- Bundled `bin/siemens-lsp.exe` and whether `serve` can start.
 
 The probe is read-only. It must not create projects, open TIA Portal, modify
 registry keys, install tools, or change user configuration.

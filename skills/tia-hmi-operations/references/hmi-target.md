@@ -163,7 +163,6 @@ For cross-domain import/export strategy and file format details, see `tia-import
 > Represents the target device
 
 - 📦 `GetService``1`: Gets an instance of type <c>T</c>.
-- 📦 `Siemens#Engineering#IEngineeringServiceProvider#GetServiceInfos`: Returns a collection of EngineeringServiceInfo objects describing the different services on this object.
 - 🔧 `Connections`: Composition of connections
 - 🔧 `Cycles`: Composition of cycles
 - 🔧 `GraphicLists`: Composition of graphic lists
@@ -180,6 +179,3 @@ For cross-domain import/export strategy and file format details, see `tia-import
 - 🔧 `Name`: The name of the Hmi target
 - 📦 `ImportScreenGlobalElements(System.IO.FileInfo,Siemens.Engineering.ImportOptions)`: Simatic ML import of screen global elements
 - 📦 `ImportScreenOverview(System.IO.FileInfo,Siemens.Engineering.ImportOptions)`: Simatic ML import of a screen overview
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.

@@ -2,7 +2,7 @@
 
 A Claude Code plugin for **Siemens TIA Portal engineering automation**.
 
-Provides a routed skill framework covering the full TIA Portal Openness API surface — Python TIA Scripting for everyday tasks and C# Openness for advanced object-model work — plus an LSP server for Siemens PLC source languages.
+Provides a routed skill framework covering the full TIA Portal Openness API surface — Python TIA Scripting for everyday tasks and C# Openness for advanced object-model work.
 
 ![image](img/repo_graphic.png)
 
@@ -14,10 +14,9 @@ Provides a routed skill framework covering the full TIA Portal Openness API surf
 - **Python TIA Scripting** - full coverage of PLC blocks/tags, HMI, libraries, devices, project lifecycle via `tia-python`
 - **C# Openness** - nine domain skills covering every Openness API area (see table below)
 - **TIA Portal Add-In development** — VS Code–based Add-In authoring workflow
-- **LSP language server** - syntax highlighting, diagnostics, and code intelligence for Siemens PLC source files
 - **TIA Portal MCP server** - work with your agent directly in TIA Portal V21 (separate installation required, see below)
 - **MCP write safety hooks** - Claude Code blocks TIA Portal writes unless the call includes `confirm=true` and a server-issued `safetyToken`
-- **Environment diagnostics** - manually run `tia-doctor` to check TIA Portal, Openness, Python TIA Scripting, MCP, and LSP prerequisites
+- **Environment diagnostics** - manually run `tia-doctor` to check TIA Portal, Openness, Python TIA Scripting, and MCP prerequisites
 
 ---
 
@@ -42,22 +41,6 @@ Provides a routed skill framework covering the full TIA Portal Openness API surf
 | `tia-teamcenter` | C# Teamcenter Integration: Teamcenter storage management and Teamcenter-managed project operations. |
 | `tia-testsuite` | C# TestSuite & Application Test: test sets, application tests, style-guide rules, automated system testing. |
 | `addin-operations` | TIA Portal Add-In development: project structure, VS Code workflow, Add-In lifecycle, menus, permissions, deployment. |
-
----
-
-## LSP Language Server
-
-The plugin ships a compiled LSP server (`bin/siemens-lsp.exe`) providing language intelligence for Siemens PLC source files:
-
-| Extension | Language |
-| --- | --- |
-| `.scl` | Structured Control Language |
-| `.st` | Structured Text (IEC 61131-3) |
-| `.s7res` | S7 Resource |
-| `.s7dcl` | S7 Declaration |
-| `.udt` | User-Defined Type |
-| `.db` | Data Block |
-| `.awl` | Statement List (AWL/STL) |
 
 ---
 
@@ -217,7 +200,6 @@ commands, test expectations, skill authoring rules, and safety requirements.
 
 - [TIA Portal Openness docs](https://docs.tia.siemens.cloud/r/en-us/v21/tia-portal-openness-api-for-automation-of-engineering-workflows/)
 - [TIA Scripting Python](https://support.industry.siemens.com/cs/document/109742322/tool-for-easier-use-of-the-tia-portal-openness-interface-(tia-scripting-python))
-- [Siemens LSP](https://marketplace.visualstudio.com/items?itemName=DynamicEngineering.dynamic-siemens-language-support)
 
 ## Examples
 

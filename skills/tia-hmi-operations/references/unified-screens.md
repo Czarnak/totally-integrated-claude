@@ -365,33 +365,21 @@ if (screenItem is IHmiBoxFeature box)
 >
 > Migration hint: Was called RulerView in Classic
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `SnapToSourceControl`: Specifies whether the TrendCompanion snaps to the window of the associated TrendControls
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Base.HmiContainerBase
 >
 > Container base
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `ContainedType`: Contained type
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Base.HmiControlWindowBase
 >
 > Base class for all controls that can be shown within a window
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `BackColor`: Specifies the background color
 - 🔧 `StatusBar`: Returns the StatusBar object
 - 🔧 `ToolBar`: Returns the ToolBar object
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Base.HmiCustomWebControlContainer
 >
@@ -399,12 +387,8 @@ if (screenItem is IHmiBoxFeature box)
 
 - 🔧 `EventHandlers`: Events for HmiCustomWebControlContainer
 - 🔧 `Interface`: Interface properties Collection
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Authorization`: Specifies access control for the screen item
 - 🔧 `RequireExplicitUnlock`: If set to true, the screen item configured within the screen (or a parent screen if not configured locally) enables the screen item only when the release button while the button is pressed
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Base.HmiCustomWidgetContainer
 >
@@ -412,7 +396,6 @@ if (screenItem is IHmiBoxFeature box)
 
 - 🔧 `EventHandlers`: Events for HmiCustomWidgetContainer
 - 🔧 `Interface`: Interface properties Collection
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Height`: in DIU
 - 🔧 `Left`: Coordinates in DIU
 - 🔧 `LinearMovement`: Adjust linear movement settings
@@ -423,27 +406,19 @@ if (screenItem is IHmiBoxFeature box)
 - 🔧 `Top`: Coordinates in DIU
 - 🔧 `VisualizeQuality`: Visualize Quality
 - 🔧 `Width`: in DIU
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Base.HmiScreenBase
 >
 > This is the base class used by screens and screen templates
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `DisplayName`: Specifies display name propoerty of the screen
 - 🔧 `Name`: Specifies name of the screen.
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Base.HmiScreenItemBase
 >
 > Base class for all screen items that can be configured within a screen
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `CurrentQuality`: Read-Only property to summarize the current quality of the complete screen item
 - 🔧 `Enabled`: Specifes whether the specified object can be operated in runtime.
 - 🔧 `Name`: Configured name of the screen item
@@ -452,9 +427,6 @@ if (screenItem is IHmiBoxFeature box)
 - 🔧 `TabIndex`: Screen items specifying a tab index of 0 are not part of the tab order
 - 🔧 `Visible`: Specifies the visiblity of screen item.
 - 📦 `Delete`: Deletes this instance.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Base.HmiScreenItemBaseComposition
 >
@@ -472,43 +444,31 @@ if (screenItem is IHmiBoxFeature box)
 - 📦 `Create``1(System.String)`: Create new object
 - 📦 `Create``1(System.String,System.String)`: Create new custom container object
 - 📦 `Find(System.String)`: Find
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Base.HmiSimpleScreenItemBase
 >
 > This base class is used for all simple screen items, which are all shapes and widgets but no advanced controls
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Authorization`: Specifies access control for the screen item
 - 🔧 `Opacity`: Specifies the opacity of the object values ranging (0 to 1)
 - 🔧 `RequireExplicitUnlock`: If set to true, the screen item configured within the screen (or a parent screen if not configured locally) enables the screen item only when the release button while the button is pressed
 - 🔧 `ToolTipText`: Specifies ToolTipText
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Base.HmiTrendControlBase
 >
 > Migration hint: Combines HmiFunctionTrend and HmiOnlineTrend functionality
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `AreaSpacing`: The space between TrendAreas
 - 🔧 `ExtendRulerToAxis`: Specifies whether extend ruler to axis.
 - 🔧 `Legend`: Specifies legend of the trendcontrol.
 - 🔧 `Online`: Online = Diagram is updated with new values, Offline = Diagram is frozen, no new values are added
 - 🔧 `ShiftAxes`: TODO: Description needs to updated
 - 🔧 `ShowRuler`: Specify whether to show ruler
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Base.HmiWindowBase
 >
 > Base class for anything that is potentially displayed within a window, such as screen windows or advanced controls
 
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Caption`: Text to be shown in the caption of a screen window or windowed control
 - 🔧 `CaptionColor`: Specifies the color of the Caption
 - 🔧 `Height`: Specifies height of the control window
@@ -517,16 +477,12 @@ if (screenItem is IHmiBoxFeature box)
 - 🔧 `Top`: Specifies the value of the Y coordinates of control window
 - 🔧 `Width`: Specifies the width of the control window
 - 🔧 `WindowFlags`: Specifies the window configuration like ShowCaption, ShowBorder, AlwaysOnTop.
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Controls.HmiAlarmControl
 >
 > Control to display active pending alarms from the alarm service
 
 - 🔧 `EventHandlers`: Events for HmiAlarmControl
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `AcknowledgmentFlashingRate`: Defines the flashing rate for alarms which have to be acknowledged
 - 🔧 `ActiveAlarmsViewSetup`: Only considered with source type &quot;ActiveAlarms&quot;
 - 🔧 `AlarmDefinitionViewSetup`: Only considered with source type &quot;AlarmDefinition&quot;
@@ -540,16 +496,12 @@ if (screenItem is IHmiBoxFeature box)
 - 🔧 `SuppressFlashing`: Supresses any flashing at control level
 - 🔧 `TimeZone`: Positive numbers according to the Microsoft time zone index value specification, negative numbers from CHROM (-1 = RH local)
 - 🔧 `UseAlarmColors`: Specifies whether the configured color of the alarm is used
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Controls.HmiAlarmLineControl
 >
 > Simplified alarm control to show 1-3 most recent alarms.
 
 - 🔧 `EventHandlers`: Events for HmiAlarmLineControl
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `AcknowledgmentFlashingRate`: Defines the flashing rate for alarms which have to be acknowledged
 - 🔧 `ActiveAlarmsViewSetup`: Only considered with source type &quot;ActiveAlarms&quot;
 - 🔧 `AlarmLineView`: Accepts only columns of type HmiAlarmColumnPart
@@ -570,16 +522,12 @@ if (screenItem is IHmiBoxFeature box)
 - 🔧 `UseAlarmColors`: Specifies whether the configured color of the alarm is used
 - 🔧 `VisualizeQuality`: Specifies whether the quality of the process value is displayed
 - 🔧 `Width`: Specifies the width of the control
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Controls.HmiDetailedParameterControl
 >
 > Screenitem for managing ParameterControl (successor of classic Panel RecipeView)
 
 - 🔧 `EventHandlers`: Events for HmiDetailedParameterControl
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `EditMode`: Specifies the type of table editing
 - 🔧 `Font`: Specifies the font of the text
 - 🔧 `ForeColor`: Specifies the font color
@@ -589,9 +537,6 @@ if (screenItem is IHmiBoxFeature box)
 - 🔧 `SelectionBackColor`: Specifies the background color of the selected cells
 - 🔧 `SelectionForeColor`: Specifies the foreground color of the selected cells
 - 🔧 `TimeZone`: Positive numbers according to the Microsoft time zone index value specification, negative numbers from CHROM (-1 = RH local)
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Controls.HmiFaceplateContainer
 >
@@ -599,7 +544,6 @@ if (screenItem is IHmiBoxFeature box)
 
 - 🔧 `EventHandlers`: Events for HmiFaceplateContainer
 - 🔧 `Interface`: Interface properties Collection
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Adaption`: Specifies whether the faceplate or container window shall adapt its size
 - 🔧 `InteractivePanning`: Specifies the interactive panning
 - 🔧 `LinearMovement`: Adjust linear movement settings
@@ -607,9 +551,6 @@ if (screenItem is IHmiBoxFeature box)
 - 🔧 `RotationCenterPlacement`: Specifies the RotationCenterPlacement works
 - 🔧 `RotationCenterX`: Specifies the X coordinate of the rotation point
 - 🔧 `RotationCenterY`: Specifies the Y coordinate of the rotation point
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Controls.HmiFunctionTrendControl
 >
@@ -617,59 +558,42 @@ if (screenItem is IHmiBoxFeature box)
 
 - 🔧 `EventHandlers`: Events for HmiFunctionTrendControl
 - 🔧 `FunctionTrendAreas`: FunctionTrendAreas Collection
-- 🔧 `Parent`: EOM parent of this object
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Controls.HmiMediaControl
 >
 > Represents a media player embedded in a screen
 
 - 🔧 `EventHandlers`: Events for HmiMediaControl
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `AutoPlay`: Specifies whether Autoplay is activated
 - 🔧 `Url`: source of the media to be played (e
 - 🔧 `VideoOutput`: Specifies the scaling of the video output
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Controls.HmiProcessControl
 >
 > Screenitem for managing different processes
 
 - 🔧 `EventHandlers`: Events for HmiProcessControl
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `EditMode`: Specifies the type of table editing
 - 🔧 `Online`: Specifies start and stop of the updating
 - 🔧 `ProcessView`: Accepts exactly one column of type HmiTimeRangeColumnPart and multiple HmiProcessColumnPart
 - 🔧 `TimeStepSmoothingBase`: Used as kind of smoothing together with Factor
 - 🔧 `TimeStepSmoothingFactor`: Used as kind of smoothing together with Base
 - 🔧 `TimeZone`: Positive numbers according to the Microsoft time zone index value specification, negative numbers from CHROM (-1 = RH local)
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Controls.HmiProcessDiagnosisCriteriaAnalysisControl
 >
 > Process diagnosis criteria analysis control
 
 - 🔧 `EventHandlers`: Events for HmiProcessDiagnosisCriteriaAnalysisControl
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `CriteriaAnalysisView`: Specifies the appearance of the process diagnostics view
 - 🔧 `ForeColor`: Specifies the font color of the text
 - 🔧 `SourceControl`: Specifies the data source
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Controls.HmiProcessDiagnosisGraphOverviewControl
 >
 > Process diagnosis graph overview control
 
 - 🔧 `EventHandlers`: Events for HmiProcessDiagnosisGraphOverviewControl
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Font`: Specifies the font of the text
 - 🔧 `ForeColor`: Specifies the font color of the text
 - 🔧 `GraphOverview`: Specifies the appearance of the process diagnostics view
@@ -677,48 +601,36 @@ if (screenItem is IHmiBoxFeature box)
 - 🔧 `OperationMode`: Specifies the operating mode
 - 🔧 `PlcSource`: Specifies the PLC source
 - 🔧 `ShowOperationMode`: Specifies whether to display the operating mode
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Controls.HmiProcessDiagnosisOverviewControl
 >
 > Process diagnosis overview control
 
 - 🔧 `EventHandlers`: Events for HmiProcessDiagnosisOverviewControl
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `Font`: Specifies the font of the text
 - 🔧 `ForeColor`: Specifies the font color of the text
 - 🔧 `LineColor`: Specifies the color of the line
 - 🔧 `PDiagCategories`: Specifies the category of the process diagnostics overview
 - 🔧 `PDiagSupervisionTypes`: Specifies the supervision types of the process diagnostics overview
 - 🔧 `PlcSource`: Specifies the PLC source
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Controls.HmiProcessDiagnosisPlcCodeViewerControl
 >
 > Process diagnosis plc code viewer control
 
 - 🔧 `EventHandlers`: Events for HmiProcessDiagnosisPlcCodeViewerControl
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `CurrentZoomFactor`: Specifies the zoom factor of the popup screen window
 - 🔧 `OverviewDetailRatio`: Specifies how much space the detail view takes up in the PLC code view
 - 🔧 `ShowSymbolLine`: Specifies whether the symbol line is displayed
 - 🔧 `SymbolLineBackColor`: Specifies the background color of the symbol line
 - 🔧 `SymbolLineFont`: Specifies the font of the text in the symbol line
 - 🔧 `SymbolLineForeColor`: Specifies the text font color of the symbol line
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Controls.HmiSystemDiagnosisControl
 >
 > Control to display diagnostic information of devices connected
 
 - 🔧 `EventHandlers`: Events for HmiSystemDiagnosisControl
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `DiagnosisBufferPathText`: Specifies the path to the diagnostic buffer
 - 🔧 `DiagnosisOverviewPathText`: Specifies the path to the diagnostics overview
 - 🔧 `MatrixView`: Specifies Matrix View properties
@@ -728,16 +640,12 @@ if (screenItem is IHmiBoxFeature box)
 - 🔧 `SystemDiagnosisView`: Accepts only columns of type HmiDataGridColumnPart
 - 🔧 `SystemDiagnosisViewType`: Specifies System Diagnosis View Type Matrix or Diagnosis
 - 🔧 `TimeZone`: Positive numbers according to the Microsoft time zone index value specification, negative numbers from CHROM (-1 = RH local)
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Controls.HmiTrendCompanion
 >
 > Migration hint: Formerly known as HmiRulerView in Classic
 
 - 🔧 `EventHandlers`: Events for HmiTrendCompanion
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `ShowAlways`: Specifies wether the companion will always be shown, or just if the parent&apos;s ShowRuler property is set
 - 🔧 `SourceTrendControl`: Returns the SourceTrendControl object
 - 🔧 `TimeZone`: Positive numbers according to the Microsoft time zone index value specification, negative numbers from CHROM (-1 = RH local)
@@ -747,58 +655,29 @@ if (screenItem is IHmiBoxFeature box)
 - 🔧 `TrendStatisticResultView`: Accepts only columns of type HmiTrendColumnPart
 - 🔧 `UseSourceControlBackColor`: Takes trend controls back color as back color for each row in the grid
 - 🔧 `UseSourceControlTrendColors`: Takes the individual trend color as font color for the corresponding entry in the grid
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Controls.HmiTrendControl
 >
 > Screenitem for managing different trends
 
 - 🔧 `EventHandlers`: Events for HmiTrendControl
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `TrendAreas`: TrendAreas Collection
 - 🔧 `ShowStatisticRulers`: Specifies whether the ruler is shown for the statistics area
 - 🔧 `TimeZone`: Positive numbers according to the Microsoft time zone index value specification, negative numbers from CHROM (-1 = RH local)
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.Controls.HmiWebControl
 >
 > Widget that can display Web content
 
 - 🔧 `EventHandlers`: Events for HmiWebControl
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `HomeUrl`: String formatted URL pointing to the home address the web browser shall display when no Url property is configured and will load when the home button is pressed
 - 🔧 `Url`: String formatted URL pointing to the address the web browser shall display
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
 
 ## 🛠️ Siemens.Engineering.HmiUnified.UI.UIBase
 >
 > Base class for all screens and screen objects.
 
-- 📦 `Siemens#Engineering#IEngineeringObject#GetComposition(System.String)`: Gets an <c>IEngineeringCompositionOrObject</c> with the given <paramref name="name"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCompositionInfos`: Gets the list of composition infos available for the object.
-- 📦 `GetAttribute(System.String)`: Gets an attribute with the given <paramref name="name"/>.
-- 📦 `GetAttributes(System.Collections.Generic.IEnumerable{System.String})`: Gets a list of attributes for the given <paramref name="names"/>.
-- 📦 `GetAttributes(Siemens.Engineering.AttributeAccessOptions)`: Gets a list of attribute names/attribute values for the given access options.
-- 📦 `GetAttributeInfos`: Returns a collection of EngineeringAttributeInfo objects describing the different attributes on this object.
-- 📦 `SetAttribute(System.String,System.Object)`: Sets value of the attribute.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Sets a list of values for the given <paramref name="attributes"/>.
-- 📦 `SetAttributes(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},Siemens.Engineering.AttributeDelegate)`: Sets the attributes with the given names to the given values as indicated in <paramref name="attributes"/>. Errors will be communicated through <paramref name="errorHandler"/>
-- 📦 `Siemens#Engineering#IEngineeringObject#GetInvocationInfos`: Returns a collection of EngineeringInvocationInfo objects describing the different actions on this object.
-- 📦 `Siemens#Engineering#IEngineeringObject#Invoke(System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.Type,System.Object}})`: Invokes the method represented by the current instance, using the specified parameters.
-- 📦 `Siemens#Engineering#IEngineeringObject#Create(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})`: Creates an <c>IEngineeringObject</c> of indicated <paramref name="type"/> initialized with values as indicated in <paramref name="compositionName"/> within the <paramref name="parameters"/>.
-- 📦 `Siemens#Engineering#IEngineeringObject#GetCreationInfos(System.String)`:
 - 📦 `GetService``1`: Gets an instance of type <c>T</c>.
-- 📦 `Siemens#Engineering#IEngineeringServiceProvider#GetServiceInfos`: Returns a collection of EngineeringServiceInfo objects describing the different services on this object.
 - 🔧 `Dynamizations`: Dynamization collection
-- 🔧 `Parent`: EOM parent of this object
 - 🔧 `PropertyEventHandlers`: Property event handlers
 - 📦 `Validate`: Validates the object
-- 📦 `Equals(System.Object)`: Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
-- 📦 `GetHashCode`: Returns a hash code for this instance.
-- 📦 `ToString`: Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.

@@ -5,11 +5,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
-    content="Totally Integrated Claude routes Siemens TIA Portal automation tasks across Claude Code, Codex, Antigravity CLI, Python TIA Scripting, C# Openness, MCP, and Siemens PLC LSP workflows." />
+    content="Totally Integrated Claude routes Siemens TIA Portal automation tasks across Claude Code, Codex, Antigravity CLI, Python TIA Scripting, C# Openness, and MCP workflows." />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Totally Integrated Claude" />
   <meta property="og:description"
-    content="A routed agent workflow for Siemens TIA Portal automation across Python TIA Scripting, C# Openness, MCP, Add-Ins, and PLC source languages." />
+    content="A routed agent workflow for Siemens TIA Portal automation across Python TIA Scripting, C# Openness, MCP, and Add-Ins." />
   <meta property="og:url" content="https://czarnak.github.io/totally-integrated-claude/" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Totally Integrated Claude" />
@@ -400,10 +400,6 @@
       border-top: 4px solid var(--gold);
     }
 
-    .route-grid .lsp {
-      border-top: 4px solid var(--red);
-    }
-
     .hero-next {
       width: min(100% - 2rem, var(--max));
       margin: -1.4rem auto 0;
@@ -734,13 +730,12 @@
           <h1 id="hero-title">Totally Integrated Claude</h1>
           <p class="hero-lede">
             A routed skill framework that sends TIA Portal tasks to the right implementation path:
-            Claude Code, Codex, Antigravity CLI, Python TIA Scripting, C# Openness, MCP, or Siemens PLC LSP workflows.
+            Claude Code, Codex, Antigravity CLI, Python TIA Scripting, C# Openness, or MCP workflows.
           </p>
           <ul class="hero-points" aria-label="Supported workflow areas">
             <li>Python TIA Scripting</li>
             <li>C# Openness</li>
             <li>TIA Portal MCP</li>
-            <li>PLC language server</li>
             <li>Add-In authoring</li>
           </ul>
           <div class="cta-row" aria-label="Primary actions">
@@ -755,7 +750,7 @@
         </div>
 
         <div class="route-visual" role="img"
-          aria-label="Routing flow from user task to tia-openness-roadmap, then to Python TIA Scripting, C# Openness, MCP, and LSP paths">
+          aria-label="Routing flow from user task to tia-openness-roadmap, then to Python TIA Scripting, C# Openness, and MCP paths">
           <div class="visual-label">
             <span>Routing flow</span>
             <span>Skill-first</span>
@@ -783,10 +778,6 @@
               <div class="node mcp">
                 <strong>TIA Portal MCP</strong>
                 <span>Direct agent work in TIA Portal V21 with explicit write safety.</span>
-              </div>
-              <div class="node lsp">
-                <strong>PLC LSP</strong>
-                <span>Syntax, diagnostics, and code intelligence for SCL, STL, UDT, DB, and AWL.</span>
               </div>
             </div>
           </div>
@@ -816,7 +807,7 @@
 
           <article class="install-block" id="install-codex">
             <h3>Codex</h3>
-            <p>Codex reads the bundled plugin manifest, skills, MCP config, and LSP config.</p>
+            <p>Codex reads the bundled plugin manifest, skills, and MCP config.</p>
             <pre><code>codex plugin marketplace add Czarnak/totally-integrated-claude</code></pre>
           </article>
 
@@ -859,7 +850,7 @@
             <li>
               <div>
                 <strong>A domain skill narrows the work.</strong>
-                <span>Projects, devices, PLC, HMI, networks, drives, import/export, Add-Ins, MCP, or LSP workflows stay
+                <span>Projects, devices, PLC, HMI, networks, drives, import/export, Add-Ins, or MCP workflows stay
                   focused.</span>
               </div>
             </li>
@@ -881,7 +872,7 @@
           <p class="eyebrow">What users get</p>
           <h2 id="features-title">A TIA Portal automation stack built for agent workflows.</h2>
           <p>
-            The repository combines routed skills, environment checks, MCP safety, and Siemens PLC source support
+            The repository combines routed skills, environment checks, and MCP safety
             into one installable workflow.
           </p>
         </div>
@@ -904,12 +895,8 @@
             <p>VS Code-oriented Siemens TIA Portal Add-In authoring workflow support.</p>
           </article>
           <article class="panel">
-            <h3>PLC language server</h3>
-            <p>Syntax highlighting, diagnostics, and code intelligence for Siemens PLC source files.</p>
-          </article>
-          <article class="panel">
             <h3>Environment diagnostics</h3>
-            <p><code>tia-doctor</code> checks TIA Portal, Openness, Python TIA Scripting, MCP, and LSP prerequisites.
+            <p><code>tia-doctor</code> checks TIA Portal, Openness, Python TIA Scripting, and MCP prerequisites.
             </p>
           </article>
         </div>
@@ -929,7 +916,7 @@
         <div class="skill-grid">
           <article class="panel">
             <h3>tia-openness-roadmap</h3>
-            <p>Entry point that chooses Python, C#, MCP, LSP, or Add-In workflow.</p>
+            <p>Entry point that chooses Python, C#, MCP, or Add-In workflow.</p>
           </article>
           <article class="panel">
             <h3>tia-python</h3>
@@ -988,10 +975,6 @@
                   <th scope="row">MCP path</th>
                   <td>TIA Portal V21 plus the separate TIA Portal MCP server when direct TIA work is needed.</td>
                 </tr>
-                <tr>
-                  <th scope="row">LSP path</th>
-                  <td>Siemens PLC source files available locally.</td>
-                </tr>
               </tbody>
             </table>
           </div>
@@ -1002,7 +985,7 @@
               <p>
                 Run <code>tia-doctor</code> when automation fails because of missing local prerequisites.
                 It is a read-only PowerShell probe for TIA Portal, Openness assemblies, Windows group membership,
-                Python TIA Scripting, <code>tia-mcp</code>, and the bundled Siemens PLC language server.
+                Python TIA Scripting, and <code>tia-mcp</code>.
               </p>
             </article>
 
