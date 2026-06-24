@@ -57,6 +57,9 @@ Always starts with the common foundation skill, then domain skill(s):
 | `tia-networks` | `skills/tia-networks/SKILL.md` | Domain skill |
 | `tia-simatic-drives` | `skills/tia-simatic-drives/SKILL.md` | Domain skill |
 | `tia-import-export` | `skills/tia-import-export/SKILL.md` | Domain skill |
+| `tia-multiuser` | `skills/tia-multiuser/SKILL.md` | Domain skill |
+| `tia-teamcenter` | `skills/tia-teamcenter/SKILL.md` | Domain skill |
+| `tia-testsuite` | `skills/tia-testsuite/SKILL.md` | Domain skill |
 
 ### Add-In path
 
@@ -94,7 +97,10 @@ Standalone skill for TIA Portal Add-In development (always C#, VS Code workflow)
 | device item slot/subslot/module manipulation | C# | `tia-devices-general` |
 | advanced PLC online/security/upload services | C# | `tia-plc-operations` |
 | deep Unified HMI / screen items / runtime | C# | `tia-hmi-operations` |
-| advanced multiuser / VCI / Teamcenter | C# | `tia-project-general` |
+| VCI / version control interface | C# | `tia-project-general` |
+| multiuser engineering / server projects / local sessions | C# | `tia-multiuser` |
+| Teamcenter integration / managed projects | C# | `tia-teamcenter` |
+| automated testing / TestSuite / application test / style guide / system test | C# | `tia-testsuite` |
 | TIA Portal Add-In / addin-project / .addin | C# | `addin-operations` |
 
 ## MCP vs Python vs C# decision rule
@@ -146,8 +152,9 @@ points to for the task domain. Do NOT load domain skills — they are for C# onl
 **If C#:**
 
 1. Read `skills/tia-csharp-common/SKILL.md` first — always, for every C# task.
-2. Read the SKILL.md and `reference_catalogue.md` of each selected domain skill.
-   Use the file paths from the C# domain skills table above.
+2. Read the `SKILL.md` of each selected domain skill, then load only the
+   `references/*.md` file(s) that skill's own reference table (or its
+   `reference_catalogue.md`, where present) points to for the task.
 
 **If Add-In:** read `skills/addin-operations/SKILL.md`. No other skills needed.
 

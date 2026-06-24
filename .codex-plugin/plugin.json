@@ -23,7 +23,6 @@
   ],
   "skills": "./skills/",
   "hooks": "./hooks/hooks.json",
-  "lspServers": "./.lsp.json",
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Totally Integrated Claude",

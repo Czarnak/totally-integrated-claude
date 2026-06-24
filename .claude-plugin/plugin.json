@@ -22,7 +22,6 @@
     "engineering"
   ],
   "skills": "./skills/",
-  "lspServers": "./.lsp.json",
   "mcpServers": "./.mcp.json",
   "hooks": "./hooks/hooks.json"
 }

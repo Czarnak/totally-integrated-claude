@@ -117,9 +117,32 @@ function Test-VersionSync {
 function Test-RoadmapReferences {
     $roadmapPath = Resolve-RepoPath "skills/tia-openness-roadmap/SKILL.md"
     $content = Get-Content -Raw -LiteralPath $roadmapPath
-    $matches = [regex]::Matches($content, "skills/[A-Za-z0-9._/-]+/SKILL[.]md")
+    $matches = [regex]::Matches($content, "skills/[A-Za-z0-9._/-]+\.md")
+    $seen = @{}
     foreach ($match in $matches) {
+        if ($seen.ContainsKey($match.Value)) {
+            continue
+        }
+        $seen[$match.Value] = $true
         Test-ExistingPath -Owner "skills/tia-openness-roadmap/SKILL.md" -RelativePath $match.Value
+    }
+}
+
+function Test-OrphanedSkills {
+    $roadmapPath = Resolve-RepoPath "skills/tia-openness-roadmap/SKILL.md"
+    $content = Get-Content -Raw -LiteralPath $roadmapPath
+
+    # Skills intentionally not reachable through roadmap routing.
+    $standalone = @("tia-openness-roadmap", "plc-code-analysis")
+
+    $skillDirs = Get-ChildItem -LiteralPath (Resolve-RepoPath "skills") -Directory
+    foreach ($dir in $skillDirs) {
+        if ($standalone -contains $dir.Name) {
+            continue
+        }
+        if ($content -notmatch [regex]::Escape($dir.Name)) {
+            Add-Failure "skills/tia-openness-roadmap/SKILL.md does not route to skill '$($dir.Name)' (orphaned - add a route or add it to the standalone allowlist)"
+        }
     }
 }
 
@@ -204,6 +227,7 @@ foreach ($check in $manifestChecks) {
 
 Test-VersionSync
 Test-RoadmapReferences
+Test-OrphanedSkills
 Test-SkillFrontmatter
 
 if ($script:Failures.Count -gt 0) {

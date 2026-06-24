@@ -7,7 +7,7 @@ license: MIT
 # TIA Scripting Python – Skill
 
 Library: `siemens_tia_scripting` (v1.1.0)  
-Requires: Python 3.12.x, TIA Portal V15.1+, TIA Portal Openness V15.1+
+Requires: Python 3.12.x, TIA Portal V17+, TIA Portal Openness V17+
 
 ---
 

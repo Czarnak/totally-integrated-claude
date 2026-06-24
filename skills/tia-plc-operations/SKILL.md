@@ -43,8 +43,7 @@ For tasks spanning multiple areas, load all relevant reference files before gene
 ## Stub behaviour
 
 If a task targets a partial reference file, do not invent API calls.
-State clearly which sections are missing. The only remaining stub is import/export
-signatures in `compile-import-export.md` — all other files are complete.
+State clearly which sections are missing.
 
 ---
 
