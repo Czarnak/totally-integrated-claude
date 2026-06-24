@@ -3,6 +3,7 @@ name: tia-multiuser
 description: >
   TIA Portal Multiuser Engineering operations. Use for managing server projects,
   local sessions, and multiuser commissioning workflows.
+license: MIT
 ---
 
 # TIA Portal Multiuser Engineering

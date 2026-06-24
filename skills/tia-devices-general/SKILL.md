@@ -2,6 +2,7 @@
 name: tia-devices-general
 description: >
   C# Openness implementation of device-level operations
+license: MIT
 ---
 
 # tia-devices-general

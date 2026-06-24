@@ -3,6 +3,7 @@ name: tia-teamcenter
 description: >
   TIA Portal Teamcenter Integration operations. Use for managing Teamcenter
   storage and interacting with Teamcenter managed projects.
+license: MIT
 ---
 
 # TIA Portal Teamcenter Integration

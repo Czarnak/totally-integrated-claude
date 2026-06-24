@@ -4,6 +4,7 @@ description: >
   TIA Portal Add-In development in Visual Studio Code:
   creating Add-In C# projects, adding Add-In templates, compiling and debugging Add-Ins,
   converting Add-Ins from older TIA Portal versions and configuring Add-In project parameters.
+license: MIT
 allowed-tools: Bash(dotnet new *)
 ---
 

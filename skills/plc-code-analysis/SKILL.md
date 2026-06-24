@@ -9,6 +9,7 @@ description: >
   This skill is independent of tia-openness-roadmap — it does not perform engineering
   automation. It analyzes code that has already been exported, pasted, or is accessible
   via the TIA Portal MCP server.
+license: MIT
 disable-model-invocation: true
 ---
 

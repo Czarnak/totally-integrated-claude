@@ -6,6 +6,8 @@
   "author": {
     "name": "Łukasz Rafał Czarnacki"
   },
+  "homepage": "https://czarnak.github.io/totally-integrated-claude",
+  "repository": "https://github.com/Czarnak/totally-integrated-claude",
   "license": "MIT",
   "keywords": [
     "siemens",

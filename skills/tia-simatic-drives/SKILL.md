@@ -4,6 +4,7 @@ description: >
   Routed by tia-openness-roadmap. Handles drive-specific engineering: Startdrive, SINAMICS,
   SIMATIC Drive Controller, PROFIdrive integrated properties, drive telegrams, and integrated
   drive configuration. Always uses C# TIA Portal Openness.
+license: MIT
 ---
 
 # tia-simatic-drives

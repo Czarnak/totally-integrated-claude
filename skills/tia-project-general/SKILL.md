@@ -1,6 +1,7 @@
 ---
 name: tia-project-general
 description: C# Openness implementation of project and portal lifecycle.
+license: MIT
 ---
 
 # tia-project-general

@@ -1,6 +1,7 @@
 ---
 name: tia-python
 description: Reference routed skill. Do NOT load directly unless user says so.
+license: MIT
 ---
 
 # TIA Scripting Python – Skill

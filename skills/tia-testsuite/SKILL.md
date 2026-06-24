@@ -3,6 +3,7 @@ name: tia-testsuite
 description: >
   TIA Portal TestSuite and Application Test operations. Use for managing test sets,
   application tests, style guide rules, and automated system testing workflows.
+license: MIT
 ---
 
 # TIA Portal TestSuite — Automated Testing

@@ -8,6 +8,7 @@ description: >
   equipment catalog, adding/configuring network devices, or running compile checks.
   Prefer MCP tools over TIA Openness scripts for single read/write operations;
   use TIA Openness (tia-python or C# skills) for complex multi-step automation.
+license: MIT
 ---
 
 # tia-portal-mcp

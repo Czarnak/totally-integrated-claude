@@ -2,6 +2,7 @@
 name: tia-doctor
 description: Manual prerequisite probe for TIA Portal, Openness, Python TIA Scripting, TIA MCP, and Siemens LSP.
 disable-model-invocation: true
+license: MIT
 ---
 
 # tia-doctor

@@ -2,6 +2,7 @@
 name: tia-import-export
 description: >
   C# Openness implementation of import/export and round-trip engineering.
+license: MIT
 ---
 
 # tia-import-export

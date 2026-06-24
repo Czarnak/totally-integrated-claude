@@ -2,6 +2,7 @@
 name: tia-hmi-operations
 description: >
   C# Openness implementation of HMI engineering.
+license: MIT
 ---
 
 # tia-hmi-operations
