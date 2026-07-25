@@ -177,6 +177,73 @@ function Test-SkillFrontmatter {
     }
 }
 
+function Test-TiaPortalMcpSkillSurface {
+    $skillPath = Resolve-RepoPath "skills/tia-portal-mcp/SKILL.md"
+    if (-not (Test-Path -LiteralPath $skillPath)) {
+        Add-Failure "Expected TIA Portal MCP skill at 'skills/tia-portal-mcp/SKILL.md'"
+        return
+    }
+
+    $content = Get-Content -Raw -LiteralPath $skillPath
+    $currentTools = @(
+        "execute_read_batch",
+        "preview_write_batch",
+        "apply_write_batch",
+        "get_project_status",
+        "open_project",
+        "create_project",
+        "save_project",
+        "save_project_as",
+        "archive_project",
+        "close_project"
+    )
+
+    foreach ($tool in $currentTools) {
+        if ($content -notmatch [regex]::Escape($tool)) {
+            Add-Failure "skills/tia-portal-mcp/SKILL.md must document current public tool '$tool'"
+        }
+    }
+
+    foreach ($stalePreviewTool in @(
+        "preview_update_block_logic",
+        "preview_create_tag_table",
+        "preview_delete_tag_table",
+        "preview_create_tag",
+        "preview_update_tag",
+        "preview_delete_tag",
+        "preview_add_network_device",
+        "preview_configure_network_device",
+        "preview_open_project",
+        "preview_create_project",
+        "preview_save_project",
+        "preview_save_project_as",
+        "preview_archive_project",
+        "preview_close_project"
+    )) {
+        if ($content -match [regex]::Escape($stalePreviewTool)) {
+            Add-Failure "skills/tia-portal-mcp/SKILL.md must not document obsolete preview-per-tool name '$stalePreviewTool'"
+        }
+    }
+
+    foreach ($requiredDescription in @(
+        "read-only and non-binding",
+        'Use `open_project` for deliberate session switching',
+        "rebind:true",
+        "validation_error",
+        "binding_conflict",
+        "state_changed",
+        "worker_operation_failed",
+        "worker_timeout",
+        "worker_crashed",
+        "postcondition_failed",
+        "warnings"
+    )) {
+        if ($content -notmatch [regex]::Escape($requiredDescription)) {
+            Add-Failure "skills/tia-portal-mcp/SKILL.md must document '$requiredDescription'"
+        }
+    }
+}
+
 $manifestChecks = @(
     @{
         Manifest = ".claude-plugin/plugin.json"
@@ -229,6 +296,7 @@ Test-VersionSync
 Test-RoadmapReferences
 Test-OrphanedSkills
 Test-SkillFrontmatter
+Test-TiaPortalMcpSkillSurface
 
 if ($script:Failures.Count -gt 0) {
     Write-Error ("Repository validation failed:`n - " + ($script:Failures -join "`n - "))

@@ -1,13 +1,8 @@
 ---
 name: tia-portal-mcp
 description: >
-  Use when the TIA Portal MCP server is available and the task involves reading
-  or modifying a TIA Portal project interactively: browsing the project tree,
-  reading or writing PLC block logic (SIMATIC SD YAML), listing tag tables,
-  inspecting hardware config, running cross-reference diagnostics, searching the
-  equipment catalog, adding/configuring network devices, or running compile checks.
-  Prefer MCP tools over TIA Openness scripts for single read/write operations;
-  use TIA Openness (tia-python or C# skills) for complex multi-step automation.
+  Use when the TIA Portal MCP server is available for focused, guarded project
+  reads and writes. Use TIA Openness skills for complex multi-step automation.
 license: MIT
 ---
 
@@ -15,221 +10,135 @@ license: MIT
 
 ## Scope
 
-Direct TIA Portal interaction via MCP tools — no code generation required.
-Use MCP tools for exploration, inspection, and targeted single-step modifications.
-For bulk automation, looped operations, or scripted workflows, fall back to `tia-openness-roadmap`.
+Use this skill for direct TIA Portal interaction through the MCP server. The
+server exposes exactly ten public MCP tools: three batch tools and seven project
+lifecycle tools. Internal worker operations, including lifecycle probes, are not
+MCP-visible tools.
 
----
+Use MCP for exploration, inspection, and bounded changes. For loops, bulk
+automation, or an operation outside this surface, use `tia-openness-roadmap`.
 
-## When MCP is the right choice
+## Public tool surface
 
-| Situation | Use |
+### Data operations
+
+| Tool | Purpose |
 |---|---|
-| Explore project structure before writing code | MCP `browse_project_tree` |
-| Read a block to understand logic or generate code | MCP `get_block_content` |
-| Apply a focused, one-shot block edit | MCP `update_block_logic` |
-| List tags for context or documentation | MCP `list_tag_tables` |
-| Inspect hardware topology / IP addresses | MCP `read_hardware_config` |
-| Find unused or unreferenced objects | MCP `read_cross_references` |
-| Add a single device to the project | MCP `search_equipment_catalog` → `add_network_device` |
-| Check compile errors before or after edits | MCP `compile_check` |
-| Complex loops / bulk changes over many blocks | `tia-openness-roadmap` instead |
+| `execute_read_batch` | Run up to 50 independent read operations. |
+| `preview_write_batch` | Preview up to 50 data-write operations and obtain one batch safety token. |
+| `apply_write_batch` | Apply the exact previewed write batch sequentially; stop on the first failure and mark remaining items skipped. There is no transaction or rollback. |
 
----
+Read-operation names include `browse_project_tree`, `get_block_content`,
+`list_tag_tables`, `read_hardware_config`, `read_cross_references`,
+`search_equipment_catalog`, `compile_check`, and `get_project_status`. Data-write
+operation names include block, tag-table, tag, user-constant, and network-device
+operations such as `update_block_logic`, `create_block`, `create_tag`, and
+`add_network_device`.
+
+### Project lifecycle
+
+| Tool | Purpose |
+|---|---|
+| `get_project_status` | Inspect the currently open project. |
+| `open_project` | Deliberately open or switch to a project. |
+| `create_project` | Create a project. |
+| `save_project` | Save the open project. |
+| `save_project_as` | Copy the open project and rebind to the copy. |
+| `archive_project` | Create an archive of the open project. |
+| `close_project` | Close the open project. |
+
+`get_project_status(projectPath)` is read-only and non-binding. It never opens
+or switches a project, including when `projectPath` names a different project.
+Use `open_project` for deliberate session switching. If a bound session names a
+different path in a status request, the result is `binding_conflict`; do not use
+status as a switching mechanism.
 
 ## Safety convention
 
-All MCP write tools are **write-protected**. They require a preview call first, then the
-write call must include both `confirm: true` and the preview response's `safetyToken`.
-Never invent or reuse a token. Tokens are short-lived, single-use, and bound to the
-target, requested input, project path, and current project state.
+All writes use single-use, short-lived safety tokens bound to the normalized
+project path, exact input, target, and current project state. Never invent or
+reuse a token.
 
-| Write tool | Required preview |
-|---|---|
-| `update_block_logic` | `preview_update_block_logic` |
-| `create_tag_table` / `delete_tag_table` | `preview_create_tag_table` / `preview_delete_tag_table` |
-| `create_tag` / `update_tag` / `delete_tag` | `preview_create_tag` / `preview_update_tag` / `preview_delete_tag` |
-| `create_user_constant` / `update_user_constant` / `delete_user_constant` | matching `preview_*_user_constant` tool |
-| `add_network_device` / `configure_network_device` | `preview_add_network_device` / `preview_configure_network_device` |
-| `open_project` / `create_project` / `save_project` / `save_project_as` / `archive_project` / `close_project` | matching `preview_*` lifecycle tool |
+For data writes:
 
----
+1. Send the full ordered `operations` array to `preview_write_batch`.
+2. Review the preview and its `safetyToken`.
+3. Send the unchanged array to `apply_write_batch` with `confirm:true` and that token.
 
-## Tool reference
+For lifecycle writes, the tool previews itself: call the lifecycle tool without
+a `safetyToken` to receive a preview and token, then call the same tool with the
+same input, `confirm:true`, and the token to apply. Lifecycle writes remain
+single-tool only and cannot be placed in a data batch.
 
-### browse_project_tree
+`save_project_as` requires `rebind:true`. Passing `rebind:false` is rejected as
+`validation_error` before preview, token issuance, Siemens `SaveAs`, or audit
+effects. After a successful SaveAs, continue with the worker-reported copied
+project path; do not assume a caller-supplied path is authoritative.
 
-Recursively enumerates the project: devices, PLC software, block folders, blocks, tag tables, types.
+Never automatically retry a write after `worker_timeout`, `worker_crashed`, or
+protocol loss. The outcome may be uncertain: inspect current state before a new,
+separately authorized request.
 
-| Parameter | Type | Required | Notes |
-|---|---|---|---|
-| `projectPath` | string | no | Path to `.ap21` file; defaults to currently open project |
+## Failures and warnings
 
-Returns JSON tree. Use returned `Path` values as `blockPath` input for other tools.
+Write failures return `failureCategory` with a human-readable error. Supported
+categories: `validation_error`, `binding_conflict`, `state_changed`,
+`worker_operation_failed`, `worker_timeout`, `worker_crashed`, and
+`postcondition_failed`.
 
----
+`warnings` is a separate array of non-fatal degradation notes. A warning never
+turns a failure into a success, and a failure category is never hidden by
+warnings. Treat any warning as a signal that the returned payload can be partial.
 
-### get_block_content
+## Block write guidance
 
-Exports a PLC block as a **SIMATIC SD YAML** document. Supports SCL, LAD, FBD, GRAPH, STL, and Data Blocks.
+Read a block through `execute_read_batch` using `get_block_content`; use the
+returned SIMATIC ML documents as the source for a change. For
+`update_block_logic`, send a validated document bundle in a guarded data batch.
+The verified flow performs one import, compilation verification, and a non-empty
+re-export. Preserve unchanged documents exactly where possible; duplicate,
+malformed, or unsafe documents are rejected before any Siemens import, leaving
+the existing block unchanged.
 
-| Parameter | Type | Required | Notes |
-|---|---|---|---|
-| `blockPath` | string | yes | `BlockName`, `PLC_1/BlockName`, or `PLC_1/Blocks/Folder/.../BlockName` |
-| `projectPath` | string | no | |
-
-Returns YAML string. Parse or display as-is; pass back (modified) to `update_block_logic`.
-
----
-
-### update_block_logic
-
-Imports SIMATIC SD YAML to update or create a PLC block. Always call `get_block_content` first
-to obtain the current YAML before editing, unless creating a block from scratch. Then call
-`preview_update_block_logic` and show the diff/summary to the user before applying.
-
-| Parameter | Type | Required | Notes |
-|---|---|---|---|
-| `blockPath` | string | yes | Target block path |
-| `yamlContent` | string | yes | Valid SIMATIC SD YAML |
-| `confirm` | bool | yes | Must be `true` to execute — default `false` is a no-op |
-| `safetyToken` | string | yes | Token returned by `preview_update_block_logic` for this exact request |
-| `projectPath` | string | no | |
-
----
-
-### list_tag_tables
-
-Retrieves all PLC tag tables with tags and user constants.
-
-| Parameter | Type | Required | Notes |
-|---|---|---|---|
-| `plcName` | string | no | Filter to a specific PLC |
-| `projectPath` | string | no | |
-
-Returns JSON array of tag tables.
-
----
-
-### read_hardware_config
-
-Exports hardware configuration and network topology: devices, rack modules, network interfaces,
-IP addresses, PROFINET device names, subnets, and IO systems.
-
-| Parameter | Type | Required | Notes |
-|---|---|---|---|
-| `projectPath` | string | no | |
-
----
-
-### read_cross_references
-
-Exports PLC cross-reference diagnostics with source objects, referenced objects, locations,
-access types, and reference types.
-
-| Parameter | Type | Required | Notes |
-|---|---|---|---|
-| `projectPath` | string | no | |
-| `plcName` | string | no | Filter to a specific PLC |
-| `filter` | string | no | `AllObjects` \| `ObjectsWithReferences` \| `ObjectsWithoutReferences` \| `UnusedObjects` |
-
-Use `UnusedObjects` to find dead code before cleanup.
-
----
-
-### search_equipment_catalog
-
-Searches the installed TIA Portal V21 hardware catalog (including GSD/HSP packages) by type
-name, article number, or description. Always run before `add_network_device`.
-
-| Parameter | Type | Required | Notes |
-|---|---|---|---|
-| `query` | string | yes | Free-text search |
-| `projectPath` | string | no | |
-
-Returns entries with `typeIdentifier` values — copy the exact identifier into `add_network_device`.
-
----
-
-### add_network_device
-
-Inserts a device from the hardware catalog into the project.
-
-| Parameter | Type | Required | Notes |
-|---|---|---|---|
-| `typeIdentifier` | string | yes | Exact value from `search_equipment_catalog` |
-| `deviceName` | string | yes | Name for the new device in the project |
-| `deviceItemName` | string | no | Name for root device item; defaults to `deviceName` |
-| `confirm` | bool | yes | Must be `true` to execute |
-| `safetyToken` | string | yes | Token returned by `preview_add_network_device` |
-| `projectPath` | string | no | |
-
----
-
-### configure_network_device
-
-Sets network identity and interface properties for a device already present in the project.
-
-| Parameter | Type | Required | Notes |
-|---|---|---|---|
-| `deviceName` | string | yes | Device to configure |
-| `ipAddress` | string | no | IPv4 address |
-| `subnetMask` | string | no | Subnet mask |
-| `pnDeviceName` | string | no | PROFINET device name |
-| `subnetName` | string | no | Subnet to connect to |
-| `ioSystemName` | string | no | IO system to connect to |
-| `confirm` | bool | yes | Must be `true` to execute |
-| `safetyToken` | string | yes | Token returned by `preview_configure_network_device` |
-| `projectPath` | string | no | |
-
----
-
-### compile_check
-
-Invokes TIA Portal compile on PLC software and returns errors and warnings.
-
-| Parameter | Type | Required | Notes |
-|---|---|---|---|
-| `blockPath` | string | no | Compile a single block; omit to compile full PLC software |
-| `plcName` | string | no | Target a specific PLC; omit to compile all PLCs |
-| `projectPath` | string | no | |
-
----
+For `create_block` with SCL, provide the requested block type and language in a
+guarded batch. The generated source has a non-empty Structured Text compile unit.
+After apply, resolve the requested block path and run `compile_check` to confirm
+it exists and compiles.
 
 ## Common execution patterns
 
-### Read and understand a block
+### Inspect a block
 
-1. `browse_project_tree` — find the block path
-2. `get_block_content(blockPath)` — read SIMATIC SD YAML
-3. Analyze or present the content
+1. Run `execute_read_batch` with `browse_project_tree` to find the block path.
+2. Run `execute_read_batch` with `get_block_content` for that path.
+3. Analyze the returned documents before deciding whether a write is needed.
 
 ### Modify a block
 
-1. `get_block_content(blockPath)` — capture current YAML
-2. Edit the YAML (preserve structure and indentation)
-3. `preview_update_block_logic(blockPath, yamlContent)` — get diff and `safetyToken`
-4. Show the preview to the user and confirm intent
-5. `update_block_logic(blockPath, yamlContent, confirm=true, safetyToken=...)`
-6. Review returned `compile_check` verification
+1. Read the current documents with `execute_read_batch`.
+2. Make one focused, validated document change.
+3. Preview `update_block_logic` with `preview_write_batch`.
+4. Confirm intent, then apply the unchanged batch with `apply_write_batch`,
+   `confirm:true`, and the returned token.
+5. Review compilation and re-export verification. On an uncertain outcome, read
+   current state instead of retrying automatically.
 
-### Add and configure a new device
+### Switch projects safely
 
-1. `search_equipment_catalog(query)` — find the exact `typeIdentifier`
-2. `preview_add_network_device(typeIdentifier, deviceName)` — get `safetyToken`
-3. Confirm device and name with user
-4. `add_network_device(typeIdentifier, deviceName, confirm=true, safetyToken=...)`
-5. `preview_configure_network_device(deviceName, ipAddress, ...)` — get `safetyToken`
-6. `configure_network_device(deviceName, ipAddress, ..., confirm=true, safetyToken=...)`
-7. Review returned `read_hardware_config` verification
+1. Inspect the open project with `get_project_status` if needed.
+2. Preview `open_project` by calling it without a `safetyToken`.
+3. Apply the same request with `confirm:true` and its token.
+4. Verify the worker-reported path with `get_project_status`.
+
+### Add and configure a device
+
+1. Read the hardware catalog through `execute_read_batch` and copy the exact
+   `typeIdentifier`.
+2. Preview ordered add/configure operations in one `preview_write_batch` request.
+3. Confirm the identity and network values, then apply the unchanged batch.
+4. Read hardware configuration and compile results to verify the change.
 
 ### Audit unused objects
 
-1. `read_cross_references(filter="UnusedObjects")` — list unreferenced objects
-2. Present findings to user before any removal action
-
-### Pre-edit compile baseline
-
-1. `compile_check` — record baseline errors/warnings
-2. Apply changes
-3. `compile_check` again — compare to baseline
+1. Run `execute_read_batch` with `read_cross_references` and `filter="UnusedObjects"`.
+2. Present the findings before proposing any deletion.
