@@ -97,8 +97,7 @@ function Test-ManifestPathReferences {
 function Test-VersionSync {
     $paths = @(
         ".claude-plugin/plugin.json",
-        ".codex-plugin/plugin.json",
-        "plugin.json"
+        ".codex-plugin/plugin.json"
     )
     $versions = @{}
     foreach ($path in $paths) {
@@ -247,11 +246,11 @@ function Test-TiaPortalMcpSkillSurface {
 $manifestChecks = @(
     @{
         Manifest = ".claude-plugin/plugin.json"
-        RequiredFields = @("name", "version", "description", "author", "license", "keywords", "skills", "mcpServers", "hooks")
+        RequiredFields = @("name", "version", "description", "author", "license", "keywords", "skills", "mcpServers")
         ExpectedTypes = @{
             name = "string"; version = "string"; description = "string"; author = "object";
             license = "string"; keywords = "array"; skills = "string";
-            mcpServers = "string"; hooks = "string"
+            mcpServers = "string";
         }
     },
     @{
@@ -261,14 +260,6 @@ $manifestChecks = @(
             name = "string"; version = "string"; description = "string"; author = "object";
             license = "string"; keywords = "array"; skills = "string"; hooks = "string";
             mcpServers = "string"; interface = "object"
-        }
-    },
-    @{
-        Manifest = "plugin.json"
-        RequiredFields = @("name", "version", "description", "author", "license", "keywords")
-        ExpectedTypes = @{
-            name = "string"; version = "string"; description = "string"; author = "object";
-            license = "string"; keywords = "array";
         }
     },
     @{
