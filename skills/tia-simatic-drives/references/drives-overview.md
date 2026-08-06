@@ -15,15 +15,39 @@ Drive objects are accessed via a `DriveObjectContainer` service on the drive dev
 The container exposes a `DriveObjects` composition.
 
 ```csharp
+using System;
+using System.Collections.Generic;
 using Siemens.Engineering.HW;
 using Siemens.Engineering.HW.Features;
 using Siemens.Engineering.MC.Drives;
 
-// Find the drive device
+// Find the exact drive device; fail if the caller's selector is absent.
 Device driveDevice = project.Devices.Find("Drive_1");
+if (driveDevice == null)
+    throw new InvalidOperationException("The exact drive device was not found.");
 
-// Get the DriveObjectContainer from the appropriate DeviceItem
-foreach (DeviceItem item in driveDevice.DeviceItems)
+static IEnumerable<DeviceItem> EnumerateDeviceItems(Device device)
+{
+    foreach (DeviceItem item in device.DeviceItems)
+    {
+        yield return item;
+        foreach (DeviceItem child in EnumerateDeviceItems(item))
+            yield return child;
+    }
+}
+
+static IEnumerable<DeviceItem> EnumerateDeviceItems(DeviceItem parent)
+{
+    foreach (DeviceItem item in parent.DeviceItems)
+    {
+        yield return item;
+        foreach (DeviceItem child in EnumerateDeviceItems(item))
+            yield return child;
+    }
+}
+
+// Get the DriveObjectContainer from any nested DeviceItem.
+foreach (DeviceItem item in EnumerateDeviceItems(driveDevice))
 {
     var container = item.GetService<DriveObjectContainer>();
     if (container != null)
@@ -60,6 +84,8 @@ DriveParameterComposition parameters = driveObj.Parameters;
 
 // Find by name (e.g. "p100" for rated motor voltage)
 DriveParameter param = parameters.Find("p100");
+if (param == null)
+    throw new InvalidOperationException("The exact drive parameter was not found.");
 Console.WriteLine($"{param.Name}: {param.Value} {param.Unit}");
 Console.WriteLine($"  Range: {param.MinValue} – {param.MaxValue}");
 Console.WriteLine($"  Description: {param.ParameterText}");
@@ -95,7 +121,7 @@ foreach (DriveParameter p in parameters)
 
 ### Online parameters
 
-Access online (live) parameters via `OnlineDriveObject`:
+Access online (live) parameters via `OnlineDriveObject`. `ReadParameters` returns read-only `ReadDriveParameter` objects; `OnlineDriveObject.Parameters` returns writable `DriveParameter` objects. A write changes a live drive and requires explicit live-operation authorization for the exact device, drive object, parameter, and value.
 
 ```csharp
 var onlineContainer = deviceItem.GetService<OnlineDriveObjectContainer>();
@@ -105,13 +131,20 @@ if (onlineContainer != null)
     {
         ReadDriveParameterComposition onlineParams = onlineDriveObj.ReadParameters;
         ReadDriveParameter r100 = onlineParams.Find("r100");
+        if (r100 == null)
+            throw new InvalidOperationException("The exact online read parameter was not found.");
         Console.WriteLine($"Online {r100.Name} = {r100.Value}");
+
+        // Live write: execute only after explicit authorization and range/type checks.
+        DriveParameter liveP100 = onlineDriveObj.Parameters.Find("p100");
+        if (liveP100 == null)
+            throw new InvalidOperationException("The exact online write parameter was not found.");
+        // liveP100.Value = authorizedValue;
     }
 }
 ```
 
-Online parameters are read-only (`ReadDriveParameter`). For write access, use the
-offline `DriveObject.Parameters` and download.
+Prefer `ReadParameters` for inspection. Use `Parameters` only for an explicitly authorized live write and verify the readback afterward.
 
 ---
 
@@ -175,7 +208,7 @@ if (telegrams.CanInsertSafetyTelegram(30))
     telegrams.InsertSafetyTelegram(30);
 }
 
-// Removes the telegram of that type if supported by the drive object.
+// Destructive: require authorization for this exact type after dependency inventory.
 telegrams.EraseTelegram(TelegramType.SupplementaryTelegram);
 ```
 
@@ -225,7 +258,7 @@ foreach (TechnologyExtension te in teContainer.TechnologyExtensions)
         Console.WriteLine($"  {p.Name} = {p.Value}");
 }
 
-// Activate / deactivate
+// Mutations: require exact selection, dependency inventory, and authorization.
 TechnologyExtension vibx = teContainer.TechnologyExtensions.Find("VIBX");
 vibx?.Activate();
 vibx?.Deactivate();
@@ -244,8 +277,10 @@ string pkgId = installer.InstallAndGetIdentifier(
 foreach (TechnologyExtensionPackage pkg in installer.TechnologyExtensionPackages)
     Console.WriteLine($"Package: {pkg.Name} ({pkg.Identifier})");
 
-// Uninstall (force = true to remove even if in use)
-installer.Uninstall(pkgId, true);
+// Do not force removal until all dependent drive objects have been inventoried.
+bool uninstalled = installer.Uninstall(pkgId, force: false);
+if (!uninstalled)
+    throw new InvalidOperationException("Technology Extension uninstall failed or is still in use.");
 ```
 
 ---
@@ -360,12 +395,15 @@ activation.ChangeActivationState(DriveObjectActivationState.Deactivate);
 var onlineDfi = onlineDriveObj.GetService<OnlineDriveFunctionInterface>();
 DriveDomainFunctions domainFuncs = onlineDfi.DriveDomainFunctions;
 
-// Factory reset
-domainFuncs.PerformFactoryReset(ResetMode.ParameterReset);
-domainFuncs.PerformFactoryReset(ResetMode.SafetyParameterReset);
+// Destructive live operation: require explicit authorization and a recovery plan.
+bool reset = domainFuncs.PerformFactoryReset(ResetMode.ParameterReset);
+if (!reset)
+    throw new InvalidOperationException("Drive factory reset failed.");
 
 // RAM to ROM copy (all drive objects)
-domainFuncs.PerformRAMtoROMCopyAllDriveObject();
+bool copied = domainFuncs.PerformRAMtoROMCopyAllDriveObject();
+if (!copied)
+    throw new InvalidOperationException("RAM-to-ROM copy failed.");
 ```
 
 ### Functions in Use (FIU)
@@ -400,10 +438,17 @@ safetyProvider.ResetTestFunctions();
 
 // Generate safety acceptance test report
 var report = driveObj.GetService<SafetyAcceptanceTestReport>();
-report?.CreateProtocol(
-    new FileInfo(@"C:\Reports\SafetyTest.pdf"),
-    FileOperations.Overwrite);
+var reportFile = new FileInfo(approvedNewReportPath);
+if (reportFile.Exists)
+    throw new IOException("Safety report destination already exists.");
+
+report?.CreateProtocol(reportFile, FileOperations.None);
 ```
+
+Use `FileOperations.Overwrite` only after explicit overwrite authorization for
+the resolved file. Report generation does not perform or approve a Safety
+acceptance test; retain test execution, device identity, signatures, and
+commissioning evidence separately.
 
 ### Safety commissioning (CRC)
 
@@ -422,25 +467,25 @@ safetyCrc.UpdateCheckSums(); // CRC calculation for all 3rd Gen drives
 using Siemens.Engineering.MC.Drives.SecurityObjects;
 using System.Security;
 
-Security security = driveObj.Security.First(); // from SecurityComposition
+Security security = driveObj.Security;
 
 DriveDataEncryption dde = security.DriveDataEncryption;
 
-// Activate/deactivate encryption (requires SecureString password)
-var password = new SecureString();
-foreach (char c in "MyDrivePassword") password.AppendChar(c);
-password.MakeReadOnly();
+// Password comes from the caller's approved secret source; never log or embed it.
+SecureString password = authorizedPassword;
 
-dde.Activate(password);
-dde.Deactivate(password);
+bool activated = dde.Activate(password);
+if (!activated)
+    throw new InvalidOperationException("Drive data encryption activation failed.");
 ```
 
 ### Drive UMAC
 
 ```csharp
 UmacConfiguration umac = security.UmacConfiguration;
-umac.Activate();
-umac.Deactivate();
+bool activated = umac.Activate();
+if (!activated)
+    throw new InvalidOperationException("Drive UMAC activation failed.");
 ```
 
 ---
@@ -520,10 +565,12 @@ if (offlineMismatch != null)
 }
 ```
 
-Use these only inside the normal `DownloadProvider` / `UploadProvider`
+Use these only inside the normal `DownloadProvider` / `ParameterUploadProvider`
 configuration flow. `OverrideTelegramMismatch.Checked = true` allows upload to
 proceed despite telegram configuration mismatch; `OverwriteOfflineConfiguration`
 allows upload to overwrite the offline device configuration mismatch.
+
+Both choices can replace engineering configuration. Require explicit live-operation authorization for the exact mismatch, compare current/offline identities, and fail closed on any unhandled configuration. Never set `Checked = true` solely because a configuration derives from a Startdrive check type.
 
 See `references/download.md` for a comprehensive list of Startdrive-specific
 and common configuration marker types.

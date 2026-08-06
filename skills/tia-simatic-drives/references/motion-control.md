@@ -31,7 +31,7 @@ Core drive object model and services.
 
 - `TelegramNumber`, `Type`.
 - `GetSize(AddressIoType)`, `GetSizeInBytes(AddressIoType)`.
-- `CanChangeTelegram(int number)`, `ChangeTelegram(int number)`.
+- `CanChangeTelegram(int number)` checks whether the configured telegram number can be changed. The installed V21 `Telegram` type has no public method that performs this change directly; set the writable `TelegramNumber` only after the check succeeds.
 
 ### TechnologyExtension
 

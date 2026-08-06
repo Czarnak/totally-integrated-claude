@@ -5,6 +5,8 @@ Reference for download and upload check configurations in TIA Portal V21.
 > Namespace: `Siemens.Engineering.Download.Configurations`
 > Namespace: `Siemens.Engineering.Upload.Configurations`
 
+> **Live-operation gate:** download/upload requires explicit authorization for the exact device and target. Inspect each configuration, approve only the caller-reviewed choice, and fail closed on every unhandled configuration. Do not blanket-set `Checked = true` and do not automatically trust a TLS certificate. Use the guarded provider workflow in `tia-plc-operations/references/download-upload.md`.
+
 ---
 
 ## 1. Startdrive Specific Check Configurations
@@ -67,6 +69,8 @@ These are inherited from the base Download API but frequently encountered in Sta
 ### ResetModule
 >
 > Option to reset the module as part of the download.
+
+Selections and check objects are operation-specific. Do not infer a selection from display text or choose the first option. Reject the operation when the current configuration cannot be mapped to an explicitly authorized policy.
 
 ---
 
