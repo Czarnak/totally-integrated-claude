@@ -9,10 +9,13 @@ Source: TIA Portal Openness V21 — Functions for Projects and Project Data (03/
 ## Namespaces
 
 ```csharp
+using System;
+using System.Collections.Generic;
 using Siemens.Engineering.HW;
 using Siemens.Engineering.HW.Features;
 using Siemens.Engineering.SW;
 using Siemens.Engineering.Hmi;
+using Siemens.Engineering.HmiUnified;
 ```
 
 ---
@@ -20,8 +23,9 @@ using Siemens.Engineering.Hmi;
 ## 1. SoftwareContainer service
 
 A `DeviceItem` that hosts software (a CPU or an HMI panel) exposes a `SoftwareContainer`
-service. The `Software` property returns the concrete software object — cast it to
-`PlcSoftware` or `HmiTarget` depending on the device type.
+service. The `Software` property returns the concrete software object — use
+`PlcSoftware` for STEP 7, `HmiTarget` for classic WinCC, or `HmiSoftware` for
+WinCC Unified. These are distinct object models.
 
 ```csharp
 SoftwareContainer sc = deviceItem.GetService<SoftwareContainer>();
@@ -35,9 +39,19 @@ Software sw = sc.Software;
 ## 2. GetPlcSoftware — standard helper pattern
 
 ```csharp
+private static IEnumerable<DeviceItem> EnumerateDeviceItems(DeviceItemComposition items)
+{
+    foreach (DeviceItem item in items)
+    {
+        yield return item;
+        foreach (DeviceItem child in EnumerateDeviceItems(item.DeviceItems))
+            yield return child;
+    }
+}
+
 private static PlcSoftware GetPlcSoftware(Device device)
 {
-    foreach (DeviceItem item in device.DeviceItems)
+    foreach (DeviceItem item in EnumerateDeviceItems(device.DeviceItems))
     {
         SoftwareContainer sc = item.GetService<SoftwareContainer>();
         if (sc != null)
@@ -67,7 +81,7 @@ PlcBlockSystemGroup blockGroup = plcSoftware.BlockGroup;
 ```csharp
 private static HmiTarget GetHmiTarget(Device device)
 {
-    foreach (DeviceItem item in device.DeviceItems)
+    foreach (DeviceItem item in EnumerateDeviceItems(device.DeviceItems))
     {
         SoftwareContainer sc = item.GetService<SoftwareContainer>();
         if (sc != null)
@@ -75,6 +89,22 @@ private static HmiTarget GetHmiTarget(Device device)
             HmiTarget hmi = sc.Software as HmiTarget;
             if (hmi != null) return hmi;
         }
+    }
+    return null;
+}
+```
+
+For WinCC Unified, use a separate helper and return the Unified type rather than
+casting it to classic `HmiTarget`:
+
+```csharp
+private static HmiSoftware GetUnifiedHmiSoftware(Device device)
+{
+    foreach (DeviceItem item in EnumerateDeviceItems(device.DeviceItems))
+    {
+        SoftwareContainer container = item.GetService<SoftwareContainer>();
+        HmiSoftware unified = container?.Software as HmiSoftware;
+        if (unified != null) return unified;
     }
     return null;
 }
@@ -97,7 +127,7 @@ if (hmiTarget == null) throw new InvalidOperationException("Not an HMI device.")
 ```csharp
 private static void ClassifyDevice(Device device)
 {
-    foreach (DeviceItem item in device.DeviceItems)
+    foreach (DeviceItem item in EnumerateDeviceItems(device.DeviceItems))
     {
         SoftwareContainer sc = item.GetService<SoftwareContainer>();
         if (sc == null) continue;
@@ -105,7 +135,9 @@ private static void ClassifyDevice(Device device)
         if (sc.Software is PlcSoftware)
             Console.WriteLine($"{device.Name} → PLC");
         else if (sc.Software is HmiTarget)
-            Console.WriteLine($"{device.Name} → HMI");
+            Console.WriteLine($"{device.Name} → classic HMI");
+        else if (sc.Software is HmiSoftware)
+            Console.WriteLine($"{device.Name} → Unified HMI");
         else
             Console.WriteLine($"{device.Name} → Other software target");
     }
@@ -136,8 +168,13 @@ After obtaining `PlcSoftware` or `HmiTarget`, compile via `ICompilable`:
 using Siemens.Engineering.Compiler;
 
 ICompilable compile = plcSoftware.GetService<ICompilable>();
+if (compile == null)
+    throw new InvalidOperationException("The selected software target is not compilable.");
+
 CompilerResult result = compile.Compile();
 Console.WriteLine($"Compile state: {result.State}, Errors: {result.ErrorCount}");
+if (result.State == CompilerResultState.Error || result.ErrorCount > 0)
+    throw new InvalidOperationException("Compile failed; inspect CompilerResult messages and do not save.");
 ```
 
 See `tia-project-general/references/compile.md` for full `CompilerResult` traversal.

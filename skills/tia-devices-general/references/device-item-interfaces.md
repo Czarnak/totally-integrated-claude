@@ -11,7 +11,6 @@ Source: TIA Portal Openness V21 — Functions on Device Items (03/2026)
 ```csharp
 using Siemens.Engineering;
 using Siemens.Engineering.HW;
-using Siemens.Engineering.HW.Node;
 using Siemens.Engineering.HW.Features;
 ```
 
@@ -53,8 +52,6 @@ if (itf != null)
 ## 2. Getting the subnet of a device item
 
 ```csharp
-using Siemens.Engineering.HW.Node;
-
 private void GetSubnetDeviceItem()
 {
     DeviceItem itfDeviceItem = ...;

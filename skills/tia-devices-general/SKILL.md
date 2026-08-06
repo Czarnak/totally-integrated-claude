@@ -39,7 +39,10 @@ For tasks spanning multiple areas, load all relevant reference files before gene
 ## Execution pattern
 
 1. Access `Project.Devices` composition (or `DeviceGroups` / `UngroupedDevicesGroup`)
-2. Find or create `Device` objects
-3. Navigate `DeviceItem` hierarchy as needed
-4. Access `SoftwareContainer` via `GetService<SoftwareContainer>()` when PLC/HMI software is needed
-5. Use `ICompilable` for hardware or software compile (see `tia-project-general/references/compile.md`)
+2. Resolve the exact existing object or exact `TypeIdentifier`; never select the first catalog/device/device-item match
+3. Before create, plug, move, copy, change-type, attribute write, import, or delete, obtain explicit authorization for the exact project, object identity, and requested mutation
+4. Navigate the complete recursive `DeviceItem` hierarchy as needed
+5. Access `SoftwareContainer` via `GetService<SoftwareContainer>()` when PLC, classic HMI, or Unified HMI software is needed
+6. Put supported project mutations in `ExclusiveAccess` plus a transaction and allow exceptions to roll it back (see `tia-csharp-common`)
+7. Use `ICompilable` for hardware or software compile and inspect the full `CompilerResult` (see `tia-project-general/references/compile.md`)
+8. Do not save when selection is ambiguous, a service is unavailable, a mutation reports an error, or compile/consistency validation fails

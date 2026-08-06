@@ -9,6 +9,10 @@ Source: TIA Portal Openness V21 — Functions on Device Items (03/2026)
 ## Namespaces
 
 ```csharp
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Security;
 using Siemens.Engineering;
 using Siemens.Engineering.HW;
 using Siemens.Engineering.HW.Utilities;
@@ -81,8 +85,11 @@ Key attributes on `DeviceItem`:
 | `IsBuiltIn` | bool | read | modeled |
 | `IsPlugged` | bool | read | modeled |
 | `OrderNumber` | string | read | dynamic, head modules only |
-| `IsProfinet` | bool | read | modeled |
-| `IsProfibus` | bool | read | modeled |
+| `IsProfinet` | bool | read | `GsdDeviceItem` feature |
+| `IsProfibus` | bool | read | `GsdDeviceItem` feature |
+
+`IsProfinet` and `IsProfibus` are properties of the `GsdDeviceItem` service for a
+GSD/GSDML item, not modeled properties on the installed V21 `DeviceItem` class.
 
 ---
 
@@ -106,6 +113,8 @@ private static void GetMandatoryAttributesDeviceItem(DeviceItem deviceItem)
 | `DeviceItemClassifications.None` | No classification |
 | `DeviceItemClassifications.CPU` | The device item is a CPU |
 | `DeviceItemClassifications.HM` | The device item is a head module |
+| `DeviceItemClassifications.CompactModule` | Compact module |
+| `DeviceItemClassifications.IoLinkModule` | IO-Link module |
 
 ---
 
@@ -171,9 +180,14 @@ if (hwObject.CanPlugCopy(deviceItemToCopy, positionNumber))
 ```csharp
 Project project = ...;
 var device = project.UngroupedDevicesGroup.Devices.Find("PLC_1");
-var deviceItem = device.DeviceItems.First();
+if (device == null)
+    throw new InvalidOperationException("Device 'PLC_1' was not found.");
 
-// Delete device item
+var deviceItem = device.DeviceItems.Find("DI_1");
+if (deviceItem == null)
+    throw new InvalidOperationException("Immediate device item 'DI_1' was not found.");
+
+// Delete only after the exact item and affected dependencies are authorized.
 deviceItem.Delete();
 ```
 
@@ -184,8 +198,6 @@ deviceItem.Delete();
 Use `ChangeType()` to swap a device item to a newer firmware version or compatible module.
 
 ```csharp
-using Siemens.Engineering.HW.DeviceItem;
-
 private void ChangeTypeDeviceItem()
 {
     DeviceItem rack = ...;
@@ -261,7 +273,8 @@ Partial type identifier constraints:
 ## 10. Bulk-changing hardware parameters
 
 Set multiple attributes of a hardware object in a single call.
-`AttributeDelegate errorHandler` receives per-attribute errors without aborting the batch.
+`AttributeDelegate` receives an `AttributeConfiguration`. Select `Abort` to fail closed;
+selecting `Ignore` allows a partial update and must be an explicit policy decision.
 
 ```csharp
 private static void BulkChangeHardwareParameter(TiaPortal tiaPortal, Project project)
@@ -273,9 +286,10 @@ private static void BulkChangeHardwareParameter(TiaPortal tiaPortal, Project pro
             new KeyValuePair<string, object>("SomeOtherParam", someValue),
         };
 
-    AttributeDelegate errorHandler = (attributeName, ex) =>
+    AttributeDelegate errorHandler = (AttributeConfiguration config) =>
     {
-        Console.WriteLine($"Error on attribute '{attributeName}': {ex.Message}");
+        Console.Error.WriteLine($"Attribute '{config.Name}' failed: {config.Message}");
+        config.CurrentSelection = AttributeChoiceSelection.Abort;
     };
 
     ((IEngineeringObject)deviceItem).SetAttributes(attributesToSet, errorHandler);
@@ -299,16 +313,22 @@ Export a device configuration to a PSC (Program/System Controller) file.
 ```csharp
 using Siemens.Engineering.HW.Utilities;
 
-private static void ExportToPscFile(DeviceItem deviceItem, string pscFilePath)
+private static void ExportToPscFile(Project project, Device device, string pscFilePath)
 {
+    FileInfo exportFile = new FileInfo(pscFilePath);
+    if (exportFile.Exists)
+        throw new IOException($"Refusing to overwrite existing PSC file '{exportFile.FullName}'.");
+
     CardReaderPscProvider pscProvider =
-        ((IEngineeringServiceProvider)deviceItem).GetService<CardReaderPscProvider>();
+        project.HwUtilities.Find("CardReaderPscProvider") as CardReaderPscProvider;
+    if (pscProvider == null)
+        throw new InvalidOperationException("CardReaderPscProvider is unavailable for this project.");
 
-    // Export (file must not already exist)
-    pscProvider.Export(new FileInfo(pscFilePath));
+    pscProvider.Export(device, exportFile);
 
-    // Export encrypted (V20+, requires CPU V40.0+)
-    // pscProvider.Export(new FileInfo(pscFilePath), "password");
+    // Encrypted overload (V20+, supported target required):
+    // SecureString password = GetValidatedSecurePassword();
+    // pscProvider.Export(device, exportFile, password);
 }
 ```
 
@@ -363,7 +383,8 @@ private void ImportDataPointUsingCSV(DeviceItem cpDeviceItem)
     TelecontrolManagement telecontrolManagement =
         cpDeviceItem.GetService<TelecontrolManagement>();
 
-    telecontrolManagement.ImportDatapoints(new FileInfo(@"C:\datapoints.csv"));
+    // This replaces the configured datapoints. Validate and authorize the CSV first.
+    telecontrolManagement.ImportDataPoints(new FileInfo(@"C:\datapoints.csv"));
 }
 ```
 

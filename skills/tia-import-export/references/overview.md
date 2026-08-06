@@ -35,7 +35,7 @@ Import/Export is useful for:
 
 ## 3. Export file format and options
 
-File format is XML for all objects except CAx data (which uses AML).
+Most object-model exports use SimaticML/XML. AutomationML is XML-based too, but CAx exchange uses the distinct `.aml` format and CAx service. Other documented workflows use formats such as XLSX (for example PLC alarm text lists and ProDiag supervisions) or operation-specific document sets; choose the format from the concrete composition/service, not from a package-wide rule.
 
 ```csharp
 // ExportOptions — control what is written to the XML file
@@ -80,7 +80,7 @@ Use an XML editor with auto-complete for structural changes. The schema definiti
 - PLC: `C:\Program Files\Siemens\Automation\Portal V*\PublicAPI\V*\Schemas\SW.PlcBlocks.Graph_v4.xsd` (and similar)
 - AML: AutomationML schema
 
-> Only modify XML manually in exceptional cases — validation errors will abort import.
+> Only modify XML manually in exceptional cases. Validate it against the schema for the exact object/domain and installed TIA version before import; schema-valid XML can still be semantically invalid for the selected target composition.
 
 ## 6. SIMATIC ML versioning
 

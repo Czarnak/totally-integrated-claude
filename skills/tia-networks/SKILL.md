@@ -34,15 +34,37 @@ For tasks spanning multiple areas, load all relevant reference files before gene
 
 ---
 
+## Safety and dependency gate
+
+- Resolve project, device, recursive device-item path, interface/node, subnet, IO system,
+  and connection with exact selectors. A name alone is insufficient when the same name can
+  occur in another group or interface.
+- Obtain explicit authorization for the exact topology, address, timing, connection, or
+  online-path mutation. Read-only discovery and static validation are not authorization.
+- Before delete, disconnect, reconnect, readdress, or subnet replacement, inventory every
+  dependent node, IO system, communication connection, assigned PLC tag/address, and online
+  route that the change can affect.
+- Bind that dependency inventory to the proposed change. If any connection endpoint or
+  selector cannot be identified completely, return `dependency_evidence_incomplete` and
+  refuse the mutation.
+- Use `ExclusiveAccess` and a transaction where the operation supports them, then compile
+  the affected hardware/software. Do not save after ambiguous selection, partial mutation,
+  incomplete dependency evidence, or compile/consistency failure.
+- Applying an online connection configuration, enumerating accessible devices, or going
+  online is a live operation. Keep it separate from offline topology edits and require the
+  exact target and PC interface to be authorized.
+
+---
+
 ## Execution pattern
 
 1. Access devices and device items from `Project.Devices`
 2. Navigate network interfaces and nodes via Openness HW namespace
 3. Use `GetService<SubnetOwner>()` to access subnets owned by a device item
 4. Use `GetService<NetworkInterface>()` to access the network interface
-5. Create or modify IO systems, subnets, nodes as needed
+5. Resolve exact endpoints and complete dependency evidence before creating or modifying IO systems, subnets, nodes, or connections
 6. Modify addresses or channel timing via `deviceItem.Addresses` / `deviceItem.Channels`
 7. Use `GetService<CommunicationManagement>()` for configured communication connections
 8. Use `OnlineProvider.Configuration` only for online connection-path selection, not for
    project topology creation
-9. Compile hardware after changes (see `tia-project-general/references/compile.md`)
+9. Compile hardware after changes, inspect the complete result, and save only on success (see `tia-project-general/references/compile.md`)

@@ -8,7 +8,7 @@ Source: TIA Portal Openness V21 — CAx/AML Hardware Data (03/2026)
 
 ## 1. AML file format overview
 
-CAx data uses **AutomationML (AML)** format — not XML. All other TIA Portal Openness export/import uses XML/SimaticML.
+CAx data uses **AutomationML (AML)**. AML is XML-based, but it is a distinct exchange model and `.aml` workflow from SimaticML object export/import. Do not pass an AML file to a generic SimaticML composition import.
 
 Export/import is supported at:
 
@@ -67,6 +67,9 @@ private static void PrintCaxResult(TransferResult result)
     Console.WriteLine($"CAx result summary: {result.State} (errors: {result.ErrorCount}, warnings: {result.WarningCount})");
     foreach (TransferResultMessage message in result.Messages)
         Console.WriteLine($"  {message.State} {message.Message} {message.DateTime}");
+
+    if (result.State == TransferResultState.Error || result.ErrorCount > 0)
+        throw new InvalidOperationException("CAx transfer completed with errors; inspect result messages and do not save.");
 }
 ```
 
@@ -150,6 +153,42 @@ Pruned AML exports contain only modified/non-default attributes (analogous to `E
 
 ---
 
-## 8. Exceptions during CAx import/export
+## 8. Exceptions and results during CAx import/export
 
-All errors are reported as exceptions. Use `try/catch` around CAx calls. The legacy API returns `bool` (true = no errors). The V19+ API returns `TransferResult` with `State`, `ErrorCount`, `WarningCount`, and `Messages` composition for programmatic analysis.
+Use `try/catch` for invocation-level failures. Do not assume that every transfer failure is thrown: the V19+ overload returns a `TransferResult`, so treat `TransferResultState.Error` or a nonzero `ErrorCount` as failure and inspect the recursive `Messages` composition before deciding whether to save. The legacy overload returns `bool` (`true` means no reported errors) and writes the supplied log file.
+
+The result-state members are `TransferResultState.Success`,
+`TransferResultState.Information`, `TransferResultState.Warning`, and
+`TransferResultState.Error`. Recursively traverse each
+`TransferResultMessage.Messages` collection; preserve `DateTime`, `Message`, state,
+and counts. A top-level success must not hide a nested error.
+
+---
+
+## Installed V21 CAx type catalogue
+
+## 🛠️ Siemens.Engineering.Cax.CaxImportOptions
+
+Conflict policy enum: `MoveToParkingLot`, `OverwriteTiaDevice`, or
+`RetainTiaDevice`.
+
+## 🛠️ Siemens.Engineering.Cax.CaxProvider
+
+Project service providing device/project AML `Export(...)` overloads and AML
+`Import(...)` overloads with `CaxImportOptions`.
+
+## 🛠️ Siemens.Engineering.Cax.TransferResult
+
+Transfer result with `State`, `ErrorCount`, `WarningCount`, and recursive `Messages`.
+
+## 🛠️ Siemens.Engineering.Cax.TransferResultMessage
+
+One transfer message with `DateTime`, `Message`, `State`, counts, and child `Messages`.
+
+## 🛠️ Siemens.Engineering.Cax.TransferResultMessageComposition
+
+Read-only composition of `TransferResultMessage` values.
+
+## 🛠️ Siemens.Engineering.Cax.TransferResultState
+
+Result-state enum: `Success`, `Information`, `Warning`, and `Error`.

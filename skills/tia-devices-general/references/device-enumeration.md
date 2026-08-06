@@ -9,6 +9,7 @@ Source: TIA Portal Openness V21 — Functions on Devices (03/2026)
 ## Namespaces
 
 ```csharp
+using System.Collections.Generic;
 using Siemens.Engineering;
 using Siemens.Engineering.HW;
 ```
@@ -30,8 +31,8 @@ foreach (Device device in devices)
 // Find a specific device by name
 Device plc1 = project.Devices.Find("PLC_1");
 
-// Find using LINQ
-Device plc1 = project.Devices.First(d => d.Name == "PLC_1");
+if (plc1 == null)
+    throw new InvalidOperationException("Device 'PLC_1' was not found at project root.");
 ```
 
 ---
@@ -91,15 +92,18 @@ foreach (Device device in ungrouped.Devices)
 Sub-items are accessed via `deviceItem.DeviceItems` recursively.
 
 ```csharp
-private static void NavigateDeviceItems(Device device)
+private static IEnumerable<DeviceItem> EnumerateDeviceItems(DeviceItemComposition items)
 {
-    foreach (DeviceItem item in device.DeviceItems)
+    foreach (DeviceItem item in items)
     {
-        Console.WriteLine($"  Item: {item.Name} — {item.TypeIdentifier}");
-        foreach (DeviceItem subItem in item.DeviceItems)
-            Console.WriteLine($"    Sub-item: {subItem.Name}");
+        yield return item;
+        foreach (DeviceItem child in EnumerateDeviceItems(item.DeviceItems))
+            yield return child;
     }
 }
+
+foreach (DeviceItem item in EnumerateDeviceItems(device.DeviceItems))
+    Console.WriteLine($"Item: {item.Name} — {item.TypeIdentifier}");
 ```
 
 ---

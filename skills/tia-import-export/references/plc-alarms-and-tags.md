@@ -153,10 +153,10 @@ SupervisionXlsxResult result = supervisionProvider.ExportSupervisionsToXlsx(file
 // result.State: SupervisionXlsxResultState (Success / Failure)
 
 // Import supervisions
-SupervisionXlsxResult result = supervisionProvider.ImportSupervisionsFromX1sx(fileInfo, ImportOptions.Override);
+SupervisionXlsxResult result = supervisionProvider.ImportSupervisionsFromXlsx(fileInfo, ImportOptions.Override);
 
 // Import supervision settings only
-SupervisionXlsxResult result = supervisionProvider.ImportSupervisionSettingsFromX1sx(fileInfo, ImportOptions.Override);
+SupervisionXlsxResult result = supervisionProvider.ImportSupervisionSettingsFromXlsx(fileInfo, ImportOptions.Override);
 ```
 
 ---
@@ -165,7 +165,7 @@ SupervisionXlsxResult result = supervisionProvider.ImportSupervisionSettingsFrom
 
 Entry point: `plcSoftware.PlcWatchAndForceTableGroup`
 
-`ExportOptions` for watch tables: `None`, `WithDefaults`, `WithReadOnly`, `WithDefaultsAndReadOnly`. The only published property of a WatchTable is `Name` (read-only).
+`ExportOptions` values are `None`, `WithDefaults`, and `WithReadOnly`. For the documented "with defaults and read-only" behavior, combine the flags as `ExportOptions.WithDefaults | ExportOptions.WithReadOnly`; there is no installed V21 enum member named `WithDefaultsAndReadOnly`. The only published property of a WatchTable is `Name` (read-only).
 
 ```csharp
 // Export watch table

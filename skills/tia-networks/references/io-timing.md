@@ -10,8 +10,12 @@ Source: TIA Portal Openness V21 — Functions on Device Items (03/2026)
 ## Namespaces
 
 ```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Siemens.Engineering;
 using Siemens.Engineering.HW;
+using Siemens.Engineering.HW.Features;
 ```
 
 ---
@@ -23,7 +27,7 @@ This file covers timing configuration for two levels:
 | Level | Object | Service / Access |
 |---|---|---|
 | PROFINET interface (IO controller) | `DeviceItem` (PN interface) | dynamic attributes on the device item |
-| IO connector (IO device) | `DeviceItem` (IO connector / submodule) | dynamic attributes via `GetAttribute` |
+| IO connector (IO device) | `IoConnector` | selected from `NetworkInterface.IoConnectors`; dynamic attributes via `GetAttribute` |
 
 Both are accessed via `GetAttribute` / `SetAttribute` on the relevant `DeviceItem`.
 
@@ -92,8 +96,8 @@ ioDeviceInterface.SetAttribute("IsochronousTo", 1.5);
 
 ## 3. IoConnector — update time and watchdog
 
-The IoConnector is a submodule of the IO device's PROFINET interface and carries
-per-device timing attributes.
+An `IoConnector` is an object exposed by the selected PROFINET
+`NetworkInterface.IoConnectors` composition. It is not the `DeviceItem` itself.
 
 | Attribute | Type | Writable | Description |
 |---|---|---|---|
@@ -104,9 +108,25 @@ per-device timing attributes.
 | `PnWatchdogTime` | `long` | r/o | Resulting watchdog time in nanoseconds |
 | `RtClass` | `RtClass` | r/w | Real-time class for this IO device |
 | `SyncRole` | `SyncRole` | r/o | Synchronisation role (SyncMaster / SyncSlave / Unsynchronized) |
+| `PnDeviceNumber` | `int` | r/w | IO device number |
+
+Installed V21 `SyncRole` values are `SyncRole.NotSynchronized`, `SyncRole.SyncMaster`,
+`SyncRole.SyncSlave`, and `SyncRole.RedundantSyncMaster`.
 
 ```csharp
-DeviceItem ioConnector = ...; // IoConnector device item
+NetworkInterface networkInterface =
+    selectedInterfaceItem.GetService<NetworkInterface>();
+if (networkInterface == null)
+    throw new InvalidOperationException("Selected item has no NetworkInterface service.");
+
+List<IoConnector> matches = networkInterface.IoConnectors
+    .Where(candidate => candidate.ConnectedToIoSystem != null &&
+                        candidate.ConnectedToIoSystem.Name == expectedIoSystemName &&
+                        candidate.ConnectedToIoSystem.Number == expectedIoSystemNumber)
+    .ToList();
+if (matches.Count != 1)
+    throw new InvalidOperationException($"Expected one IO connector, found {matches.Count}.");
+IoConnector ioConnector = matches[0];
 
 // Update time
 bool autoCalc = (bool)ioConnector.GetAttribute("PnUpdateTimeAutoCalculation");
@@ -121,6 +141,7 @@ ioConnector.SetAttribute("PnWatchdogFactor", 3);
 // RT class and sync role
 object rtClass  = ioConnector.GetAttribute("RtClass");
 object syncRole = ioConnector.GetAttribute("SyncRole");
+int deviceNumber = (int)ioConnector.GetAttribute("PnDeviceNumber");
 ```
 
 ---
@@ -139,9 +160,10 @@ var timingAttrs = new List<KeyValuePair<string, object>>
     new KeyValuePair<string, object>("IsochronousMode", true)
 };
 
-// SetAttributes with callback handles ordering automatically (V19+)
+// SetAttributes handles ordering (V19+); abort so a surrounding transaction can roll back.
 ioDeviceInterface.SetAttributes(timingAttrs, config =>
 {
-    config.CurrentSelection = AttributeChoiceSelection.Ignore;
+    Console.Error.WriteLine($"Timing attribute '{config.Name}' failed: {config.Message}");
+    config.CurrentSelection = AttributeChoiceSelection.Abort;
 });
 ```

@@ -56,8 +56,16 @@ All connection objects derive from `Connection`.
 Delete a connection with:
 
 ```csharp
+// `connection` must be the uniquely selected object from a dependency inventory.
+// Do not select by index or by ConnectionType alone.
 connection.Delete();
 ```
+
+Before deletion, record at least the connection type, local/partner target paths,
+local/partner interface/node identities, and local/partner subnet names. Type-specific
+connection names/IDs are additional evidence, not replacements for endpoint identity. If
+either endpoint or its selector is incomplete, report `dependency_evidence_incomplete` and
+do not delete.
 
 ---
 
@@ -70,6 +78,9 @@ connection class.
 Node localInterface = ...;
 DeviceItem partnerTarget = ...;
 Node partnerInterface = ...;
+
+if (localInterface == null || partnerTarget == null || partnerInterface == null)
+    throw new InvalidOperationException("Connection endpoints were not resolved exactly.");
 
 S7Connection s7 = connections.Create<S7Connection>(
     localInterface,
@@ -86,7 +97,8 @@ The `Create<T>()` parameters are:
 | `partnerInterface` | `Node` | partner network node/interface |
 
 After creation, set the connection-specific properties required by the connection type,
-then compile hardware to surface invalid combinations.
+then require `IsValid`, compile hardware, inspect the full compile result, and save only on
+success. Keep the creation in a supported transaction so an exception can roll it back.
 
 ---
 
@@ -129,7 +141,9 @@ Use these as the first checklist when validating generated code.
 ## 6. Practical rules
 
 - Treat `IsValid == false` as a signal to inspect missing endpoints/properties before
-  running a compile.
+  running a compile; do not save an invalid connection.
+- Never use `ConnectionType`, an index, or one nullable name as the sole selector for a
+  destructive action. Complete endpoint identity is required.
 - Use strongly typed properties for known fields. Fall back to `IEngineeringObject`
   attributes only when handling version-specific or optional fields.
 - `ConnectionConfiguration` in `Siemens.Engineering.Connection` is for choosing online

@@ -31,10 +31,14 @@ Do not mix with Python wrapper calls.
 1. identify target object class and Openness composition
 2. identify exchange format (SimaticML, AML, XML)
 3. decide file-based vs direct-edit approach
-4. define source root / target root / overwrite / structure
-5. use Openness import/export services on the correct composition
-6. compile relevant hardware/software after import
-7. validate consistency state
+4. treat every import file as untrusted input: resolve the exact path, verify its provenance and expected object kind, and validate the format before opening the project for modification
+5. obtain explicit authorization for the exact project, target composition, overwrite policy, and intended import; an earlier export, compile, or static check is not authorization to mutate a live project
+6. define source root / target root / overwrite / structure; do not use `ImportOptions.Override` as a default
+7. use Openness import/export services on the correct composition and inspect any returned result object, messages, error count, and state
+8. compile relevant hardware/software after import and validate consistency state
+9. Do not save the project when import, result validation, or compile/consistency validation fails; close or roll back through the operation-specific supported mechanism
+
+Exports can overwrite filesystem content even though they do not mutate the project. Resolve the output path and require an explicit overwrite decision before replacing an existing file.
 
 ## Reference files
 

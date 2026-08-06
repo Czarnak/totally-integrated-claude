@@ -9,6 +9,9 @@ Source: TIA Portal Openness V21 — Functions on Networks (03/2026)
 ## Namespaces
 
 ```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Siemens.Engineering;
 using Siemens.Engineering.HW;
 using Siemens.Engineering.HW.Features;
@@ -31,8 +34,18 @@ if (subnetOwner != null)
         Console.WriteLine($"Subnet: {subnet.Name} — {subnet.NetType}");
     }
 
-    // Access first subnet directly
-    Subnet firstSubnet = subnetOwner.Subnets[0];
+    Subnet selectedSubnet = ResolveSubnet(subnetOwner, "PROFINET_1", NetType.Ethernet);
+}
+
+private static Subnet ResolveSubnet(SubnetOwner owner, string name, NetType netType)
+{
+    List<Subnet> matches = owner.Subnets
+        .Where(subnet => subnet.Name == name && subnet.NetType == netType)
+        .ToList();
+    if (matches.Count != 1)
+        throw new InvalidOperationException(
+            $"Expected exactly one subnet '{name}' ({netType}), found {matches.Count}.");
+    return matches[0];
 }
 ```
 
@@ -51,7 +64,7 @@ Attribute availability depends on subnet type. All subnets share `Name` and `Net
 | `SubnetId` | `string` | r (ASI/PC) / r/w (others) | dynamic |
 
 ```csharp
-Subnet subnet = subnetOwner.Subnets[0];
+Subnet subnet = ResolveSubnet(subnetOwner, "PROFINET_1", NetType.Ethernet);
 
 string name     = subnet.Name;
 NetType netType = (NetType)subnet.NetType;
@@ -89,11 +102,11 @@ foreach (var attr in pbAttrs)
     Console.WriteLine($"{attr} = {((IEngineeringObject)subnet).GetAttribute(attr)}");
 ```
 
-**`BaudRate` enum values:** `Baud9600`, `Baud19200`, `Baud45450`, `Baud93700`,
+**`BaudRate` enum values:** `Baud9600`, `Baud19200`, `Baud45450`, `Baud93750`,
 `Baud187500`, `Baud500000`, `Baud1500000`, `Baud3000000`, `Baud6000000`,
 `Baud12000000`, `None` (unknown)
 
-**`BusProfile` enum values:** `DP`, `Standard`, `Universal`, `UserDefined`, `None`
+**`BusProfile` enum values:** `Dp`, `Standard`, `Universal`, `UserDefined`, `None`
 
 ### PROFIBUS Integrated / PROFIdrive Integrated
 
@@ -193,6 +206,8 @@ Accessed via `MrpDomainOwner` service on a subnet:
 
 ```csharp
 MrpDomainOwner mrpOwner = subnet.GetService<MrpDomainOwner>();
+if (mrpOwner == null)
+    throw new InvalidOperationException("The selected subnet does not expose MRP domains.");
 MrpDomainComposition domains = mrpOwner.MrpDomains;
 
 // Enumerate
@@ -206,6 +221,10 @@ newDomain.SetAttribute("IsDefault", true);
 NetworkInterface toAdd = ...; // obtained from a device item
 newDomain.DomainParticipants.Add(toAdd);
 
-// Delete
+// Delete only after exact-domain selection and participant/dependency inventory.
 newDomain.Delete();
 ```
+
+Deleting or replacing a subnet/domain can invalidate IO systems, node assignments,
+communication connections, and online routes. If any dependent connection lacks complete
+local and partner selectors, fail with `dependency_evidence_incomplete` rather than applying.

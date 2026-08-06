@@ -11,6 +11,7 @@ Source: TIA Portal PublicAPI V21 XML docs, `Siemens.Engineering.Base.xml`.
 ## Namespaces
 
 ```csharp
+using System;
 using Siemens.Engineering;
 using Siemens.Engineering.Connection;
 using Siemens.Engineering.Online;
@@ -25,6 +26,8 @@ Access `ConnectionConfiguration` from an `OnlineProvider`.
 ```csharp
 OnlineProvider onlineProvider =
     ((IEngineeringServiceProvider)deviceItem).GetService<OnlineProvider>();
+if (onlineProvider == null)
+    throw new InvalidOperationException("The exact selected device item has no OnlineProvider.");
 
 ConnectionConfiguration config = onlineProvider.Configuration;
 ```
@@ -35,11 +38,15 @@ ConnectionConfiguration config = onlineProvider.Configuration;
 |---|---|
 | `Modes` | available connection modes |
 | `IsConfigured` | `true` when connection parameters are already configured |
-| `EnableLegacyCommunication` | disables TLS for legacy communication when set |
+| `EnableLegacyCommunication` | installed V21 XML summary: `Disable Tls (Transport Layer Security) protocol.` |
 | `ApplyConfiguration(ConfigurationTargetInterface)` | applies a selected target interface |
 | `ApplyConfiguration(ConfigurationAddress)` | applies a selected gateway/subnet address |
 
 Do not call `ApplyConfiguration()` while a PLC connection is already active.
+Treat enabling legacy communication as a security downgrade: do not weaken TLS unless the
+exact target, reason, and time-bounded exception have explicit authorization. The rendered
+V21 prose/table is internally inconsistent; the installed V21 `Siemens.Engineering.Base.xml`
+property summary is the contract used here.
 
 ---
 
@@ -77,15 +84,33 @@ ConfigurationTargetInterface target = pcInterface.TargetInterfaces.Find("2 X3");
 if (!config.IsConfigured)
 {
     ConfigurationMode mode = config.Modes.Find("PN/IE");
+    if (mode == null) throw new InvalidOperationException("Connection mode 'PN/IE' not found.");
     ConfigurationPcInterface pcInterface = mode.PcInterfaces.Find("PLCSIM", 1);
+    if (pcInterface == null) throw new InvalidOperationException("PC interface 'PLCSIM #1' not found.");
     ConfigurationTargetInterface target = pcInterface.TargetInterfaces.Find("2 X3");
+    if (target == null) throw new InvalidOperationException("Target interface '2 X3' not found.");
 
     bool applied = config.ApplyConfiguration(target);
     if (!applied)
         throw new InvalidOperationException("Online path was not applied.");
 }
 
-onlineProvider.GoOnline();
+// Live boundary: require explicit live-operation authorization for this exact target/path.
+bool connectedHere = false;
+try
+{
+    if (onlineProvider.State != OnlineState.Online)
+    {
+        onlineProvider.GoOnline();
+        connectedHere = true;
+    }
+    // Perform the authorized online read only.
+}
+finally
+{
+    if (connectedHere && onlineProvider.State == OnlineState.Online)
+        onlineProvider.GoOffline();
+}
 ```
 
 ---
@@ -144,3 +169,5 @@ foreach (ConfigurationAccessibleDevice device in pcInterface.GetAccessibleDevice
 - Use `communication-connections.md` for configured PLC/HMI/TCP/UDP/S7/etc.
   project communication connections.
 - `ApplyConfiguration()` overwrites the previously selected online path.
+- `GetAccessibleDevices()` performs live network discovery on the selected PC interface;
+  require that interface and discovery scope to be authorized.

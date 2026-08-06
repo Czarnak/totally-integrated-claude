@@ -194,7 +194,7 @@ private void ImportProgramBlockFromDocument(PlcSoftware plcSoftware)
 }
 ```
 
-`ImportDocumentOptions` values: `None`, `Override`, `Skipinactiveculture`, `ActiveInactiveculture`.
+Installed V21 `Siemens.Engineering.SW.ImportDocumentOptions` values are `None`, `Override`, `SkipInactiveCultures`, and `ActivateInactiveCultures`. Some rendered Siemens V21 prose uses different capitalization; use the identifiers from the installed assembly.
 
 ---
 
@@ -225,7 +225,7 @@ PlcBlockComposition.Import(file, ImportOptions.None, SWImportOptions.IgnoreMissi
 PlcTypeComposition.Import(file, ImportOptions.None, SWImportOptions.IgnoreMissingReferencedObjects);
 ```
 
-`SWImportOptions` enum: `None = 0`, `IgnoreStructuralChanges = 1`, `IgnoreMissingReferencedObjects = 2`.
+Installed V21 `SWImportOptions` values are `None`, `IgnoreStructuralChanges`, `IgnoreMissingReferencedObjects`, and `IgnoreUnitAttributes`. `IgnoreUnitAttributes` is for the V21 unit-specific `Access` publishing attribute when importing a unit-originated block/type/tag-table XML into a non-unit environment; it is not a general "ignore unknown attributes" switch.
 
 ---
 

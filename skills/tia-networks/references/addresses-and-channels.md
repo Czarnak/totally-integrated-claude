@@ -80,7 +80,8 @@ address.StartAddress = 256;
 
 > **Warning:** Changing `StartAddress` on an input may implicitly change the output
 > address of the same module. Changing via Openness does **not** rewire assigned tags.
-> Packed addresses are not supported.
+> Before writing, inventory assigned PLC tags, address controllers, process-image/OB
+> assignments, and coupled input/output ranges. Packed addresses are not supported.
 
 ---
 

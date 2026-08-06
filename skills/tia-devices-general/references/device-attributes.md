@@ -9,9 +9,11 @@ Source: TIA Portal Openness V21 — Functions on Devices (03/2026)
 ## Namespaces
 
 ```csharp
+using System.Collections.Generic;
 using Siemens.Engineering;
+using Siemens.Engineering.CustomIdentity;
 using Siemens.Engineering.HW;
-using Siemens.Engineering.HW.Extensions; // GsdDevice
+using Siemens.Engineering.HW.Features;
 ```
 
 ---
@@ -63,8 +65,9 @@ if (gsdDev != null)
     bool isProfinet = gsdDev.IsProfinet;
 }
 
-// On a DeviceItem
-GsdDevice gsdItem = ((IEngineeringServiceProvider)deviceItem).GetService<GsdDevice>();
+// On a DeviceItem, use the distinct item feature type
+GsdDeviceItem gsdItem =
+    ((IEngineeringServiceProvider)deviceItem).GetService<GsdDeviceItem>();
 ```
 
 ---
@@ -103,8 +106,9 @@ catch (CustomIdentityNotFoundException ex)
 ## 4. Bulk attribute change with error handler
 
 Sets multiple attributes in one call. Dependency ordering between attributes is handled
-automatically (V19+). The callback fires per attribute — use it to skip failures without
-aborting the whole batch.
+automatically (V19+). The `AttributeDelegate` receives an `AttributeConfiguration` when
+an attribute cannot be applied. Default to `Abort`; choosing `Ignore` deliberately permits
+partial mutation and therefore requires an explicit partial-update policy plus verification.
 
 ```csharp
 private static void BulkSetAttributes(DeviceItem item)
@@ -118,11 +122,13 @@ private static void BulkSetAttributes(DeviceItem item)
         new KeyValuePair<string, object>("IsochronousMode", true)
     };
 
-    item.SetAttributes(attrs, config =>
+    AttributeDelegate onError = (AttributeConfiguration config) =>
     {
-        // Ignore errors on individual attributes and continue with the rest
-        config.CurrentSelection = AttributeChoiceSelection.Ignore;
-    });
+        Console.Error.WriteLine($"Attribute '{config.Name}' failed: {config.Message}");
+        config.CurrentSelection = AttributeChoiceSelection.Abort;
+    };
+
+    item.SetAttributes(attrs, onError);
 }
 ```
 

@@ -9,8 +9,12 @@ Source: TIA Portal Openness V21 — Functions on Devices (03/2026)
 ## Namespaces
 
 ```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Siemens.Engineering;
 using Siemens.Engineering.HW;
+using Siemens.Engineering.HW.HardwareCatalog;
 ```
 
 ---
@@ -62,23 +66,21 @@ Before creating a device, check that it is installed:
 ```csharp
 private static void CheckAndCreate(TiaPortal tiaPortal, Project project)
 {
-    // Search catalog — empty string returns all entries
-    IList<CatalogEntry> entries = tiaPortal.HardwareCatalog.Find("1516");
+    const string requestedType = "OrderNumber:6ES7 516-2GN00-0AB0/V2.9";
+    IList<CatalogEntry> entries = tiaPortal.HardwareCatalog.Find("6ES7 516-2GN00-0AB0");
+    List<CatalogEntry> exactMatches = entries
+        .Where(entry => String.Equals(entry.TypeIdentifier, requestedType, StringComparison.Ordinal))
+        .ToList();
 
-    if (!entries.Any())
-    {
-        Console.WriteLine("Module not found in catalog — install GSD/HSP first.");
-        return;
-    }
+    if (exactMatches.Count != 1)
+        throw new InvalidOperationException(
+            $"Expected exactly one installed catalog entry for '{requestedType}', found {exactMatches.Count}.");
 
-    CatalogEntry first = entries.First();
-    Console.WriteLine($"Found: {first.TypeName} ({first.TypeIdentifier})");
-    Console.WriteLine($"  Article: {first.ArticleNumber}");
-    Console.WriteLine($"  Version: {first.Version}");
-    Console.WriteLine($"  Path:    {first.CatalogPath}");
+    CatalogEntry selected = exactMatches[0];
+    Console.WriteLine($"Found: {selected.TypeName} ({selected.TypeIdentifier})");
 
-    // Create using the discovered TypeIdentifier
-    project.Devices.CreateWithItem(first.TypeIdentifier, "PLC_1", "NewDevice");
+    // Mutating step: run only after explicit project/type/name authorization.
+    project.Devices.CreateWithItem(selected.TypeIdentifier, "PLC_1", "NewDevice");
 }
 
 // Filter catalog by compatibility with an existing module
@@ -147,14 +149,19 @@ Device plc = group.Devices.CreateWithItem(
 ```csharp
 // Delete from root devices
 Device toDelete = project.Devices.Find("OldPLC");
-toDelete?.Delete();
+if (toDelete == null)
+    throw new InvalidOperationException("Device 'OldPLC' was not found.");
+// Run only after exact device identity and dependency review are authorized.
+toDelete.Delete();
 
 // Delete from ungrouped devices group
 Device ungrouped = project.UngroupedDevicesGroup.Devices.Find("RemoteIO_1");
-ungrouped?.Delete();
+if (ungrouped == null)
+    throw new InvalidOperationException("Device 'RemoteIO_1' was not found.");
+ungrouped.Delete();
 ```
 
-After `Delete()`, the object reference is disposed. Do not use it again.
+After `Delete()`, previously retrieved object and composition references may be invalid. Re-resolve any objects needed for verification and do not reuse the deleted reference.
 
 ---
 

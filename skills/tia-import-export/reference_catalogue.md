@@ -17,10 +17,13 @@ Main Openness areas:
 
 ## Post-import validation
 
-1. refresh object references
-2. compile relevant hardware/software
-3. inspect consistency state
-4. validate fingerprints or paths where available
+1. reject an unexpected file kind, schema/version, or target composition before mutation
+2. refresh object references returned or invalidated by import
+3. inspect structured import/transfer results and messages where the API provides them
+4. compile relevant hardware/software
+5. inspect consistency state
+6. validate fingerprints or paths where available
+7. save only after every required validation passes
 
 ## Escalation triggers (what forces C# over Python)
 
