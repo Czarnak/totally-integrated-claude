@@ -6,6 +6,17 @@ Source: TIA Portal Openness V21 — Functions for downloading data to PLC device
 
 ---
 
+## Namespaces
+
+```csharp
+using System;
+using Siemens.Engineering.Compare;
+using Siemens.Engineering.HW;
+using Siemens.Engineering.SW;
+```
+
+---
+
 ## Software compare
 
 `PlcSoftware` implements `ISoftwareCompareTarget`, so any two `PlcSoftware` objects can be
@@ -50,7 +61,10 @@ private static void WriteResult(CompareResultElement element, string indent)
 
 | Value | Meaning |
 | --- | --- |
+| `FolderContentsDifferent` | Compared folder contents differ |
+| `FolderContentsIdentical` | Compared folder contents are identical |
 | `ObjectsIdentical` | Content of compared objects is identical |
+| `ObjectsDifferent` | Content of compared objects differs |
 | `LeftMissing` | Object not present in the source (left side) |
 | `RightMissing` | Object not present in the compare target (right side) |
 | `CompareIrrelevant` | Comparison between these two objects is not meaningful |
@@ -60,8 +74,9 @@ private static void WriteResult(CompareResultElement element, string indent)
 ### Check for quick identical test
 
 ```csharp
-bool identical = result.RootElement.ComparisonResult ==
-                 CompareResultState.ObjectsIdentical;
+CompareResultState rootState = result.RootElement.ComparisonResult;
+bool identical = rootState == CompareResultState.ObjectsIdentical ||
+                 rootState == CompareResultState.FolderContentsIdentical;
 ```
 
 ---
@@ -113,6 +128,10 @@ Access via `PlcSoftware`.
 PlcSoftware plcSoftware = ...; // access via SoftwareContainer
 plcSoftware.UpdateProgram();
 ```
+
+`UpdateProgram()` mutates the offline PLC program. Run it only after target
+confirmation and within the normal `ExclusiveAccess`/transaction workflow;
+compile and inspect the result before saving.
 
 # V21 API Reference
 

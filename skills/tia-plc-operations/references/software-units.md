@@ -10,18 +10,22 @@ Source: TIA Portal Openness V21 — Functions for software units (03/2026), chap
 ## Namespaces
 
 ```csharp
+using System;
+using System.Collections.Generic;
+using System.IO;
+using Siemens.Engineering;
+using Siemens.Engineering.HW.Features;
 using Siemens.Engineering.SW;
-using Siemens.Engineering.SW.Units;
 using Siemens.Engineering.SW.Blocks;
+using Siemens.Engineering.SW.ExternalSources;
 using Siemens.Engineering.SW.Tags;
 using Siemens.Engineering.SW.Types;
+using Siemens.Engineering.SW.Units;
 ```
 
 ## Access entry point
 
 ```csharp
-using Siemens.Engineering.HW.Features;
-
 SoftwareContainer sc = deviceItem.GetService<SoftwareContainer>();
 PlcSoftware plcSoftware = sc?.Software as PlcSoftware;
 

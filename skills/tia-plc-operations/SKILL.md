@@ -23,6 +23,8 @@ Load ONLY the reference file(s) relevant to the task. Do not load all files at o
 | Reference file | Load when the task involves |
 | --- | --- |
 | `references/online-status.md` | Going online/offline, reading PLC state, configuring connection parameters, `OnlineProvider`, `OnlineState`, `ConnectionConfiguration` |
+| `references/fingerprint-data.md` | V21 quick-station fingerprint retrieval, `FingerprintDataProvider`, online/TLS/password callback handling, and fingerprint comparison limits |
+| `references/download-upload.md` | Live PLC download and station upload, `DownloadProvider`, `StationUploadProvider`, callback configurations, fail-closed target handling |
 | `references/compare.md` | Comparing PLC software or hardware, `CompareResult`, `CompareResultState`, `CompareToOnline`, `UpdateProgram` |
 | `references/blocks.md` | Program blocks, system blocks, `PlcSoftware` root, know-how/write protection, block groups, ProDiag-FB, DataBlock snapshots, compile individual block/UDT, fingerprints, webserver pages, OB priority, loadable file |
 | `references/external-sources.md` | PLC external source files, importing/generating blocks from sources, `PlcExternalSource`, `PlcExternalSourceGroup` |
@@ -45,6 +47,21 @@ For tasks spanning multiple areas, load all relevant reference files before gene
 If a task targets a partial reference file, do not invent API calls.
 State clearly which sections are missing.
 
+## Live-operation safety
+
+Treat every live TIA Portal or hardware action as unavailable until the user
+has explicitly authorized the exact portal instance, project, CPU, and action.
+A build, stub, offline project, or simulated test is not live evidence. Never
+infer permission for a download, force, online write, or snapshot load from a
+request to inspect, compile, compare, or generate code.
+
+Before an authorized live action, report the resolved target and current
+online state, preserve whether this client established the connection, and
+disconnect only a connection this client opened. Keep destructive offline
+changes inside `ExclusiveAccess` plus a `Transaction` where supported; compile
+and verify before saving. Use the deletion safeguards from
+`tia-csharp-common` for every `Delete()` example in the references.
+
 ---
 
 ## Execution pattern
@@ -53,9 +70,10 @@ State clearly which sections are missing.
 2. Identify which reference file(s) cover the task — load them
 3. Navigate Openness object model per reference file patterns
 4. For online work: use `OnlineProvider` service on the CPU `DeviceItem` (see `online-status.md`)
-5. For compare: use `CompareTo` / `CompareToOnline` on `PlcSoftware` or `Device` (see `compare.md`)
-6. For software units: access via `PlcUnitProvider` service on `PlcSoftware` (see `software-units.md`)
-7. For safety unit: access via `PlcUnitProvider.UnitGroup.SafetyUnits` (see `safety-unit.md`)
+5. For download/upload: require explicit live authorization, resolve the exact target, and fail closed on unhandled callbacks (see `download-upload.md`)
+6. For compare: use `CompareTo` / `CompareToOnline` on `PlcSoftware` or `Device` (see `compare.md`)
+7. For software units: access via `PlcUnitProvider` service on `PlcSoftware` (see `software-units.md`)
+8. For safety unit: access via `PlcUnitProvider.UnitGroup.SafetyUnits` (see `safety-unit.md`)
 
 ## Access pattern (always needed)
 

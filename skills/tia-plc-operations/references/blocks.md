@@ -9,18 +9,21 @@ Source: TIA Portal Openness V21 — Blocks and Tags (03/2026)
 ## Namespaces
 
 ```csharp
+using System;
+using System.Collections.Generic;
+using System.IO;
+using Siemens.Engineering;
+using Siemens.Engineering.Compiler;
+using Siemens.Engineering.HW.Features;
 using Siemens.Engineering.SW;
 using Siemens.Engineering.SW.Blocks;
 using Siemens.Engineering.SW.ExternalSources;
 using Siemens.Engineering.SW.Types;
-using Siemens.Engineering.Compiler;
 ```
 
 ## Access entry point
 
 ```csharp
-using Siemens.Engineering.HW.Features;
-
 SoftwareContainer sc = deviceItem.GetService<SoftwareContainer>();
 PlcSoftware plcSoftware = sc?.Software as PlcSoftware;
 ```
@@ -291,7 +294,10 @@ wp.Change(pwd, null); // permanently remove password and write protection
 
 ## 8. DataBlock snapshots (ValueService)
 
-Requires PLC in Online mode.
+Requires PLC in Online mode. `LoadSnapshotAsActualValues()` and
+`LoadStartValuesAsActualValues()` are live writes to the connected CPU; require
+explicit authorization for the resolved target. An offline or simulated check
+is not evidence that a physical write succeeded.
 
 ```csharp
 DataBlock block1 = (DataBlock)plcSoftware.BlockGroup.Blocks.Find("DataBlock_1");
@@ -389,7 +395,7 @@ foreach (PlcExternalSource src in plcSoftware.ExternalSourceGroup.ExternalSource
 try
 {
     IList<IEngineeringObject> generated =
-        externalSource.GenerateBlocksFromSource(GenerateBlockOptions.KeepOnError);
+        externalSource.GenerateBlocksFromSource(GenerateBlockOption.KeepOnError);
 
     foreach (IEngineeringObject obj in generated)
     {
@@ -423,8 +429,8 @@ catch (RecoverableException ex)
 }
 ```
 
-`GenerateBlockOptions.KeepOnError` — no exception thrown, returns list of generated objects (even if errors), does not delete failed objects
-`GenerateBlockOptions.None` — throws `RecoverableException` on failure, deletes the generated block/UDT
+`GenerateBlockOption.KeepOnError` — no exception thrown, returns list of generated objects (even if errors), does not delete failed objects
+`GenerateBlockOption.None` — throws `RecoverableException` on failure, deletes the generated block/UDT
 
 ---
 
@@ -599,7 +605,7 @@ foreach (var fingerprint in fingerprints)
 | `LibraryType` | Exists when block is connected to a library type. |
 | `Texts` | Only for Graph blocks (V15 SP1+). |
 | `Alarms` | Exists when block uses alarming. |
-| `Supervision` | Exists when block contains supervision. |
+| `Supervisions` | Exists when block contains supervision. |
 | `TechnologyObject` | Only for technology object DBs. |
 | `Events` | Only for OBs. |
 | `TextualInterface` | Exists when block has a textual interface. |

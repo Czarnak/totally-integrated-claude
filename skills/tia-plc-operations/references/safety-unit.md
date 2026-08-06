@@ -11,17 +11,20 @@ Source: TIA Portal Openness V21 — Functions for fail-safe unit (03/2026), chap
 ## Namespaces
 
 ```csharp
+using System.IO;
+using Siemens.Engineering;
+using Siemens.Engineering.HW.Features;
+using Siemens.Engineering.Safety;
 using Siemens.Engineering.SW;
-using Siemens.Engineering.SW.Units;
 using Siemens.Engineering.SW.Blocks;
+using Siemens.Engineering.SW.Supervision;
 using Siemens.Engineering.SW.Tags;
+using Siemens.Engineering.SW.Units;
 ```
 
 ## Access entry point
 
 ```csharp
-using Siemens.Engineering.HW.Features;
-
 SoftwareContainer sc = deviceItem.GetService<SoftwareContainer>();
 PlcSoftware plcSoftware = sc?.Software as PlcSoftware;
 

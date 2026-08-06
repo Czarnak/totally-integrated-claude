@@ -9,15 +9,18 @@ Source: TIA Portal Openness V21 — Blocks and Tags (03/2026), chapter 2
 ## Namespaces
 
 ```csharp
+using System;
+using System.IO;
+using Siemens.Engineering;
+using Siemens.Engineering.HW.Features;
 using Siemens.Engineering.SW;
 using Siemens.Engineering.SW.Tags;
+using Siemens.Engineering.SW.Types;
 ```
 
 ## Access entry point
 
 ```csharp
-using Siemens.Engineering.HW.Features;
-
 SoftwareContainer sc = deviceItem.GetService<SoftwareContainer>();
 PlcSoftware plcSoftware = sc?.Software as PlcSoftware;
 ```
