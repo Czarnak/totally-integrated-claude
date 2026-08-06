@@ -5,12 +5,12 @@ they do not appear during local builds or unit tests.
 
 ---
 
-## Assembly location is unreliable
+## Do not resolve dependencies from the current assembly path
 
-`Assembly.GetExecutingAssembly().Location` can return an empty string or a path
-with illegal characters when TIA Portal loads the Add-In through its custom loader
-(which may shadow-copy assemblies into memory). Any call to `Path.GetDirectoryName`
-or `Path.Combine` on such a value throws `ArgumentException`.
+TIA Portal V21 explicitly does not support attempts by an Add-In or its
+third-party components to resolve assemblies based on the current assembly path.
+Treat `Assembly.GetExecutingAssembly().Location` as an unreliable package-data
+root, even if it happens to return a path in a development setup.
 
 **Pattern:** Always guard assembly-location resolution in a try-catch and fall back
 to a safe default rather than propagating the exception:
@@ -31,17 +31,27 @@ catch (ArgumentException)
 
 ---
 
-## No NuGet packages — GAC assemblies only
+## Managed dependency packaging
 
-TIA Portal's process cannot resolve NuGet packages at runtime. Any dependency that
-is not in the .NET 4.8 Global Assembly Cache (GAC) will throw `FileNotFoundException`
-the moment the Add-In is invoked — even if the build succeeds and the `.addin` file
-looks correct.
+NuGet is only a build-time source of assemblies; TIA Portal does not restore
+packages when an Add-In runs. A third-party **managed** .NET Framework 4.8
+dependency may be used when its DLL is compatible with the Add-In permission
+model and is included in the package through the publisher configuration:
 
-**Rule:** Never add a NuGet package reference to an Add-In project. Use only
-framework-provided types.
+```xml
+<AdditionalAssemblies>
+  <AssemblyInfo>
+    <Assembly>lib\My.Managed.Dependency.dll</Assembly>
+  </AssemblyInfo>
+</AdditionalAssemblies>
+```
 
-Common substitutions:
+Native assemblies are not supported. Do not add a custom resolver based on the
+executing assembly's path. Prefer framework-provided types when they are
+sufficient, and test every packaged dependency in the V21 Add-In sandbox;
+successful compilation and publication do not prove runtime compatibility.
+
+Low-dependency substitutions:
 
 | Avoid (NuGet) | Use instead (GAC) | Assembly to reference |
 | --- | --- | --- |
@@ -132,20 +142,17 @@ resource set and designer-bound icons/images go missing with no exception.
 
 ---
 
-## Add-In package identity is cached
+## Add-In version fields are independent
 
-TIA Portal caches loaded Add-In assemblies by package identity. Building a new
-`.addin` with the same `AddInVersion` + assembly version produces a package that
-TIA Portal silently ignores in favour of the cached copy — code changes appear
-to have no effect, even after closing and reopening TIA Portal.
+Do not couple the assembly version to TIA Portal V21. `AddInVersion` is the
+independent Add-In version shown by the package metadata, while
+`Product/Version` is product metadata and the CLR assembly version belongs to
+the DLL. None of their major versions has to be `21`.
 
-**Pattern during iterative debugging:** bump **both** the assembly
-`[assembly: AssemblyVersion(...)]` and the package version field
-(`Config.xml` → `AddInVersion`, or the V21 publisher config equivalent) on every
-build that needs to be reloaded. Patch-version bumps (`21.0.0.1` → `21.0.0.2`)
-are sufficient.
-
-The cache survives process restarts; only an identity change forces a reload.
+During debugging, verify the deployed `.addin` hash and the values shown in the
+Add-Ins task card before attributing old behavior to caching. Change version
+fields intentionally for a new package release, not as a substitute for
+confirming which artifact TIA Portal loaded.
 
 ---
 
@@ -159,10 +166,9 @@ warning : '<TypeName>.<MemberName>' returns or accepts an engineering object.
 ```
 
 Package creation still succeeds, but the field is a real correctness risk.
-Add-Ins are not unloaded between executions, so the cached Add-In instance
-outlives the project that owned the object — the stored reference becomes
-invalid the moment the user closes/reopens the project, and the next call into
-the Add-In faults on the stale handle.
+Engineering objects are bound to their TIA Portal project and Add-In execution
+lifetime. Siemens states that an executed Add-In instance cannot be used after
+execution; project changes can invalidate stored handles even earlier.
 
 **Pattern:** treat all engineering objects as method-local. Pass them through
 parameters; never persist them on the Add-In instance.

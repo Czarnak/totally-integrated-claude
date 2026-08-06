@@ -2,15 +2,17 @@
 
 ---
 
-## Threading model — mandatory for any UI shown from Add-In callbacks
+## Add-In execution lifetime — mandatory
 
-### The silent failure
+An Add-In execution instance cannot be used after its callback has completed.
+TIA Portal cancels tasks that keep running on background threads after the
+execution ends. Therefore, a detached STA thread that displays a WinForms
+dialog after the callback returns is **not** a supported lifetime extension.
 
-Add-In action callbacks (e.g. `OnScanBlocks`) run on **TIA Portal's UI thread**. Calling
-`dialog.ShowDialog()` directly from a callback blocks that thread indefinitely while waiting
-for the user to close the dialog. TIA Portal's watchdog detects that the callback never
-returned and silently kills the operation. **There is no exception, no error message — the
-Add-In appears to do nothing.**
+Use TIA Portal's `MessageBoxProvider` for notifications and confirmations that
+belong to the callback. Keep engineering API access and any short operation
+inside the execution. Do not retain engineering objects in a dialog,
+background task, static field, or child process.
 
 ### Diagnosing silent failures — file logging
 
@@ -43,73 +45,51 @@ Wrap top-level entry points (constructor, `BuildContextMenuItems`, every action
 and status callback) in `try { … } catch (Exception ex) { Log(ex.ToString()); throw; }`
 during development. Remove or downgrade once the Add-In stabilises.
 
-### Required pattern: two-phase collect/show
-
-```text
-Phase 1 — on TIA Portal callback thread (mandatory for COM access)
-  ↳ Read all required data from TIA Portal API objects
-  ↳ Store results as plain .NET types (strings, lists, TreeNodes, etc.)
-  ↳ Return from callback immediately after starting Phase 2
-
-Phase 2 — on a new STA thread (safe to block here)
-  ↳ Create and show the WinForms dialog using the pre-collected data
-  ↳ No TIA Portal API access — plain .NET only
-```
+### Notifications and confirmations
 
 ```csharp
 private void OnDoWork(MenuSelectionProvider<Device> provider)
 {
-    var msgBox = m_TiaPortal.GetService<MessageBoxProvider>();
+    MessageBoxProvider messageBox =
+        m_TiaPortal.GetService<MessageBoxProvider>();
 
     foreach (Device device in provider.GetSelection())
     {
-        // ── Phase 1: collect on TIA Portal thread ────────────────────────
         var results = new List<string>();
         try
         {
-            CollectData(device, results);   // reads TIA Portal API
+            CollectData(device, results);
+            messageBox.ShowNotification(
+                NotificationIcon.Success,
+                "My Add-In",
+                $"Collected {results.Count} values from {device.Name}.");
         }
         catch (Exception ex)
         {
-            msgBox?.ShowNotification(NotificationIcon.Error, "MyAddIn",
+            messageBox.ShowNotification(NotificationIcon.Error, "My Add-In",
                 $"Data collection failed: {ex.Message}");
-            return;
         }
-
-        string caption = device.Name;
-
-        // ── Phase 2: show UI on a separate STA thread ────────────────────
-        // Callback returns immediately — TIA Portal watchdog is satisfied.
-        var thread = new Thread(() =>
-        {
-            try
-            {
-                using (var dialog = new MyDialog(caption, results))
-                    dialog.ShowDialog();       // correct call on non-main STA thread
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Dialog error: {ex.Message}", "MyAddIn",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        });
-        thread.SetApartmentState(ApartmentState.STA);
-        thread.IsBackground = true;
-        thread.Start();
-
-        break; // handle first selected item only
+        break;
     }
 }
 ```
 
-**Rules:**
+### Long-lived or custom UI
 
-- Always `thread.SetApartmentState(ApartmentState.STA)` — WinForms requires STA.
-- Always `thread.IsBackground = true` — prevents the thread from keeping the process alive
-  after TIA Portal closes.
-- Use `dialog.ShowDialog()`, not `Application.Run(dialog)`, on non-main STA threads.
-- The dialog class must use **only plain .NET types** — never store TIA Portal API references
-  in it, as those COM objects are STA-bound to the callback thread.
+For a long-running task or custom UI that must outlive the callback, start a
+**separate process**. The publisher configuration must declare
+`Siemens.Engineering.AddIn.Permissions.ProcessStartPermission`, and the Add-In
+must reference `Siemens.Engineering.AddIn.Utilities.dll`.
+
+```csharp
+Siemens.Engineering.AddIn.Utilities.Process.Start(
+    "MyUiHost.exe",
+    "--input results.json");
+```
+
+Transfer only plain serialized data. A child process does not inherit the
+Add-In's engineering objects or connection. If it needs TIA Portal access, it
+must establish and own a separate Openness connection and lifecycle.
 
 ---
 

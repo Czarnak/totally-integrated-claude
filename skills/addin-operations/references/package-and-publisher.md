@@ -30,16 +30,40 @@ V21 ships its own Add-In publisher (separate from the build tools). The
 publisher consumes a config XML and the compiled assembly, then emits a
 versioned `.addin` package.
 
-Minimum publisher config (`PublisherConfig.V21.xml`):
+Minimum read-only publisher config (`PublisherConfig.V21.xml`):
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
-<AddInPublisherConfig
+<PackageConfiguration
     xmlns="http://www.siemens.com/automation/Openness/AddIn/Publisher/V21">
-  <EngineeringVersion>V21</EngineeringVersion>
-  <Assembly>MyAddIn.dll</Assembly>
-  <OutputPackage>MyAddIn V21.addin</OutputPackage>
-</AddInPublisherConfig>
+  <AddInVersion>V0.1</AddInVersion>
+  <Product>
+    <Name>My Add-In</Name>
+    <Id>com.example.my-addin</Id>
+    <Version>0.0.1.0</Version>
+  </Product>
+  <FeatureAssembly>
+    <AssemblyInfo>
+      <Assembly>MyAddIn.dll</Assembly>
+    </AssemblyInfo>
+  </FeatureAssembly>
+  <RequiredPermissions>
+    <TIAPermissions>
+      <TIA.ReadOnly />
+    </TIAPermissions>
+  </RequiredPermissions>
+</PackageConfiguration>
+```
+
+`PackageConfiguration`, `Product`, `FeatureAssembly`, and
+`RequiredPermissions` are required by the installed V21 publisher schema.
+`EngineeringVersion`, `Assembly`, and `OutputPackage` are not root-level V21
+configuration elements. Use the XSD shipped beside the publisher as the
+authoritative shape:
+
+```text
+C:\Program Files\Siemens\Automation\Portal V21\PublicAPI\V21\
+  Siemens.Engineering.AddIn.Publisher.xsd
 ```
 
 ---
@@ -47,11 +71,13 @@ Minimum publisher config (`PublisherConfig.V21.xml`):
 ## Required project settings for V21
 
 - `<TargetFramework>net48</TargetFramework>` — V21 still loads under .NET 4.8.
-- `<PlatformTarget>AnyCPU</PlatformTarget>` — the V21 publisher rejects `x86`
-  and `x64` packages.
-- Assembly version stamped via `[assembly: AssemblyVersion("21.x.y.z")]`. The
-  major must match the engineering version (`21` for V21 packages) or TIA
-  Portal will refuse to load it.
+- The Siemens V21 template default is `AnyCPU` (it does not set
+  `PlatformTarget`). V21 Add-In development and execution are unsupported on
+  32-bit computers, so do not target `x86`. The V21 publisher schema does not
+  impose an `x64` rejection rule.
+- Assembly version, `AddInVersion`, and `Product/Version` are separate values.
+  `AddInVersion` is independent of the TIA Portal and project versions; there
+  is no requirement for an assembly-version major of `21`.
 
 ---
 
@@ -61,7 +87,8 @@ Open the `.addin` as a ZIP and confirm:
 
 1. `EngineeringVersion` entry contains exactly `V21` (no whitespace, no BOM).
 2. `Meta/PublisherTarget` ends with `/V21`.
-3. The assembly entry name contains `version=21.x.y.z`.
-4. No `System.Resources.Extensions.dll` or `System.Runtime.CompilerServices.Unsafe.dll`
-   is bundled — both fail under partial trust. See
-   [`runtime-gotchas.md`](runtime-gotchas.md) → "WinForms `.resx` resources".
+3. The feature-assembly entry contains the assembly version and processor
+   architecture that were actually built; neither must encode `21`.
+4. Every non-framework managed dependency is listed under
+   `AdditionalAssemblies`; no native DLL is bundled. See
+   [`runtime-gotchas.md`](runtime-gotchas.md) → "Managed dependency packaging".

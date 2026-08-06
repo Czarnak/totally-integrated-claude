@@ -72,15 +72,18 @@ Apply the rename across every `Add*ActionItem*<T>(...)` call site.
 
 ### Platform target
 
-Set `<PlatformTarget>AnyCPU</PlatformTarget>` in the recovered csproj. The V21
-publisher rejects `x86`/`x64`.
+Use the Siemens V21 template default (`AnyCPU`) unless a fully managed
+dependency requires `x64`. Do not target `x86`: V21 Add-In development and
+execution are unsupported on 32-bit computers. The publisher schema itself
+does not define an `x64` rejection rule.
 
 ### Assembly version
 
-Stamp the recovered assembly with a `21.x.y.z` version (`AssemblyInfo.cs` or
-csproj `<AssemblyVersion>` property). The major must match the engineering
-version. During iterative debugging, bump the patch on every build — see
-[`runtime-gotchas.md`](runtime-gotchas.md) → "Add-In package identity is cached".
+Assign an ordinary product-specific assembly version (`AssemblyInfo.cs` or the
+csproj `<AssemblyVersion>` property). It is independent of V21,
+`AddInVersion`, and `Product/Version`; its major does not have to match the
+engineering version. See [`runtime-gotchas.md`](runtime-gotchas.md) →
+"Add-In version fields are independent".
 
 ### WinForms resources
 
@@ -91,22 +94,22 @@ classic `.resources` and embed them directly. Full rationale and pattern in
 
 ### Callback threading
 
-If the original Add-In blocked the menu callback (long modal loop, direct
-`ShowDialog()`, request-handling loop), restructure it around the two-phase
-collect/show pattern before publishing. The watchdog rules in V21 are the
-same, but the recovered code likely violates them. See
+If the original Add-In starts a long modal loop, a detached UI thread, or a
+request-handling loop, remove that lifetime extension before publishing. Use
+`MessageBoxProvider` for callback-scoped interaction. Start a separate process,
+with `ProcessStartPermission`, for work or UI that must outlive execution. See
 [`threading-and-callbacks.md`](threading-and-callbacks.md).
 
 Also watch for TIA Portal API calls that the recovered code makes from a
-**background** thread (a request loop, a worker, a timer). API objects are
-STA-bound to the callback thread; the calls return `null` or throw when made
-elsewhere. Pre-collect all TIA data on the callback thread and pass only plain
-.NET types to the background.
+**background** thread (a request loop, a worker, a timer). TIA Portal cancels
+longer-running background tasks when the Add-In execution ends, and the
+executed Add-In instance can no longer be used. Keep API access within the
+callback. Transfer only plain serialized data to a separate process.
 
 ### Logging
 
-Add a `%TEMP%` log file early — it is the only way to diagnose the partial-
-trust and threading failures that the migration is about to trigger. Pattern
+Add a `%TEMP%` log file early so failures that do not reach the TIA Portal UI
+still leave diagnostic evidence. Pattern
 in [`threading-and-callbacks.md`](threading-and-callbacks.md) →
 "Diagnosing silent failures".
 

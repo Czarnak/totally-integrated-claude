@@ -35,8 +35,6 @@ namespace MyNamespace
 ```csharp
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Windows.Forms;
 using Siemens.Engineering;
 using Siemens.Engineering.AddIn;
 using Siemens.Engineering.AddIn.Menu;
@@ -100,11 +98,17 @@ namespace MyNamespace
                     return;
                 }
 
-                // Phase 1: collect data on TIA Portal thread (COM access required)
                 var collected = new List<string>();
                 try
                 {
                     CollectData(plcSoftware, collected);
+
+                    // Keep interaction within this Add-In execution.
+                    msgBox?.ShowNotification(
+                        NotificationIcon.Information,
+                        $"{DisplayName} — {deviceName}",
+                        $"Found {collected.Count} blocks.",
+                        string.Join(Environment.NewLine, collected));
                 }
                 catch (Exception ex)
                 {
@@ -112,29 +116,6 @@ namespace MyNamespace
                         $"Collection failed: {ex.Message}");
                     return;
                 }
-
-                string name = deviceName;
-
-                // Phase 2: show dialog on a new STA thread — callback returns immediately
-                var thread = new Thread(() =>
-                {
-                    try
-                    {
-                        // MyResultDialog accepts only plain .NET data — no TIA API refs
-                        MessageBox.Show(
-                            string.Join(Environment.NewLine, collected),
-                            $"{DisplayName} — {name}",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Dialog error: {ex.Message}");
-                    }
-                });
-                thread.SetApartmentState(ApartmentState.STA);
-                thread.IsBackground = true;
-                thread.Start();
 
                 break; // handle first selected item only
             }

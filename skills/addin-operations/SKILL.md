@@ -30,8 +30,8 @@ Load ONLY the reference file(s) relevant to the task. Do not load all files at o
 | `references/api-permissions.md` | Starting external processes; handling ProcessStartPermission |
 | `references/assembly-references.md` | Adding PLC software, block, or tag access to an Add-In csproj |
 | `references/attribute-helper.md` | Reading/writing engineering object attributes via `GetAttributeInfos` or `SetAttributes` |
-| `references/threading-and-callbacks.md` | Showing any WinForms UI from an Add-In; understanding status callback constraints |
-| `references/runtime-gotchas.md` | Assembly location resolution failures; NuGet/GAC errors; SplitContainer sizing crashes; WinForms `.resx` partial-trust failures; package-identity caching; engineering-object field warnings |
+| `references/threading-and-callbacks.md` | Add-In execution lifetime; notifications and confirmations; separate-process UI; status callback constraints |
+| `references/runtime-gotchas.md` | Unsupported assembly-path resolution; managed dependency packaging; SplitContainer sizing crashes; WinForms `.resx` sandbox failures; version fields; engineering-object field warnings |
 | `references/package-and-publisher.md` | `.addin` package internals; V21 publisher config; `PlatformTarget`; verifying a published package |
 | `references/migrate-from-older-version.md` | Converting a V20 (or earlier) Add-In to V21; decompiling an existing `.addin` when source is lost |
 | `references/skeleton.md` | Starting a new context-menu Add-In from scratch |
@@ -45,7 +45,7 @@ For tasks spanning multiple areas, load all relevant reference files before gene
 1. Pick the Add-In type → run `dotnet new <template>` (see template table below)
 2. Decide which TIA Portal objects the Add-In must access; if PLC/SW/HW → load `references/assembly-references.md`
 3. Implement `BuildContextMenuItems` — status callback returns `MenuStatus.Enabled`, guard logic goes in the action callback
-4. For any UI: follow the two-phase collect/show pattern → load `references/threading-and-callbacks.md`
+4. For UI: use callback-scoped `MessageBoxProvider`, or a permitted separate process for long-lived/custom UI → load `references/threading-and-callbacks.md`
 5. Before distributing: compile with "Run build task", debug with F5
 
 ---
