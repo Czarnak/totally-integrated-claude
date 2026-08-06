@@ -29,16 +29,20 @@ CISA ICS advisories, Siemens security configuration guides.
 **Setting:** "Permit access with PUT/GET communication from remote partner"
 (CPU Properties → Protection & Security → Connection mechanisms).
 
-**Risk:** When enabled, this is a GLOBAL setting — any device on the network that
-can reach the PLC can read from or write to any memory area not explicitly protected.
-There is no per-connection authentication for PUT/GET.
+**Risk:** This setting enables the local CPU's passive/server-side PUT/GET access
+from remote partners. The reachable data and permitted read/write behavior also
+depend on CPU family/firmware, access control, the anonymous user's rights, standard
+block access, partner configuration, and network reachability. PUT/GET itself does
+not provide modern cryptographic peer authentication.
 
 **What to flag:**
 
-- PUT/GET access enabled: severity HIGH, tag `HW-PUTGET`
-- PUT/GET enabled AND no evidence of compensating controls (firewall, VLAN
-  segmentation): severity CRITICAL
-- PUT/GET enabled AND safety-critical setpoints in accessible memory: severity CRITICAL
+- setting enabled: review exposure and justification; do not assign HIGH from the
+  checkbox alone
+- enabled, reachable from an untrusted zone, and anonymous/equivalent rights permit
+  sensitive access: severity HIGH
+- a demonstrated unauthenticated write path to a safety/process-critical setpoint:
+  severity derived from the reachable process consequence (potentially CRITICAL)
 
 **Remediation:** Disable PUT/GET. Replace with TSEND_C/TRCV_C or OPC UA with
 certificate-based authentication. If PUT/GET is required for legacy compatibility,
@@ -50,22 +54,26 @@ document the business justification and implement network-level access control.
 
 **Setting:** CPU Protection Level (CPU Properties → Protection & Security → Access level).
 
-**Levels (S7-1500):**
+V21 has two models that must be distinguished by CPU firmware and configuration:
 
-- Level 1 — Full access (no protection): Anyone can read and modify
-- Level 2 — Read access: Read-only without password, write requires password
-- Level 3 — HMI access: Only HMI communication without password, all else requires password
-- Level 4 — No access: All access requires password
+- S7-1500 up to firmware V3.0 uses password-based access levels.
+- From firmware V3.1, local users, roles, and CPU function rights (UMAC) are the
+  normal model. Access control must be enabled. Anonymous is disabled by default;
+  if activated, its assigned rights define unauthenticated access-level behavior.
+- From firmware V4.0, supported S7-1500 configurations can use central UMC-backed
+  user management as well.
 
 **What to flag:**
 
-- Access level 1 (full access) on production CPUs: severity HIGH, tag `HW-ACCESS-LEVEL`
-- Access level 1 or 2 on safety CPUs: severity CRITICAL
-- No password configured for protected access levels: severity HIGH
-- Weak or default passwords (if detectable from config): severity CRITICAL
+- anonymous user with `Full access` or `Full access including fail-safe` in production
+- access control disabled without a documented requirement
+- overly broad role/function-right assignments, especially F-admin rights
+- legacy access-level/password configuration inconsistent with the exact firmware
+- central/local user management configured without its required server/trust evidence
 
-**Remediation:** Set access level 3 or 4 for production systems. Configure strong
-passwords. Use individual user management (UMAC) where supported.
+**Remediation:** Apply least-privilege users/roles/function rights for the exact
+firmware. Keep anonymous disabled or minimally privileged, protect F-admin rights,
+and follow the project's password/central-identity policy.
 
 ---
 
@@ -73,16 +81,17 @@ passwords. Use individual user management (UMAC) where supported.
 
 **What to check:**
 
-- Are safety-critical blocks know-how protected?
-- Is copy protection enabled (binds program to specific MMC/CPU serial)?
-- Are blocks compiled with "Permit download without reinitialization" (allows online
-  changes that skip initialization — risky for production)?
+- Is know-how protection required by the intellectual-property/threat model?
+- Is copy protection required to bind protected blocks to a memory card/CPU?
+- Which specific FB/DB/instance DB has `DownloadWithoutReinit` enabled, and is its
+  online-change behavior approved for that stateful block?
 
 **What to flag:**
 
-- Safety blocks without know-how protection: severity MEDIUM, tag `HW-KNOWHOW`
-- No copy protection on production firmware: severity LOW, tag `HW-COPY-PROTECT`
-- "Download without reinitialization" enabled globally: severity MEDIUM, tag `HW-DOWNLOAD`
+- Missing know-how/copy protection is not automatically a safety vulnerability;
+  report only when an explicit protection requirement is unmet
+- `DownloadWithoutReinit` enabled on a stateful block without an approved online-change
+  and retained-state rationale: contextual severity, tag `HW-DOWNLOAD`
 
 ---
 
@@ -101,7 +110,8 @@ may expose process data to unauthorized viewers.
 - Web server enabled: severity LOW (informational), tag `HW-WEBSERVER`
 - Web server enabled with HTTP (not HTTPS-only): severity MEDIUM
 - Web server enabled without access control (no user management): severity HIGH
-- Web server enabled on safety CPU without documented justification: severity HIGH
+- Web server enabled on an F-CPU: verify justification, users/roles, HTTPS, exposed
+  pages, and segmentation; F-CPU status alone does not make it HIGH
 
 **Remediation:** Disable if not required. If required, enforce HTTPS-only, configure
 user authentication, restrict to diagnostic VLANs.
@@ -112,17 +122,20 @@ user authentication, restrict to diagnostic VLANs.
 
 **Setting:** SNMP configuration in network interface properties.
 
-**Risk:** SNMP v1/v2c uses community strings (effectively cleartext passwords) for
-device management. An attacker with SNMP write access can modify network settings.
+**Risk:** The integrated S7 CPU agent uses plaintext community strings when SNMP is
+enabled. Current S7-1500 firmware defaults SNMP to disabled, but migrated predecessor
+projects can retain enabled/default `public`/`private` behavior. Other Siemens network
+modules may support different SNMP versions, including v3; identify the exact device.
 
 **What to flag:**
 
-- SNMP v1/v2c enabled: severity MEDIUM, tag `HW-SNMP`
+- plaintext-community SNMP enabled and reachable: contextual severity, tag `HW-SNMP`
 - SNMP with default community string ("public"/"private"): severity HIGH
 - SNMP write access enabled: severity HIGH
 
-**Remediation:** Upgrade to SNMPv3 with authentication and encryption. Change default
-community strings. Disable SNMP write access if not required.
+**Remediation:** Disable SNMP if not required. Otherwise change default community
+strings, restrict network reachability, minimize write access, and use SNMPv3 only
+on the exact module/firmware that supports it; do not prescribe an unsupported upgrade.
 
 ---
 
@@ -197,13 +210,15 @@ community strings. Disable SNMP write access if not required.
 **What to check:**
 
 - Is MB_SERVER or MB_CLIENT configured?
-- IP address filtering in MB_SERVER parameters
+- network/firewall allowlisting around the Modbus endpoint (not an invented
+  `MB_SERVER` source-IP filter parameter)
 - Which holding registers are mapped to the Modbus address space?
 - Are safety-critical variables accessible via Modbus?
 
 **What to flag:**
 
-- MB_SERVER without IP filtering: severity HIGH, tag `HW-MODBUS`
+- MB_SERVER reachable from an untrusted zone without an external allowlist:
+  severity HIGH, tag `HW-MODBUS`
 - Safety-critical variables mapped to Modbus registers: severity CRITICAL
 - Modbus TCP on the same network segment as untrusted devices: severity HIGH
 
@@ -220,13 +235,17 @@ The hardware reviewer focuses on the configuration context.
 
 - Are control network and enterprise/IT network separated?
 - Is there evidence of DMZ architecture for data exchange?
-- Are safety networks isolated from standard control networks?
+- Does the cybersecurity zoning match the architecture? PROFIsafe is designed to
+  share a standard/"black channel" network; a separate physical safety network is
+  not a universal functional-safety requirement.
 - Is there firewall or router configuration between zones?
 
 **What to flag:**
 
-- No evidence of network segmentation: severity HIGH, tag `HW-SEGMENTATION`
-- Safety and standard control on the same flat network: severity HIGH
+- No architecture/segmentation evidence in the supplied artifact: INFO verification
+  gap, not proof of a flat network
+- A shared safety/standard PROFINET segment is not automatically a finding; assess
+  untrusted ingress, zones/conduits, device hardening, and availability requirements
 - Direct connection between control network and internet-accessible systems:
   severity CRITICAL
 
@@ -245,10 +264,9 @@ Flag as INFO if assessment is limited by available data.
 
 **What to flag:**
 
-- Safety-critical process without redundant communication paths:
-  severity MEDIUM, tag `HW-REDUNDANCY`
-- No CPU redundancy for continuous process with high availability requirements:
-  severity LOW (recommendation)
+- A safety/availability requirement calls for redundancy but the verified architecture
+  lacks it: severity derived from the requirement and failure consequence
+- No redundancy requirement or hazard/availability analysis supplied: INFO gap only
 
 ---
 
@@ -257,23 +275,21 @@ Flag as INFO if assessment is limited by available data.
 1. Identify all available hardware configuration data
 2. If no data is available, produce the standard INFO finding and end this pass
 3. Work through each section, checking every applicable setting
-4. For each finding, note whether the assessment is based on direct evidence from
-   configuration data or inferred from code patterns (e.g., PUT/GET instructions
-   in code imply PUT/GET is enabled on the CPU)
-5. When hardware settings cannot be directly verified, flag as "inferred" and
-   recommend explicit verification
+4. For each finding, distinguish direct configuration evidence from a code-observed
+   service/instruction that only creates a hardware verification question
+5. When a setting cannot be verified, emit an INFO verification gap; do not promote
+   instruction presence into a configuration finding
 
-### Inference rules (when only code is available)
+### Code observations are not configuration evidence
 
-Even without explicit hardware configuration, some settings can be inferred:
-
-| Code pattern | Inferred hardware setting |
+| Code observation | What it justifies checking |
 | ------------- | -------------------------- |
-| PUT/GET instructions in code | PUT/GET access enabled on CPU |
-| MB_SERVER block instances | Modbus TCP enabled, firewall port open |
-| TCON with external IPs | Network connectivity to external systems |
-| OPC UA client/server blocks | OPC UA server enabled |
-| Web-related instructions | Web server potentially enabled |
+| Local PUT/GET instruction | The *partner CPU* must permit the intended remote access; it cannot establish that the local CPU's passive PUT/GET setting is enabled. |
+| `MB_SERVER` instance | Intended Modbus server use; it cannot establish current reachability, firewall state, download state, or execution. |
+| `TCON` with an external address | Intended connection configuration; it cannot establish a routed/live path. |
+| OPC UA-related blocks | Intended OPC UA use; it cannot establish that the CPU's OPC UA server is enabled or reachable. |
+| Web-related logic | A web feature dependency; it cannot establish the CPU web-server configuration. |
 
-Flag inferred findings with the note: "Inferred from code — verify against actual
-CPU configuration."
+When hardware configuration is absent, report the missing evidence and the exact
+setting to verify. Do not claim that code proves a local CPU service, firewall port,
+network path, or downloaded runtime state.

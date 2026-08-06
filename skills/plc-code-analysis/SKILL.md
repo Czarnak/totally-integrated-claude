@@ -27,12 +27,13 @@ This skill is NOT routed by `tia-openness-roadmap`. It has its own trigger patte
 operates independently. The Openness roadmap handles engineering automation (create, modify,
 import/export via API). This skill handles analysis and review of existing code.
 
-The skill CAN consume code retrieved via MCP tools or Python/C# Openness exports, but it
-does not depend on them.
+The skill can consume code retrieved through an integration or exported through
+Openness/VCI, but it does not depend on a particular wrapper.
 
 ## Input recognition
 
-Claude receives PLC code in one of three ways. Identify which applies before starting analysis.
+PLC code commonly arrives in one of four ways. Identify the exact format and
+provenance before analysis.
 
 ### Format 1 — Raw SCL / Structured Text
 
@@ -40,7 +41,18 @@ The user pastes or uploads `.scl`, `.st`, or plain-text PLC code. This is the si
 Parse directly as text. Look for FUNCTION_BLOCK, FUNCTION, ORGANIZATION_BLOCK, DATA_BLOCK
 headers to identify block boundaries.
 
-### Format 2 — SimaticML XML (exported LAD/FBD/SCL)
+### Format 2 — SIMATIC SD source documents (V21)
+
+TIA Portal V21 can export S7-1200/S7-1500 SCL, LAD, FBD, DB, F-DB, UDT, and
+F-UDT content in the text-based SIMATIC Source Document format. Analyze the
+`.s7dcl` declaration/code document together with its `.s7res` resources when both
+exist. Preserve document paths and identifiers so findings can be traced back.
+
+SIMATIC SD is a source representation, not runtime evidence. In particular, an
+SCL block can be exported even when it is not compile-clean; successful export
+does not prove a successful compile, download, or PLC behavior.
+
+### Format 3 — SimaticML XML (exported LAD/FBD/SCL)
 
 The user provides `.xml` files exported from TIA Portal. These follow the SimaticML schema.
 Key navigation points:
@@ -52,16 +64,21 @@ Key navigation points:
 - `<Access>` elements — variable references with scope and UID
 - `<Part>` elements — instructions (contacts, coils, function calls)
 - `<Wire>` elements — connections between parts (data/signal flow)
-- `<StructuredText>` — inline SCL within LAD/FBD networks
+- `<StructuredText>` — SCL compile-unit content, including inline SCL in LAD/FBD
 - `<Comment>` — block and network comments (valuable for process context)
-- Block attributes in root element: `BlockType`, `Number`, `Programming language`,
-  `MemoryLayout` (Optimized/Standard), `HeaderAuthor`, `HeaderVersion`
+- Root block kind (`SW.Blocks.FB`, `SW.Blocks.FC`, `SW.Blocks.OB`, or
+  `SW.Blocks.GlobalDB`) and `<AttributeList>` elements such as `<Number>`,
+  `<ProgrammingLanguage>`, and `<MemoryLayout>` (Optimized/Standard)
+
+Validate XML against the installed V21 schemas rather than assuming a historical
+schema revision. The installed SCL schema is `SW.PlcBlocks.SCL_v4.xsd`; LAD/FBD
+and shared interface schemas are separate.
 
 For LAD/FBD analysis, reconstruct the logic flow from the `<FlgNet>` graph:
 Parts are nodes, Wires are edges. Follow Powerrail → Contact chain → Coil/Function to
 understand each network's behavior.
 
-### Format 3 — MCP-assisted retrieval
+### Format 4 — MCP-assisted retrieval
 
 If the TIA Portal MCP server is available, context retrieval is required before issuing
 security findings. Use the current Totally Integrated Claude MCP tools:
@@ -132,6 +149,10 @@ After all passes, run a final verification synthesis:
 - Flag any proposed remediation that requires `compile_check`, simulation, or safety review
 - Do not present generated PLC code as deployable without compile and engineering validation
 
+Every finding must be source-backed: cite the supplied line/network/XML/SD node or
+retrieved artifact that supports it. A checklist match without the required context
+is a review question or verification request, not a confirmed vulnerability.
+
 ### Hardware reviewer conditionality
 
 If no hardware configuration data is available (user only provided code, no HW config,
@@ -160,7 +181,7 @@ gets the highest severity assigned and cross-references both categories), and so
 ## PLC Code Analysis Report
 
 **Analyzed:** [block names / file names]
-**Input format:** SCL / SimaticML XML (LAD) / SimaticML XML (FBD)
+**Input format:** SCL/ST / SIMATIC SD / SimaticML XML (SCL/LAD/FBD)
 **Analysis date:** [date]
 **Passes completed:** Process Architect, Security Practices, Threat Mapping,
                       Compiler Critic, Hardware Reviewer, Verification Synthesis

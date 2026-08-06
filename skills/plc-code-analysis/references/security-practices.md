@@ -9,6 +9,11 @@ invalid inputs, unauthorized modifications, and unsafe communication patterns?
 Source: "Top 20 Secure PLC Coding Practices" (plc-security.com), industry consensus
 from ICS security community.
 
+These practices are review prompts, not automatic findings. Confirm applicability,
+external reachability, process impact, and direct source/configuration evidence before
+assigning severity. Absence of a pattern is not a vulnerability when the requirement
+is implemented elsewhere or is not applicable.
+
 ---
 
 ## Top 20 Secure PLC Coding Practices Checklist
@@ -299,23 +304,30 @@ Analyze all communication-related code for security weaknesses.
 
 ### PUT/GET instructions
 
-**Risk:** PUT/GET bypasses block-level access control. When enabled, ANY device on the
-network can read/write ANY memory area on the PLC.
+**Risk:** PUT/GET is legacy S7 communication without modern cryptographic peer
+authentication. A local PUT/GET instruction actively accesses a *partner CPU*; the
+partner must permit remote access and expose standard-access data. Its presence does
+not prove that the local CPU's passive PUT/GET server setting is enabled, nor that
+every memory area is accessible.
 
 **What to flag:**
 
-- Any use of PUT or GET instructions: severity HIGH, tag `COMM-PUTGET`
-- Recommend replacement with TSEND_C / TRCV_C or OPC UA with certificate auth
+- PUT/GET use: document exact partner, data area, direction, access rights, and
+  network controls; severity follows reachable data and process impact
+- Prefer a protocol/architecture with the required authentication, integrity, and
+  confidentiality; OPC UA can provide these when securely configured
 - If PUT/GET is present and justified, check for compensating controls (IP filtering,
   network segmentation documentation)
 
 ### TCON with hardcoded IP addresses
 
-**Risk:** Hardcoded IPs prevent dynamic network reconfiguration and simplify spoofing.
+**Risk:** Hardcoded addresses create configuration drift and maintenance coupling.
+They are not, by themselves, proof of spoofability or a security vulnerability.
 
 **What to flag:**
 
-- Static IP literals in TCON connection parameters: severity MEDIUM, tag `COMM-HARDCODED-IP`
+- Static IP literals inconsistent with the approved connection inventory: usually
+  LOW/INFO, tag `COMM-HARDCODED-IP`
 - Recommend symbolic addressing or configuration DB with protected access
 
 ### MB_SERVER (Modbus TCP)
@@ -325,8 +337,9 @@ registers.
 
 **What to flag:**
 
-- MB_SERVER usage without IP address filtering in block parameters: severity HIGH,
-  tag `COMM-MODBUS`
+- MB_SERVER reachable from an untrusted zone without external allowlisting or
+  segmentation: severity HIGH, tag `COMM-MODBUS` (there is no generic source-IP
+  authentication created merely by the block call)
 - Modbus holding registers mapped to safety-critical setpoints: severity CRITICAL,
   tag `COMM-MODBUS`
 
@@ -341,11 +354,11 @@ crafted.
 - Received buffer not checked against expected message structure: severity MEDIUM
 - No timeout handling on TRCV (stale data risk): severity LOW
 
-### Communication security preference order
+### Communication security selection
 
-For recommendations, prefer protocols in this order:
-
-1. OPC UA with certificate-based authentication (most secure)
-2. TSEND_C / TRCV_C with connection monitoring (good)
-3. PUT/GET with network segmentation (acceptable only if legacy requirement)
-4. Modbus TCP (avoid for safety-critical data, use only with IP filtering)
+Do not apply a universal protocol ranking. Select against required authentication,
+authorization, integrity, confidentiality, availability, determinism, device support,
+and safety validation. OPC UA with suitable security policies and certificate/user
+authentication can provide cryptographic protection. `TSEND_C` / `TRCV_C` connection monitoring is useful operationally but is not cryptographic authentication or
+encryption. Plain PUT/GET and Modbus TCP require compensating zoning/allowlisting and
+must not be described as secure merely because a connection is configured.

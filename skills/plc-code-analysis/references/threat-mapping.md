@@ -3,12 +3,15 @@
 ## Role
 
 Shift perspective from defensive coding standards to adversarial thinking. Look at the
-code through the lens of the MITRE ATT&CK for ICS framework and ask: "If an attacker
-had access to this code or this network, which techniques could they leverage? Does
-this code contain patterns that resemble known attack indicators?"
+code through the lens of the MITRE ATT&CK for ICS framework and ask: "Which
+technique preconditions or control weaknesses are directly evidenced, and what
+additional access would an adversary require?"
 
-This pass is NOT about finding bugs — it's about finding patterns that an adversary
-could exploit or that indicate existing compromise.
+This pass maps source-backed exposure hypotheses to ATT&CK for ICS techniques. A code
+pattern can show that a technique may be relevant to the threat model, but it is not
+evidence of compromise, adversary intent, execution, or attribution. Use a technique
+ID only when the observed behavior and the ATT&CK technique definition actually match.
+Each mapping remains a hypothesis until the required access and runtime evidence exist.
 
 Source: MITRE ATT&CK for ICS (attack.mitre.org/matrices/ics/),
 CISA ICS advisories, Claroty Team82 research, Dragos ICS threat intelligence.
@@ -87,18 +90,22 @@ Techniques that directly affect the physical process.
 **Code indicators:**
 
 - Logic that can disable or suppress safety system responses
-- Standard program code that writes to or influences safety program variables
+- Unsafe standard-program data that influences a safety function without the
+  required plausibility/safety conditions
 - Interlock bypass logic without time limitation or automatic re-engagement
 - Alarm suppression without timeout
 
 **What to look for:**
 
-- Any path in standard (non-safety) code that can affect F-program behavior
+- A standard-to-safety path whose permitted data-exchange direction is confirmed but
+  whose unsafe value can bypass the required plausibility or fail-safe condition
 - Variables that gate safety interlock evaluation (e.g., `Interlock_Bypass := TRUE`)
-- Logic that prevents OB35 (safety cyclic interrupt) from executing or that modifies
-  F-DB values from standard context
+- A source-backed mechanism that disrupts the configured F-runtime group or attempts
+  a prohibited standard-program write to an F-DB
 
-**Severity:** CRITICAL when safety functions are inhibitable from standard code
+Permitted exchange between standard and safety programs is not itself `T0827`.
+**Severity:** CRITICAL only when a reachable path can actually inhibit a required
+safety response; otherwise report the missing context or lower-severity control issue.
 **Tag:** `T0827`
 
 ---
@@ -133,7 +140,8 @@ Techniques to hide adversarial activity from operators and monitoring systems.
 **Code indicators:**
 
 - Code that "freezes" or "replays" old sensor values during specific operations
-- Logic that substitutes actual readings with stored/calculated values
+- Logic that substitutes actual readings with stored/calculated values without an
+  approved simulation, fallback, quality, or maintenance purpose
 - Timer-gated value replacement (show old data while performing unauthorized action)
 
 **What to look for in SCL:**
@@ -154,7 +162,10 @@ END_IF;
 - Parallel paths where one writes actual values and another writes stored values,
   selected by a condition
 
-**Severity:** CRITICAL — this is a classic attack indicator (Stuxnet used this pattern)
+Value substitution is common in fallback, simulation, filtering, and maintenance
+logic. Assign `T0856` only when the path actually sends false process state to a
+reporting/operator channel and lacks an approved purpose or disclosure. Severity
+follows the concealed process impact; syntax alone is an INFO review question.
 **Tag:** `T0856`
 
 ---
@@ -163,22 +174,23 @@ END_IF;
 
 **Code indicators:**
 
-- Unexpected changes in block checksums or modification timestamps without
-  corresponding change requests
+- Changes in block checksums/content relative to a trusted baseline without a
+  corresponding approved change
 - Logic blocks with suspiciously recent modification dates compared to the rest
   of the project
 - Code patterns that don't match the project's coding style
 
 **What to look for:**
 
-- If block metadata is available (via `get_block_content`, `browse_project_tree`, or exported attributes):
-  compare modification timestamps across blocks. Outliers may indicate unauthorized
-  modification.
+- If block metadata and a trusted baseline/change record are available, compare
+  content/checksums and provenance. Timestamp or style outliers alone do not establish
+  modification or an adversary.
 - Blocks with know-how protection disabled when project standard requires it
 - Inconsistent coding patterns within a block (mixed naming conventions, different
   comment styles) suggesting multiple authors or post-deployment modification
 
-**Severity:** HIGH
+Assign `T0833` only from an unauthorized delta or equivalent integrity evidence.
+A single-snapshot style/timestamp anomaly is INFO pending provenance.
 **Tag:** `T0833`
 
 ---
@@ -224,8 +236,9 @@ END_IF;
 
 **The key question:** Does the time-based logic serve a documented process purpose?
 
-**Severity:** HIGH (if no process justification found)
-**Tag:** `T0856-TIMEBOMB`
+Missing documentation makes a time trigger a review question, not a logic bomb.
+Escalate only when the trigger has a hidden/unapproved effect and the call/output path
+is established. Use local tag `THREAT-TIME-TRIGGER`; do not invent an ATT&CK technique ID.
 
 ---
 
@@ -244,7 +257,10 @@ END_IF;
 - Indirect addressing patterns that sweep through I/O areas
 - Array-based I/O mapping where the array is externally writable
 
-**Severity:** HIGH
+Array-based I/O mapping, commissioning tests, and diagnostics can resemble this
+pattern. Assign `T0806` only when the code systematically searches/forces I/O in a
+way that matches the technique and is reachable outside an approved test context.
+Severity follows output reachability and process consequence.
 **Tag:** `T0806`
 
 ---
@@ -263,7 +279,9 @@ END_IF;
 - `SET_SW` usage triggered by non-safety events
 - Logic that conditionally forces STOP mode based on external input values
 
-**Severity:** CRITICAL
+Mode-control instructions may be legitimate fault handling. Assign `T0855` only when
+an unauthorized or externally reachable path can change PLC mode. Severity follows
+the demonstrated availability/safety impact; instruction presence alone is INFO.
 **Tag:** `T0855`
 
 ---
@@ -274,9 +292,10 @@ For each technique listed above:
 
 1. Search the code for the specified indicators
 2. If a pattern is found, assess whether there is a legitimate process justification
-3. If justified (e.g., time-based load shedding), note as INFO with explanation
-4. If not justified or suspicious, flag with the technique's tag and severity
-5. For ambiguous cases, flag as MEDIUM with a note recommending manual review
+3. If justified (e.g., time-based load shedding), record it only when useful to close
+   the review question; do not create a vulnerability
+4. Use the technique tag only when required access/behavior is evidenced
+5. For ambiguous cases, emit an INFO verification request and state the missing evidence
 
 ### Cross-referencing with previous passes
 

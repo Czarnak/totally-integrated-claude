@@ -27,8 +27,8 @@ techniques?" A finding might violate no coding practice but still match a threat
 technique pattern (e.g., unusual clock-based triggers).
 
 Compiler Critic follows security passes because its findings are platform-specific —
-they matter regardless of adversarial context. A V19 optimizer bug corrupts logic
-whether or not an attacker is involved.
+they matter regardless of adversarial context. Toolchain/update claims require exact
+project provenance and an applicable Siemens advisory or reproducible V21 evidence.
 
 Hardware Reviewer runs last because it analyzes a different input (configuration, not
 code) and may not always have data available.
@@ -50,7 +50,7 @@ code) and may not always have data available.
 
 | Pass | Minimum input | Enhanced by |
 | ------ | -------------- | ------------- |
-| Process Architect | Code (any format) | Block comments, project documentation |
+| Process Architect | Code (SCL/ST, SIMATIC SD, or schema-valid SimaticML) | Block comments, project documentation |
 | Security Practices | Code (any format) | UDT definitions, DB structures, call tree |
 | Threat Mapping | Code (any format) | Block metadata (timestamps, checksums), call tree |
 | Compiler Critic | Code (any format) | TIA Portal version info, block attributes (MemoryLayout) |

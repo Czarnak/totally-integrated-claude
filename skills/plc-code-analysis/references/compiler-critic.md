@@ -32,79 +32,56 @@ In SimaticML XML, check the block attribute: `MemoryLayout="Standard"` indicates
 non-optimized access. In SCL source, look for `{MemoryLayout := 'Standard'}` pragma
 or explicit `AT` overlay declarations.
 
-**Flag:** Any DB or FB with non-optimized access.
-**Exception:** Legacy communication blocks requiring fixed byte layout (documented).
-**Severity:** MEDIUM
+**Review signal:** A DB or FB with non-optimized access. Standard access is valid
+and sometimes required, for example for legacy absolute-address communication and
+PUT/GET target areas. Do not report it as a vulnerability without an exposed
+consumer, sensitive data, or an unjustified dependency on absolute layout.
+**Default severity:** INFO; raise only from source-backed exposure and impact evidence.
 **Tag:** `PLATFORM-NONOPTIMIZED`
 
 #### 1.2 — **ANY pointer usage in optimized context**
 
-ANY pointers (`P#...`) are deprecated in optimized blocks. They reference physical
-memory offsets that are undefined when the compiler rearranges variables.
+Legacy pointer/ANY patterns depend on CPU family, instruction, and memory area.
+For example, V21 `BLKMOV` on S7-1500 uses `VARIANT` but restricts actual operands
+to non-optimized areas (with documented exceptions); S7-300/400 `BLKMOV` uses ANY.
+The compiler normally rejects unsupported combinations.
 
-**Flag:** `ANY` type declarations, `P#` pointer literals, `SFC 20 BLKMOV` with ANY params.
-**Severity:** HIGH — runtime memory corruption possible.
+**Review:** `ANY` declarations, `P#` pointer literals, and `BLKMOV` calls. Confirm
+CPU family, optimized/standard memory, source/destination sizes, overlap rules,
+return status, and compile result. Do not claim runtime memory corruption solely
+from syntax that the compiler may reject.
+**Default severity:** INFO or LOW; elevate only with a reachable unsafe operation.
 **Tag:** `PLATFORM-ANYPOINTER`
 
 #### 1.3 — **Absence of VARIANT for indirect addressing**
 
 Where indirect data access is needed, VARIANT provides safe symbolic reference.
 
-**Flag:** Indirect addressing via absolute offsets instead of VARIANT.
-**Recommend:** Replace with `VARIANT` type and `MOVE_BLK_VARIANT`.
+**Review:** Indirect addressing via absolute offsets where symbolic ARRAY access or
+VARIANT would meet the same requirement. `MOVE_BLK_VARIANT` is specifically useful
+for ARRAY ranges whose element type is known only at runtime; it is not a universal
+replacement for every move.
 **Severity:** LOW (recommendation)
 **Tag:** `PLATFORM-VARIANT`
 
 ---
 
-## Section 2 — Compiler-Induced Logic Vulnerabilities
+## Section 2 — Toolchain and CPU-Family Provenance
 
-### 2.1 — V18/V19 SCL Optimizer Bug
+### 2.1 — Product advisories and project provenance
 
-**Affected versions:** TIA Portal V18 (before Update 5), V19 (before Update 3).
+Do not infer a compiler defect from a code shape such as nested `IF`, `CASE`, or
+UDT-member assignment. A precise compiler finding requires the project engineering
+version/update, target CPU and firmware, compile mode, and an applicable Siemens
+product note or reproducible compile/runtime difference.
 
-**Bug description:** The SCL code optimizer incorrectly generates MC7 assignments
-within nested control statements when structure variables (UDTs) are assigned values
-outside a control instruction and then reused within nested IF-ELSE or CASE blocks.
-The generated machine code swaps or duplicates assignments, causing the PLC to execute
-different logic than what the SCL source shows.
+For a V21 project, record the installed V21 update and perform a full compile when
+the user authorizes verification. If the project was migrated, origin metadata alone
+does not prove that code is still affected after recompilation in V21.
 
-**What to look for:**
+**Tag:** `PLATFORM-TOOLCHAIN`
 
-```scl
-// HIGH-RISK PATTERN: UDT assignment before nested control flow
-MyStruct.Field1 := Value1;
-
-IF Condition1 THEN
-    IF Condition2 THEN
-        MyStruct.Field2 := Value2;
-    ELSE
-        MyStruct.Field2 := Value3;  // May execute with wrong value
-    END_IF;
-END_IF;
-```
-
-**Flag:** Nested IF-ELSE or CASE structures that operate on UDT/struct members,
-especially when assignments to the same structure occur before the control block.
-**Severity:** HIGH (safety-critical logic: CRITICAL)
-**Remediation:** Install Update 3 (V19) or Update 5 (V18). Perform "Software
-(rebuild all)" — not incremental compile. Verify MC7 behavior matches source.
-**Tag:** `PLATFORM-OPTIMIZER`
-
-### 2.2 — V12 SCL Monitoring Issues
-
-**Affected versions:** TIA Portal V12 and earlier.
-
-**Bug description:** SCL monitoring (inline debugging) in V12 has timing conflicts
-and symbol resolution errors that produce "blank" (##) values. This isn't a logic
-bug per se, but relying on V12 monitoring for verification is unreliable.
-
-**Flag:** If project metadata indicates V12 origin, note as INFO with upgrade
-recommendation (V14+ resolves monitoring issues).
-**Severity:** INFO
-**Tag:** `PLATFORM-V12`
-
-### 2.3 — Error handling disparities between CPU generations
+### 2.2 — Error handling disparities between CPU generations
 
 **Background:** S7-300/400 and S7-1200/1500 handle synchronous and asynchronous
 errors differently. Code migrated between generations may have incorrect error
@@ -112,46 +89,50 @@ handling that causes the CPU to go to STOP on minor faults.
 
 **What to check:**
 
-- Are error OBs present? Specifically OB80 (time error), OB82 (diagnostic interrupt),
-  OB121 (programming error), OB122 (I/O access error).
-- If error OBs are missing, a runtime error will cause the CPU to STOP.
+- Which error/diagnostic OBs are supported and required by the exact CPU family and
+  configured events (for example OB80, OB82, OB121, or OB122 where applicable)?
+- What is the documented CPU response when the applicable OB is absent? Do not
+  generalize one CPU generation's STOP behavior to every target.
 - Is GET_ERROR or GET_ERR_ID used for local error handling within blocks?
 - Are error OBs just empty stubs, or do they actually handle the error condition?
 
-**Flag:** Missing error OBs for production code.
-**Severity:** MEDIUM (safety-critical: HIGH)
-**Remediation:** Implement OB80, OB82, OB121, OB122 at minimum. Use GET_ERROR for
-local handling within complex blocks.
+**Finding gate:** The exact CPU/event documentation shows an unhandled event can
+produce an unacceptable response, and the relevant OB/local error handling is absent.
+Do not prescribe a universal minimum set of OBs.
+**Severity:** Contextual from the documented response and process consequence.
 **Tag:** `PLATFORM-ERROROB`
 
 ---
 
 ## Section 3 — CWE-Based Memory Safety
 
-### CWE-787 — Out-of-bounds Write
+### Bounds and status handling for block moves
 
-**PLC context:** The instructions `MOVE_BLK` and `MOVE_BLK_VARIANT` invoke internal
-memory copy without fully validating source/destination positions. When handling
-dynamic data from communication blocks (TSEND/TRCV), the received data length may
-exceed the destination buffer size.
+**PLC context:** V21 typed `MOVE_BLK`/`MOVE_BLK_VARIANT` enforce data-type and
+available-range conditions. `MOVE_BLK_VARIANT` is not executed when the requested
+range exceeds available source/destination data; `MOVE_BLK` reports an invalid
+output/ENO response depending on language. The primary review risk is unchecked
+failure, stale/invalid downstream data, unit mistakes, or legacy raw-area behavior—not
+an automatic out-of-bounds write finding.
 
 **What to look for:**
 
-- `MOVE_BLK` or `MOVE_BLK_VARIANT` where the `COUNT` parameter is derived from
-  received data length rather than destination buffer size
-- `BLKMOV` (SFC 20) with length parameters from external sources
-- Any block-move operation where `COUNT > (destination size - destination offset)`
+- `COUNT`, source index, or destination index derived from external data without a
+  same-unit element-range check
+- failure/ENO/status ignored before the destination is consumed
+- legacy `BLKMOV` areas with mismatched or overlapping source/destination ranges
+- byte counts confused with element counts
 
 **Compliant pattern:**
 
-```scl
-// Safe: Count limited to destination capacity
-MoveCount := MIN(ReceivedLength, SIZEOF(DestBuffer));
-MOVE_BLK(SRC := SourceData, COUNT := MoveCount, DEST => DestBuffer);
-```
+Validate element counts against source and destination capacities in the same unit,
+then handle the instruction's failure indication before consuming output. `SIZEOF`
+returns a size, while `COUNT` is an element count; do not compare them without an
+explicit element-width conversion.
 
-**Severity:** HIGH
-**Tag:** `CWE-787`
+Assign `CWE-787` only when direct evidence demonstrates an actual out-of-bounds write
+path for the exact CPU/instruction. Otherwise use `PLATFORM-BLOCKMOVE` and describe
+the observed failure-handling risk.
 
 ---
 
@@ -163,11 +144,12 @@ are not updated accordingly.
 
 **What to look for:**
 
-- Hardcoded byte lengths in MOVE operations that should reference `SIZEOF()`
+- Hardcoded byte lengths in raw-area moves that drift from the declared layout
+- hardcoded element counts in typed ARRAY moves that drift from array bounds
 - Length calculations that don't account for UDT padding or alignment
 - Copy operations between buffers of different sizes without explicit length limiting
 
-**Severity:** HIGH
+**Severity:** Contextual; typed V21 moves that fail closed are not automatically HIGH.
 **Tag:** `CWE-805`
 
 ---
@@ -223,86 +205,104 @@ paths reached via jumps.
 
 Applies to Siemens F-Systems (Fail-Safe) using F-CPUs with safety programs.
 
-### 4.1 — Read-only standard access from safety program
+### 4.1 — Direction-aware data exchange
 
-**Rule:** The safety (F-) program may only READ data from the standard program.
-Any write from F-program to standard tags is a potential integrity violation.
+V21 explicitly permits data exchange in both directions, with operand-specific
+restrictions. Examples include:
 
-**What to look for:**
+- the standard program may read safety data (F-DBs, F-FB instance DBs, and allowed
+  F-I/O process-image data), but may not write F-DB tags;
+- the safety program may read standard DB tags, bit memory, and permitted standard
+  process-image data; standard tags are unsafe and must be treated accordingly;
+- the safety program can write permitted standard DB tags/bit memory and selected
+  process-image outputs under the documented operand restrictions.
 
-- F-FB or F-FC blocks that write to variables declared outside the safety context
-- F-DB variables that are also written to by standard blocks (bidirectional access)
-- Shared memory areas used as write buffers between standard and safety programs
+Siemens recommends dedicated transfer data blocks to decouple the standard and
+safety programs. When unsafe standard data influences a safety function, verify
+the required plausibility/range checks and that unsafe signals cannot alone enable
+a hazardous action. A permitted data direction is not itself a vulnerability.
 
-**Severity:** CRITICAL
+**Finding gate:** An actual access violates the V21 operand table, bypasses required
+plausibility, or creates a source-backed unsafe influence on a safety function.
+**Severity:** Derived from the specific safety consequence; do not default every
+cross-boundary access to CRITICAL.
 **Tag:** `SAFETY-BOUNDARY`
 
 ---
 
 ### 4.2 — Operand area restrictions
 
-**Rule:** Certain operand areas (bit memory / Merker %M) can only be used for data
-exchange between standard and safety programs. They must NOT be used as internal
-buffers within safety-critical logic.
+Bit memory and standard DB tags are permitted exchange mechanisms, but they are not
+fail-safe data. Review whether they are used only in a way allowed by the exact
+F-CPU/Safety instruction restrictions and whether unsafe values receive the required
+plausibility and safety logic treatment.
 
 **What to look for:**
 
-- `%M` operands used as intermediate results within F-blocks
-- Bit memory used for safety-critical interlocking (should use F-DB variables instead)
+- `%M`/standard DB values treated as intrinsically fail-safe
+- unsafe exchange tags that can enable a hazardous output without a fail-safe condition
+- standard code writing an F-DB (not permitted)
 
-**Severity:** HIGH
+**Severity:** Contextual from the reachable safety effect.
 **Tag:** `SAFETY-OPERAND`
 
 ---
 
 ### 4.3 — Array restrictions in safety programs
 
-**Rule:** In F-DBs, arrays are limited to:
+For the V21 F-array instructions on supported S7-1200 G2/S7-1500 targets:
 
-- Maximum 10,000 elements
-- Types: INT or DINT only
-- Not permitted in F-FBs or F-FCs (only in F-DBs)
+- the array is one-dimensional in an F-DB;
+- the low limit is `0` and the high limit is at most `10000`;
+- element type is `INT` or `DINT` according to the matching instruction;
+- `ARRAY[*]` is permitted as an `InOut` parameter of F-FCs/F-FBs for this use.
 
 **What to look for:**
 
-- Arrays declared in F-FBs or F-FCs
-- Arrays exceeding 10,000 elements in F-DBs
-- Arrays of types other than INT/DINT in F-DBs
+- fixed arrays outside the permitted F-DB location
+- a low limit other than 0 or high limit above 10000
+- unsupported dimensions or element types
+- `ARRAY[*]` used outside the allowed `InOut` interface/instruction context
+- failure to handle the array instruction's `ERROR` output and safe substitute at index 0
 
 **Severity:** HIGH (compiler may reject, but code review should catch it first)
 **Tag:** `SAFETY-ARRAY`
 
 ---
 
-### 4.4 — F-Cycle time vs standard cycle time
+### 4.4 — Safety timing and response-time evidence
 
-**Rule:** The safety cycle (F-monitoring time) must be significantly shorter than
-the standard cycle time to prevent non-deterministic behavior in safety responses.
+Do not equate PROFIsafe `F-monitoring time`, the F-runtime-group execution interval,
+and the standard OB1 cycle. There is no universal rule that one must be a fixed ratio
+or simply shorter than another. Validate the configured F-runtime group, PROFIsafe
+monitoring times, CPU/F-I/O response-time calculation, process safety time, watchdog
+diagnostics, and the exact cyclic-interrupt assignment against the safety design.
 
-**What to look for:**
-
-- If timing configuration is available: compare F-cycle time to standard OB1 cycle time
-- Safety logic in OB1 instead of dedicated F-OB (wrong execution priority)
-- F-runtime warnings about cycle time overruns
-
-**Severity:** HIGH
+The configured PROFIsafe monitoring time must be high enough to avoid fault-free
+trips yet low enough for the accepted safety response, using Siemens' response-time
+calculation and commissioning checks. Missing configuration evidence yields an INFO
+verification gap, not an assumed HIGH defect.
 **Tag:** `SAFETY-FCYCLE`
 
 ---
 
 ### 4.5 — F-CPU restart and re-integration patterns
 
-**Rule:** After a safety fault, F-CPU restart and F-I/O re-integration must use
-proper "User Acknowledgment" patterns — typically a two-step "Arm and Fire"
-procedure requiring deliberate operator action.
+After faults requiring reintegration, Siemens' `ACK_REI`/`ACK_GL` mechanisms require
+a user acknowledgment with a manual signal and positive edge where the instruction
+or device configuration requires it. The safety requirements and hazard analysis
+determine the operator interaction; V21 does not impose a universal two-action pattern.
 
 **What to look for:**
 
-- Automatic F-CPU restart without operator acknowledgment
-- F-I/O re-integration triggered by timer instead of operator confirmation
-- Single-button restart (should require two distinct actions to prevent accidental restart)
+- automatic acknowledgment or a timer-generated acknowledgment where manual action is required
+- acknowledgment logic without positive-edge behavior
+- restart/reintegration that can immediately create hazardous motion without the
+  separately required start/restart interlock and operator procedure
 
-**Severity:** HIGH
+**Severity:** Contextual; automatic acknowledgment contrary to the applicable
+Safety requirement is normally HIGH and may be CRITICAL only with a demonstrated
+hazardous restart path.
 **Tag:** `SAFETY-RESTART`
 
 ---
