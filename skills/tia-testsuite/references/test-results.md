@@ -37,6 +37,52 @@
 >
 > The list of possible test result options
 
+- `TestResultsState.Success`
+- `TestResultsState.Information`
+- `TestResultsState.Warning`
+- `TestResultsState.Error`
+
 ## 🛠️ Siemens.Engineering.TestSuite.TestSuiteService
 >
 > Test Suite service
+
+- 🔧 `ApplicationTestGroup`: Application Test system group.
+- 🔧 `StyleGuideGroup`: Style Guide system group.
+- 🔧 `SystemTestGroup`: System Test system group.
+
+## Recursive result gate
+
+A non-null `TestResults` does not mean execution passed. Reject a result when
+`results.State == TestResultsState.Error`, `results.ErrorCount > 0`, or any nested
+message has an error state/count. Preserve warnings and information messages as
+evidence even when policy permits a successful outcome.
+
+```csharp
+static void CollectMessages(
+    IEnumerable<TestResultsMessage> messages,
+    IList<TestResultsMessage> flattened)
+{
+    foreach (TestResultsMessage message in messages)
+    {
+        flattened.Add(message);
+        CollectMessages(message.Messages, flattened); // recursively inspect children
+    }
+}
+
+List<TestResultsMessage> allMessages = new List<TestResultsMessage>();
+CollectMessages(results.Messages, allMessages);
+
+bool failed =
+    results.State == TestResultsState.Error ||
+    results.ErrorCount > 0 ||
+    allMessages.Any(message =>
+        message.State == TestResultsState.Error || message.ErrorCount > 0);
+
+if (failed)
+    throw new InvalidOperationException("Test Suite execution reported an error.");
+```
+
+Do not silently convert `Warning` to success. Decide and document whether warnings
+are allowed for the requested gate. Record message `DateTime`, `Path`,
+`Description`, `State`, `ErrorCount`, and `WarningCount`; do not rely on aggregate
+counts alone.

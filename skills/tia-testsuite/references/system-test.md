@@ -13,6 +13,10 @@
 >
 > OPC UA server interface options
 
+- `ServerInterfaces.UserDefined`
+- `ServerInterfaces.StandardSIMATIC`
+- `ServerInterfaces.SiOMECompanionSpecification`
+
 ## 🛠️ Siemens.Engineering.TestSuite.SystemTest.SystemTestCase
 >
 > Represents a test case under System Test
@@ -61,3 +65,42 @@
 ## 🛠️ Siemens.Engineering.TestSuite.SystemTest.TCLoadOptions
 >
 > Test case load options
+
+- `TCLoadOptions.None`
+- `TCLoadOptions.IgnoreInvalidObject`
+
+## V21 workflow and live-system gate
+
+```csharp
+TestSuiteService service = project.GetService<TestSuiteService>();
+SystemTestSystemGroup group = service.SystemTestGroup;
+
+List<SystemTestCase> matches = group.SystemTestCases
+    .Where(test => string.Equals(test.Name, exactTestCaseName, StringComparison.Ordinal))
+    .ToList();
+if (matches.Count != 1)
+    throw new InvalidOperationException(
+        $"Expected exactly one System Test case '{exactTestCaseName}', found {matches.Count}.");
+
+SystemTestCase testCase = matches[0];
+testCase.SetScope(exactOpcUaServerAddress, ServerInterfaces.StandardSIMATIC);
+
+SystemTestCaseExecutor executor = group.GetService<SystemTestCaseExecutor>();
+TestResults results = executor.Run(testCase);
+```
+
+`UserDefined` and `SiOMECompanionSpecification` may require the overload that
+also supplies the exact interface-file directory. Validate the directory,
+expected files, and provenance before changing scope.
+
+System Tests connect through the exact OPC UA endpoint in the test-case scope.
+That endpoint may be a live controller or production server and a test may have
+side effects. Require explicit live-operation authorization for the exact OPC UA endpoint,
+interface kind, security/credential context, and selected test case. Never assume
+simulation from the fact that the object is a Test Suite case.
+
+`SystemTestCaseComposition.LoadFromFile` consumes external test definitions.
+Treat them as untrusted. `TCLoadOptions.IgnoreInvalidObject` can yield a partial
+import; inventory omissions. `ImportOptions.Override` may replace project data
+and requires explicit project-write authorization and the `Edit Test Suite data`
+right.

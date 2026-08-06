@@ -34,6 +34,9 @@
 >
 > Testcase execution mode
 
+- `SystemManagedPLCSIMInstance`: Test Suite manages the PLCSIM instance.
+- `ExternallyManagedPLCSIMInstance`: The caller/environment owns the named PLCSIM instance.
+
 ## 🛠️ Siemens.Engineering.TestSuite.ApplicationTest.SupportSimulationNotEnabledException
 >
 > Thrown when simulation check is not enabled
@@ -49,9 +52,15 @@
 >
 > Test case load options
 
+- `TCLoadOptions.None`
+- `TCLoadOptions.IgnoreInvalidObject`
+
 ## 🛠️ Siemens.Engineering.TestSuite.ApplicationTest.TSLoadOptions
 >
 > Test set load options
+
+- `TSLoadOptions.None`
+- `TSLoadOptions.IgnoreInvalidObject`
 
 ## 🛠️ Siemens.Engineering.TestSuite.ApplicationTest.TestCase
 >
@@ -85,3 +94,44 @@
 ## 🛠️ Siemens.Engineering.TestSuite.ApplicationTest.TestCaseExecutor
 >
 > Provides service for test case execution
+
+- 📦 `Run(ApplicationTestSet)`: Executes one test set and returns `TestResults`.
+- 📦 `Run(ApplicationTestSystemGroup)`: Executes the Application Test group and returns `TestResults`.
+- 📦 `Run(TestCase)`: Executes one test case and returns `TestResults`.
+- 📦 `Run(IEnumerable<ApplicationTestSet>)`: Executes the selected test sets and returns `TestResults`.
+- 📦 `Run(IEnumerable<TestCase>)`: Executes the selected test cases and returns `TestResults`.
+
+## V21 workflow and safety
+
+```csharp
+TestSuiteService service = project.GetService<TestSuiteService>();
+ApplicationTestSystemGroup group = service.ApplicationTestGroup;
+
+List<TestCase> matches = group.TestCases
+    .Where(test => string.Equals(test.Name, exactTestCaseName, StringComparison.Ordinal))
+    .ToList();
+if (matches.Count != 1)
+    throw new InvalidOperationException(
+        $"Expected exactly one Application Test case '{exactTestCaseName}', found {matches.Count}.");
+
+TestCase testCase = matches[0];
+testCase.SetScope(
+    exactPlcSoftware,
+    exactPlcSimInstanceName,
+    ExecutionMode.ExternallyManagedPLCSIMInstance);
+
+TestCaseExecutor executor = group.GetService<TestCaseExecutor>();
+TestResults results = executor.Run(testCase);
+```
+
+Use `ExecutionMode.SystemManagedPLCSIMInstance` only when Test Suite is authorized
+to create/manage the simulator instance. For an externally managed instance,
+verify the exact PLCSIM instance identity and ownership first. Application Tests
+are PLCSIM-based; do not reinterpret their scope as permission to operate a live PLC.
+
+`ApplicationTestSystemGroup.LoadFromFile(file, importOptions, TSLoadOptions)`
+loads test sets and associated cases. `TestCaseComposition.LoadFromFile` loads
+test cases with `TCLoadOptions`. Treat files as untrusted, inspect the resulting
+identities, and use `IgnoreInvalidObject` only when omitted objects are acceptable
+and reported. `ImportOptions.Override` may replace existing project data and
+requires explicit project-write authorization.
