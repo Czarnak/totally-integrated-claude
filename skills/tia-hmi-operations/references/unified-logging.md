@@ -205,10 +205,10 @@ loggingTag.Source = hmiTag;          // source HMI tag
 loggingTag.LoggingMode = HmiLoggingMode.Cyclic;
 loggingTag.Cycle = "1s";
 loggingTag.CycleFactor = 1;
-loggingTag.TriggerMode = HmiTriggerMode.OnChange;
-loggingTag.SmoothingMode = HmiSmoothingMode.None;
+loggingTag.TriggerMode = HmiTriggerMode.None;
+loggingTag.SmoothingMode = HmiSmoothingMode.NoSmoothing;
 loggingTag.AggregationMode = HmiAggregationMode.Average;
-loggingTag.LimitScope = HmiLimitScope.Tag;
+loggingTag.LimitScope = HmiLimitScope.WithinLimits;
 loggingTag.HighLimit = 100.0;
 loggingTag.LowLimit = 0.0;
 

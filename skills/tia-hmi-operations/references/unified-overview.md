@@ -31,8 +31,8 @@ All Unified HMI data is accessed through `HmiSoftware` properties:
 
 | Property | Type | Namespace | Reference file |
 | --- | --- | --- | --- |
-| `Screens` | `HmiScreenComposition` | `UI.Screens` | `unified-screens-elements.md` |
-| `ScreenGroups` | `HmiScreenGroupComposition` | `UI.ScreenGroup` | `unified-screens-elements.md` |
+| `Screens` | `HmiScreenComposition` | `UI.Screens` | `unified-screens.md` |
+| `ScreenGroups` | `HmiScreenGroupComposition` | `UI.ScreenGroup` | `unified-screens.md` |
 | `Tags` | `HmiTagComposition` | `HmiTags` | `unified-tags-alarms.md` |
 | `TagTables` | `HmiTagTableComposition` | `HmiTags` | `unified-tags-alarms.md` |
 | `TagTableGroups` | `HmiTagTableGroupComposition` | `HmiTags` | `unified-tags-alarms.md` |
@@ -42,22 +42,22 @@ All Unified HMI data is accessed through `HmiSoftware` properties:
 | `AnalogAlarms` | `HmiAnalogAlarmComposition` | `HmiAlarm` | `unified-tags-alarms.md` |
 | `HmiAlarmAuditClass` | `HmiAlarmAuditClassComposition` | `HmiAudit` | `unified-tags-alarms.md` |
 | `OpcUaAlarmTypes` | `HmiOpcUaAlarmTypeComposition` | `HmiOpcUaAlarm` | `unified-tags-alarms.md` |
-| `Connections` | `HmiConnectionComposition` | `HmiConnections` | `unified-logging-connections.md` |
-| `DataLogs` | `HmiDataLogComposition` | `HmiLogging` | `unified-logging-connections.md` |
-| `AlarmLogs` | `HmiAlarmLogComposition` | `HmiLogging` | `unified-logging-connections.md` |
-| `AuditTrails` | `HmiAuditTrailComposition` | `HmiLogging` | `unified-logging-connections.md` |
-| `Scripts` | `HmiScriptModuleComposition` | `Scripts` | `unified-logging-connections.md` |
-| `HmiTextLists` | `HmiTextListComposition` | `TextGraphicList` | `unified-logging-connections.md` |
-| `HmiSystemTextLists` | `HmiSystemTextListComposition` | `TextGraphicList` | `unified-logging-connections.md` |
-| `HmiGraphicLists` | `HmiGraphicListComposition` | `TextGraphicList` | `unified-logging-connections.md` |
-| `RuntimeSettings` | `HmiRuntimeSetting` | `RuntimeSettings` | `unified-logging-connections.md` |
-| `PlantObjectTags` | — | `Cpm` | `unified-logging-connections.md` |
+| `Connections` | `HmiConnectionComposition` | `HmiConnections` | `unified-connections.md` |
+| `DataLogs` | `HmiDataLogComposition` | `HmiLogging` | `unified-logging.md` |
+| `AlarmLogs` | `HmiAlarmLogComposition` | `HmiLogging` | `unified-logging.md` |
+| `AuditTrails` | `HmiAuditTrailComposition` | `HmiLogging` | `unified-logging.md` |
+| `Scripts` | `HmiScriptModuleComposition` | `Scripts` | `unified-system-services.md` |
+| `HmiTextLists` | `HmiTextListComposition` | `TextGraphicList` | `unified-system-services.md` |
+| `HmiSystemTextLists` | `HmiSystemTextListComposition` | `TextGraphicList` | `unified-system-services.md` |
+| `HmiGraphicLists` | `HmiGraphicListComposition` | `TextGraphicList` | `unified-system-services.md` |
+| `RuntimeSettings` | `HmiRuntimeSetting` | `RuntimeSettings` | `unified-runtime-settings.md` |
+| `PlantObjectTags` | — | `Cpm` | `unified-plant-model.md` |
 
 ---
 
 ## 3. Standard composition pattern
 
-All Unified compositions follow the same contract:
+Many Unified compositions expose a similar create/find/enumerate pattern, but supported overloads vary. Check the exact composition type in the relevant reference before generating code:
 
 ```csharp
 // Create
@@ -85,15 +85,22 @@ found.Delete();
 
 ```csharp
 // Tags — export and import via HmiTagComposition
-hmiSoftware.Tags.Export(new DirectoryInfo(@"C:\Export\Tags\"));
-hmiSoftware.Tags.Export("exportFileName");
-ImportResult result = hmiSoftware.Tags.Import(new DirectoryInfo(@"C:\Import\Tags\"));
-ImportResult result2 = hmiSoftware.Tags.Import("importFileName");
+DirectoryInfo exportDirectory = new DirectoryInfo(@"C:\Export\Tags\");
+DirectoryInfo importDirectory = new DirectoryInfo(@"C:\Import\Tags\");
+hmiSoftware.Tags.Export(exportDirectory);
+hmiSoftware.Tags.Export(exportDirectory, "exportFileName");
+ImportResult result = hmiSoftware.Tags.Import(importDirectory);
+ImportResult result2 = hmiSoftware.Tags.Import(importDirectory, "importFileName");
+
+if (result.State == ResultState.Error || result2.State == ResultState.Error)
+    throw new InvalidOperationException("Unified HMI tag import failed; inspect Messages before committing.");
 
 // Scripts — export and import via HmiScriptModuleComposition
 hmiSoftware.Scripts.Export(new DirectoryInfo(@"C:\Export\Scripts\"));
 hmiSoftware.Scripts.Import(new DirectoryInfo(@"C:\Import\Scripts\"));
 ```
+
+Treat imported Unified artifacts as untrusted engineering input. Require explicit authorization, validate the directory and optional filename, and fail on `ResultState.Error`. For objects exposing `Validate()`, inspect returned validation errors before committing or saving.
 
 ### ImportResult
 

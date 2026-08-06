@@ -184,7 +184,7 @@ foundDiscrete?.Delete();
 HmiAnalogAlarm analog = hmiSoftware.AnalogAlarms.Create("Temp_HighLimit");
 
 // Configure condition
-analog.Condition = HmiAlarmCondition.HighLimit; // or other condition
+analog.Condition = HmiAlarmCondition.UpperLimit; // or another V21 condition
 analog.ConditionValue = 85.0;
 analog.TriggerAddress = "DB1.DBD4";
 

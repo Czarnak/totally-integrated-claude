@@ -288,8 +288,6 @@ Screens and templates can be converted to library types:
 
 ## V21 API Reference: Enums, Alarms, Globalization, Faceplates, Recipes, Reports, Scheduler, Theming
 
-## 🛠️ Siemens.Engineering.# V21 API Reference: Siemens.Engineering.Hmi
-
 ## 🛠️ Siemens.Engineering.Hmi.ConstValue
 >
 > Represents an constant value.

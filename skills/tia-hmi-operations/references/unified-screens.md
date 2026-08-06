@@ -93,11 +93,12 @@ using Siemens.Engineering.HmiUnified.UI.Controls;
 
 HmiScreenItemBaseComposition items = screen.ScreenItems;
 
-// Create a screen item by type name
-HmiScreenItemBase item = items.Create("HmiButton");
+// Create a strongly typed screen item. The string is the engineering object name.
+HmiButton button = items.Create<HmiButton>("Button_1");
 
-// Create a custom container
-HmiScreenItemBase custom = items.CreateCustomContainer("MyFaceplate");
+// Custom web controls use the overload carrying the contained type value.
+HmiCustomWebControlContainer custom =
+    items.Create<HmiCustomWebControlContainer>("Custom_1", "MyCustomControlType");
 
 // Find by name
 HmiScreenItemBase found = items.Find("Button_1");

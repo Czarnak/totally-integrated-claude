@@ -54,10 +54,20 @@ Load ONLY the reference file(s) relevant to the task. Do not load all files at o
 
 ## Execution pattern
 
-1. Locate the HMI device in `project.Devices`
+1. Resolve the HMI device by exact selectors supplied by the caller; fail on zero or multiple matches
 2. Determine Classic vs Unified:
    - **Classic:** `HmiTarget hmi = sc?.Software as HmiTarget` (namespace: `Siemens.Engineering.Hmi`)
    - **Unified:** `HmiSoftware hmi = sc?.Software as HmiSoftware` (namespace: `Siemens.Engineering.HmiUnified`)
 3. Classify the task: tags, screens, alarms, scripts, logging, import/export, compile
 4. Load the relevant reference file (Classic or Unified) and navigate the composition
-5. Use `ICompilable` for HMI compile (see `tia-project-general/references/compile.md`)
+5. Recursively traverse nested `DeviceItem.DeviceItems`; HMI software is not guaranteed to be on a top-level item
+6. Use an Openness transaction when the operation supports one, compile after changes, inspect all errors, and commit only after verification
+7. Do not save: call `project.Save()` only when persistence was explicitly requested
+
+## Safety and model boundary
+
+- Classic WinCC and WinCC Unified are separate object models. Do not cast a Unified `HmiSoftware` to classic `HmiTarget` or infer the model from order-dependent device discovery.
+- Create, import, overwrite, rename, reconnect, or delete only after explicit authorization for the exact selected object and operation.
+- Treat imported XML, JavaScript, VBScript, driver settings, addresses, and object names as untrusted engineering input. Validate paths and target-specific values before applying them.
+- For bulk or destructive work, inventory dependent screens, tags, alarms, scripts, logs, and connections first. Fail closed when identity or dependency evidence is incomplete.
+- `Compile()` and Unified `Validate()` results are gates, not logging aids: inspect result state and nested diagnostics; do not commit or save on errors.

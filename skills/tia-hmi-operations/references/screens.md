@@ -4,6 +4,8 @@ Source: TIA Portal Openness V21 — Functions for Accessing HMI Device Data (03/
 
 > C# only. Do not mix with Python wrapper calls.
 
+> **Mutation gate:** resolve the exact screen, template, or folder; require explicit authorization before create, overwrite, rename, or delete; inventory references before bulk deletion; compile and inspect errors before committing. Do not call `project.Save()` unless requested.
+
 ---
 
 ## 1. Create a user-defined screen folder

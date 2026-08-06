@@ -9,8 +9,12 @@ Source: TIA Portal Openness V21 — Functions for Accessing HMI Device Data (03/
 ## Namespaces
 
 ```csharp
+using System;
+using System.Collections.Generic;
+using System.IO;
 using Siemens.Engineering.HW;
 using Siemens.Engineering.HW.Features;
+using Siemens.Engineering.SW;
 using Siemens.Engineering.Hmi;
 using Siemens.Engineering.Hmi.Tag;
 using Siemens.Engineering.Hmi.Screen;
@@ -34,9 +38,29 @@ using HmiTarget = Siemens.Engineering.Hmi.HmiTarget;
 ## 1. Accessing HmiTarget from a device
 
 ```csharp
-private static HmiTarget GetHmiTarget(Device device)
+private static IEnumerable<DeviceItem> EnumerateDeviceItems(Device device)
 {
     foreach (DeviceItem item in device.DeviceItems)
+    {
+        yield return item;
+        foreach (DeviceItem child in EnumerateDeviceItems(item))
+            yield return child;
+    }
+}
+
+private static IEnumerable<DeviceItem> EnumerateDeviceItems(DeviceItem parent)
+{
+    foreach (DeviceItem item in parent.DeviceItems)
+    {
+        yield return item;
+        foreach (DeviceItem child in EnumerateDeviceItems(item))
+            yield return child;
+    }
+}
+
+private static HmiTarget GetHmiTarget(Device device)
+{
+    foreach (DeviceItem item in EnumerateDeviceItems(device))
     {
         SoftwareContainer sc = item.GetService<SoftwareContainer>();
         if (sc != null)
@@ -67,11 +91,14 @@ using Siemens.Engineering.Compiler;
 private static void CompileHmi(HmiTarget hmiTarget)
 {
     ICompilable compileService = hmiTarget.GetService<ICompilable>();
+    if (compileService == null)
+        throw new InvalidOperationException("The selected HMI target is not compilable.");
+
     CompilerResult result = compileService.Compile();
 
-    Console.WriteLine($"HMI compile: {result.State}  " +
-                      $"Errors: {result.ErrorCount}  " +
-                      $"Warnings: {result.WarningCount}");
+    if (result.State == CompilerResultState.Error || result.ErrorCount > 0)
+        throw new InvalidOperationException(
+            $"HMI compile failed with {result.ErrorCount} error(s). Inspect result.Messages recursively.");
 }
 ```
 
@@ -117,22 +144,21 @@ foreach (Connection conn in connections)
 
 ---
 
-## 4. Determining HMI device type
+## 4. Determining the HMI object model
 
-Use the `TypeIdentifier` to distinguish classic HMI (TP/KTP/Comfort) from Unified panels:
+Determine the model from the runtime software object returned by `SoftwareContainer`, not from fragile `TypeIdentifier` substrings or catalog-number heuristics:
 
 ```csharp
-string typeId = device.TypeIdentifier;
-bool isUnified = typeId.Contains("Unified") ||
-                 typeId.Contains("6AV2 128") || // Unified Comfort Panel
-                 typeId.Contains("6AV2 151");   // Unified PC
-
-Console.WriteLine(isUnified ? "Unified HMI" : "Classic HMI");
+Software software = softwareContainer.Software;
+if (software is HmiTarget classic)
+    Console.WriteLine($"Classic HMI: {classic.Name}");
+else if (software is Siemens.Engineering.HmiUnified.HmiSoftware unified)
+    Console.WriteLine($"Unified HMI: {unified.Name}");
+else
+    throw new InvalidOperationException("The selected software is not a supported HMI model.");
 ```
 
-Unified devices use the same `HmiTarget` root but some compositions (e.g. logs, events,
-plant model, advanced dynamization) are Unified-specific and may not be present on
-classic panels. Always null-check compositions before use.
+Unified devices expose `HmiSoftware` from `Siemens.Engineering.HmiUnified`. They do not use the classic `HmiTarget` composition tree.
 
 ---
 
@@ -149,8 +175,10 @@ table.Export(new FileInfo(@"C:\Export\HMI_Tags.xml"), ExportOptions.None);
 // Import a tag table from XML
 hmiTarget.TagFolder.TagTables.Import(
     new FileInfo(@"C:\Export\HMI_Tags.xml"),
-    ImportOptions.Overwrite);
+    ImportOptions.Override);
 ```
+
+Require explicit authorization before import or overwrite, validate the source path and provenance, import inside a supported transaction, compile, and inspect the full result before committing. Do not save implicitly.
 
 For cross-domain import/export strategy and file format details, see `tia-import-export`.
 

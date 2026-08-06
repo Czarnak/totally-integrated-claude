@@ -4,6 +4,8 @@ Source: TIA Portal Openness V21 — Functions for Accessing HMI Device Data (03/
 
 > C# only. Do not mix with Python wrapper calls.
 
+> **Mutation gate:** resolve the exact tag or table; require explicit authorization before create, import, overwrite, rename, or delete; inventory screen, alarm, script, and connection references before destructive work; compile and inspect errors before committing. Do not call `project.Save()` unless requested.
+
 ---
 
 ## 1. Create a user-defined folder for HMI tags
