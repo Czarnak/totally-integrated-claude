@@ -1,10 +1,9 @@
 ---
 name: tia-openness-roadmap
 description: >
-  Entry point for ALL TIA Portal engineering automation tasks. Always load this skill FIRST
-  when the user mentions TIA Portal, TIA Openness, TIA Scripting, Siemens PLC, Siemens HMI,
-  TIA Portal Add-In, or any automation/engineering task targeting TIA Portal.
-  This skill routes to the correct domain skill and selects MCP, Python, or C# implementation.
+  Entry point for TIA Portal engineering automation tasks. Routes to the requested
+  or appropriate MCP, Python, C#, diagnostic, or Add-In implementation. Pure review
+  of already supplied/exported PLC code uses the standalone plc-code-analysis skill.
 license: MIT
 ---
 
@@ -16,11 +15,20 @@ Route the task to the correct implementation path and load the right skill files
 
 ## Mandatory policy
 
-1. Prefer **TIA Portal MCP** for interactive, single-step read/write operations when the MCP server is available.
-2. Prefer **TIA Scripting Python** for scripted or multi-step automation.
-3. Use **C# TIA Portal Openness** only if Python is insufficient.
-4. Do not invent Python wrapper methods.
-5. For multi-domain tasks, select all required skills.
+1. Honor the user's explicit implementation and scope constraints (including a
+   request to skip MCP, Python, C#, or live operations).
+2. Otherwise prefer **TIA Portal MCP** for interactive, single-step read/write operations when available.
+3. Prefer **TIA Scripting Python** for scripted/multi-step automation only when the exact wrapper operation is documented.
+4. Use **C# TIA Portal Openness** when requested or when its exact installed API is the appropriate/required surface.
+5. Do not invent wrapper or Openness methods.
+6. For multi-domain tasks, select all required skills.
+
+## Standalone analysis exclusion
+
+For review/security/quality analysis of pasted or exported PLC code, use
+`plc-code-analysis` as a standalone skill and do not load this roadmap. That skill
+accepts raw SCL/ST, SIMATIC SD, and SimaticML without authorizing engineering writes
+or live TIA operations.
 
 ## Implementation paths
 
@@ -60,6 +68,7 @@ Always starts with the common foundation skill, then domain skill(s):
 | `tia-multiuser` | `skills/tia-multiuser/SKILL.md` | Domain skill |
 | `tia-teamcenter` | `skills/tia-teamcenter/SKILL.md` | Domain skill |
 | `tia-testsuite` | `skills/tia-testsuite/SKILL.md` | Domain skill |
+| `tia-sivarc` | `skills/tia-sivarc/SKILL.md` | Domain skill |
 
 ### Add-In path
 
@@ -96,14 +105,18 @@ Standalone skill for TIA Portal Add-In development (always C#, VS Code workflow)
 | Startdrive / SINAMICS / drive controller | C# | `tia-simatic-drives` |
 | device item slot/subslot/module manipulation | C# | `tia-devices-general` |
 | advanced PLC online/security/upload services | C# | `tia-plc-operations` |
-| deep Unified HMI / screen items / runtime | C# | `tia-hmi-operations` |
+| advanced Classic or Unified HMI / screen items / runtime | C# | `tia-hmi-operations` |
 | VCI / version control interface | C# | `tia-project-general` |
+| project/global libraries, master copies, library types/versions, library update or harmonization | C# | `tia-project-general` |
 | multiuser engineering / server projects / local sessions | C# | `tia-multiuser` |
 | Teamcenter integration / managed projects | C# | `tia-teamcenter` |
 | automated testing / TestSuite / application test / style guide / system test | C# | `tia-testsuite` |
+| SiVArc rules / definitions / expression resolver / layout data / generation | C# | `tia-sivarc` |
 | TIA Portal Add-In / addin-project / .addin | C# | `addin-operations` |
 
 ## MCP vs Python vs C# decision rule
+
+Apply the user's explicit implementation/scope choice before these defaults.
 
 Choose **MCP** when:
 
@@ -121,6 +134,7 @@ Choose **C#** when:
 - the task needs drive-specific APIs
 - the task needs advanced online/security/session/event APIs
 - the task needs Teamcenter, VCI, advanced multiuser, or unsupported safety/Unified features
+- the task needs SiVArc rules, definitions, layout exchange, expression resolution, or generation
 
 ## Multi-skill execution order
 
@@ -178,4 +192,5 @@ If implementation starts in Python and the required call is not documented:
 - advanced PLC online/security services
 - advanced Unified internals
 - drive-specific engineering
+- SiVArc engineering or generation
 - diagnostics / event handlers / self-description APIs

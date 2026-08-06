@@ -10,13 +10,13 @@ Provides a routed skill framework covering the full TIA Portal Openness API surf
 
 ## Features
 
-- **Automatic routing** - one entry-point skill (`tia-openness-roadmap`) selects Python or C# and loads the right domain skill
+- **Scoped automation routing** - `tia-openness-roadmap` honors an explicit implementation choice, then selects MCP, Python, C#, diagnostic, or Add-In skills
 - **Python TIA Scripting** - full coverage of PLC blocks/tags, HMI, libraries, devices, project lifecycle via `tia-python`
-- **C# Openness** - nine domain skills covering every Openness API area (see table below)
+- **C# Openness** - eleven domain skills covering the V21 Openness domain assemblies (see table below)
 - **TIA Portal Add-In development** — VS Code–based Add-In authoring workflow
 - **TIA Portal MCP server** - work with your agent directly in TIA Portal V21 (separate installation required, see below)
 - **MCP write safety hooks** - Claude Code blocks TIA Portal writes unless the call includes `confirm=true` and a server-issued `safetyToken`
-- **Environment diagnostics** - manually run `tia-doctor` to check TIA Portal, Openness, Python TIA Scripting, and MCP prerequisites
+- **Environment diagnostics** - `tia-doctor` verifies the exact V21 executable, modular Openness core, and user group, with optional Python/MCP checks
 
 ---
 
@@ -24,22 +24,23 @@ Provides a routed skill framework covering the full TIA Portal Openness API surf
 
 | Skill | Purpose |
 | --- | --- |
-| `tia-openness-roadmap` | **Entry point.** Routes all TIA Portal tasks to the correct implementation path and domain skill. Load this first for every TIA Portal task. |
-| `tia-doctor` | **Manual diagnostic.** Checks local prerequisites and reports exact remediation steps without mutating the machine. |
-| `plc-code-analysis` | **Standalone.** Multi-perspective security and quality analysis for PLC code (SCL/LAD/FBD) via SimaticML or MCP. |
+| `tia-openness-roadmap` | **Automation entry point.** Honors explicit scope/path constraints and routes engineering tasks. Pure exported-code review uses `plc-code-analysis` directly. |
+| `tia-doctor` | **Manual diagnostic.** Read-only V21 executable/modular API/group probe, with optional Python and MCP checks. |
+| `plc-code-analysis` | **Standalone.** Evidence-gated PLC security/quality analysis for raw SCL/ST, V21 SIMATIC SD, or schema-valid SimaticML. |
 | `tia-portal-mcp` | **Interactive.** Direct TIA Portal interaction via MCP tools (browse tree, read/write logic, list tags, hardware config). |
 | `tia-python` | Python TIA Scripting: PLC blocks/tags/UDTs, HMI tags/screens, library types/versions, project lifecycle, CAx import/export. |
 | `tia-csharp-common` | C# foundation: TIA Portal process attach, `ExclusiveAccess`, `Transaction`, disposable patterns. Required first load for every C# task. |
-| `tia-project-general` | C# project & portal lifecycle: open, create, save, archive, retrieve, UMAC/UMC, language settings, diagnostics. |
+| `tia-project-general` | C# project, portal, and library lifecycle: open/create/save/archive/retrieve, project/global libraries, master copies, type/version workflows, UMAC/UMC, language settings, diagnostics. |
 | `tia-devices-general` | C# device & device-item operations: hardware catalog, device creation/deletion, slot/subslot traversal, software containers, network connections, hardware parameters. |
 | `tia-plc-operations` | C# PLC software engineering: program/system blocks, PLC tags/UDTs, software units, Safety, alarms, OPC-UA, technological objects, watch/force tables, online/download, compare. |
-| `tia-hmi-operations` | C# Unified HMI: screens, screen items, elements, parts, tags, alarms, scripts, cycles, connections, dynamization, events, runtime settings, system services. |
+| `tia-hmi-operations` | C# HMI Classic and Unified: separate object models for targets/software, screens/items, tags, alarms, scripts, connections, logging, runtime settings, and compile/import/export. |
 | `tia-networks` | C# topology: subnets, nodes, IO systems, port channels, addresses, IO timing. |
 | `tia-simatic-drives` | C# Startdrive / SINAMICS: drive controller access, drive engineering, motion control, download. |
 | `tia-import-export` | C# & Python import/export: SimaticML, AML/CAx, PLC blocks, HMI screens/tags/alarms, hardware AML, project data. |
-| `tia-multiuser` | C# Multiuser Engineering: server project management, local sessions, multiuser commissioning workflows. |
-| `tia-teamcenter` | C# Teamcenter Integration: Teamcenter storage management and Teamcenter-managed project operations. |
+| `tia-multiuser` | C# Multiuser Engineering: project-server connections, server-project identity, local/exclusive sessions, marking, locking, save/discard/commit. |
+| `tia-teamcenter` | C# provider-based Teamcenter Gateway: connection, search/download, dataset locking, and project/global-library save workflows. |
 | `tia-testsuite` | C# TestSuite & Application Test: test sets, application tests, style-guide rules, automated system testing. |
+| `tia-sivarc` | C# SiVArc: rule tables and libraries, definitions, expression resolution, layout exchange, and guarded visualization generation. |
 | `addin-operations` | TIA Portal Add-In development: project structure, VS Code workflow, Add-In lifecycle, menus, permissions, deployment. |
 
 ---
@@ -54,8 +55,8 @@ Provides a routed skill framework covering the full TIA Portal Openness API surf
 
 ### For C# Openness
 
-- Siemens TIA Portal V17 or later
-- TIA Portal Openness assemblies (installed with TIA Portal)
+- Siemens TIA Portal V21 for these audited API references
+- V21 modular Openness API, including `Siemens.Engineering.Base.dll` under `PublicAPI\V21\net48`
 - .NET Framework 4.8 or later
 
 ### For Add-In development
@@ -80,13 +81,19 @@ py -3.12 -m pip install .\siemens_tia_scripting-x.x.x-cp312-cp312-win_amd64.whl
 To check a local machine, run the bundled doctor probe:
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File skills\tia-doctor\probe.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File skills\tia-doctor\probe.ps1 -RequiredMajorVersion 21
 ```
 
 For machine-readable output:
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File skills\tia-doctor\probe.ps1 -Json
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File skills\tia-doctor\probe.ps1 -RequiredMajorVersion 21 -Json
+```
+
+For a C#-only V21 check while Python and MCP are intentionally out of scope:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File skills\tia-doctor\probe.ps1 -RequiredMajorVersion 21 -SkipPython -SkipMcp
 ```
 
 ---
@@ -162,17 +169,17 @@ Claude Code also loads `hooks/tia-write-guard.ps1` through `hooks/hooks.json` as
 ### Environment diagnostics
 
 Use `tia-doctor` when TIA Portal automation fails because of missing local
-prerequisites. It is a read-only PowerShell probe that checks TIA Portal,
-Openness assemblies, membership in the `Siemens TIA Openness` Windows user
-group, Python TIA Scripting, `tia-mcp`, and the bundled Siemens PLC language
-server.
+prerequisites. It is a read-only PowerShell probe that checks the exact V21 Portal
+executable, `Siemens.Engineering.Base.dll` and installed modular API metadata, and
+membership in the `Siemens TIA Openness` Windows user group. Python TIA Scripting
+and `tia-mcp` checks are optional and can be skipped independently.
 
 ### Routing examples
 
 | Task | Path | Domain skill |
 | --- | --- | --- |
 | Explore project structure interactively | MCP | `tia-portal-mcp` |
-| Analyze exported SimaticML XML for security issues | Standalone | `plc-code-analysis` |
+| Analyze raw SCL/ST, SIMATIC SD, or SimaticML for security issues | Standalone | `plc-code-analysis` |
 | Read/write PLC blocks and tags | Python | `tia-python` |
 | HMI screen access and export | Python | `tia-python` |
 | Device slot/subslot manipulation | C# | `tia-devices-general` |
@@ -182,6 +189,7 @@ server.
 | Multiuser Engineering (server projects) | C# | `tia-multiuser` |
 | Teamcenter managed projects | C# | `tia-teamcenter` |
 | Automated PLC/HMI testing | C# | `tia-testsuite` |
+| SiVArc rules or visualization generation | C# | `tia-sivarc` |
 | TIA Portal Add-In project | C# | `addin-operations` |
 
 ---
