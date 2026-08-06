@@ -1,6 +1,6 @@
 ---
 name: tia-doctor
-description: Manual prerequisite probe for TIA Portal, Openness, Python TIA Scripting, and TIA MCP.
+description: Manual, read-only prerequisite probe for TIA Portal V21 and its modular Openness API, with optional Python TIA Scripting and TIA MCP checks.
 disable-model-invocation: true
 license: MIT
 ---
@@ -12,34 +12,54 @@ the local TIA Portal automation environment.
 
 ## Run
 
-```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File skills\tia-doctor\probe.ps1
-```
-
-For machine-readable output:
+Full probe:
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File skills\tia-doctor\probe.ps1 -Json
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File skills\tia-doctor\probe.ps1 -RequiredMajorVersion 21
 ```
 
-## Interpret Results
+V21 C# Openness core only (the audit mode while Python and MCP are intentionally out of scope):
 
-- `pass`: prerequisite is present and usable.
-- `warn`: optional probe could not be completed, or a non-required item is missing.
-- `fail`: required prerequisite is missing or unusable.
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File skills\tia-doctor\probe.ps1 -RequiredMajorVersion 21 -SkipPython -SkipMcp
+```
 
-Report missing items with the remediation text from the probe output. Do not
-invent installation commands if the probe already provided one.
+Add `-Json` to either command for machine-readable output.
 
-## Checks
+## Interpret results
 
-The probe checks:
+- `pass`: the scoped prerequisite is present and usable by the static probe.
+- `warn`: an optional probe could not be completed or a non-required item is missing.
+- `fail`: a required prerequisite for the requested scope is missing or unusable.
 
-- TIA Portal install and detected version.
-- Openness assembly presence and version evidence.
-- Current Windows user membership in the `Siemens TIA Openness` local group.
-- `siemens_tia_scripting` importability through `py` or `python`.
-- `tia-mcp` command or `TiaMcpServer` dotnet global tool.
+Report missing items using the probe's remediation text. Do not invent an
+installation command when the result already supplies one.
 
-The probe is read-only. It must not create projects, open TIA Portal, modify
-registry keys, install tools, or change user configuration.
+## V21 checks
+
+The core probe verifies:
+
+- the exact TIA Portal V21 executable under a common Siemens installation path;
+- the V21 modular Public API path (`PublicAPI\V21\net48`);
+- the required modular core `Siemens.Engineering.Base.dll`, plus file/assembly
+  version evidence and the installed optional `Siemens.Engineering.*` modules;
+- current Windows-user membership in the `Siemens TIA Openness` local group.
+
+Registry entries are supplemental evidence only; they do not replace the exact
+Portal executable or modular core assembly checks.
+
+Unless skipped, the full probe also checks:
+
+- `siemens_tia_scripting` importability through `py` or `python`;
+- `tia-mcp` on `PATH` or a `TiaMcpServer` dotnet global tool.
+
+Python and MCP are client/tooling choices, not prerequisites for direct C#
+Openness. Use the skip switches whenever those integrations are outside scope.
+
+## Safety and evidence boundary
+
+The probe is read-only. It must not open TIA Portal, create projects, load an
+Openness assembly into the current process, modify registry keys or groups,
+install tools, or change user configuration. Static presence, version metadata,
+and group membership do not prove that a project can be opened or that a
+credentialed/live operation will succeed.

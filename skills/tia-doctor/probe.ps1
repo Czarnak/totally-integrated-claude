@@ -1,5 +1,8 @@
 param(
-    [switch] $Json
+    [switch] $Json,
+    [int] $RequiredMajorVersion = 21,
+    [switch] $SkipPython,
+    [switch] $SkipMcp
 )
 
 $ErrorActionPreference = "Stop"
@@ -87,6 +90,8 @@ function Invoke-DoctorProcess {
 }
 
 function Get-CommonTiaPortalPaths {
+    param([int] $RequiredMajorVersion = 21)
+
     $roots = @(
         ${env:ProgramFiles(x86)},
         $env:ProgramFiles
@@ -98,9 +103,9 @@ function Get-CommonTiaPortalPaths {
             continue
         }
         Get-ChildItem -LiteralPath $automationRoot -Directory -ErrorAction SilentlyContinue |
-            Where-Object { $_.Name -like "Portal V*" } |
+            Where-Object { $_.Name -eq "Portal V$RequiredMajorVersion" } |
             ForEach-Object {
-                $portalExe = Join-Path $_.FullName "Bin\Portal.exe"
+                $portalExe = Join-Path $_.FullName "Bin\Siemens.Automation.Portal.exe"
                 if (Test-Path -LiteralPath $portalExe) {
                     $portalExe
                 }
@@ -131,27 +136,29 @@ function Get-TiaRegistryEvidence {
 }
 
 function Test-TiaPortalInstall {
-    $paths = @(Get-CommonTiaPortalPaths)
+    param([int] $RequiredMajorVersion = 21)
+
+    $paths = @(Get-CommonTiaPortalPaths -RequiredMajorVersion $RequiredMajorVersion)
     $registry = @(Get-TiaRegistryEvidence)
-    if ($paths.Count -gt 0 -or $registry.Count -gt 0) {
-        $version = "unknown"
-        foreach ($path in $paths) {
-            if ($path -match "Portal V(?<version>[0-9]+)") {
-                $version = "V$($Matches.version)"
-                break
-            }
-        }
-        return New-TiaDoctorResult -Id "tia-portal" -Name "TIA Portal install" -Status "pass" -Required $true -Detail "Detected TIA Portal $version." -Remediation "No action required." -Evidence @{
+    $version = "V$RequiredMajorVersion"
+    if ($paths.Count -gt 0) {
+        return New-TiaDoctorResult -Id "tia-portal" -Name "TIA Portal install" -Status "pass" -Required $true -Detail "Detected TIA Portal $version executable." -Remediation "No action required." -Evidence @{
             paths = $paths
             registry = $registry
             version = $version
         }
     }
 
-    New-TiaDoctorResult -Id "tia-portal" -Name "TIA Portal install" -Status "fail" -Required $true -Detail "TIA Portal was not detected in registry or common install paths." -Remediation "Install TIA Portal V17 or newer, then rerun this probe."
+    New-TiaDoctorResult -Id "tia-portal" -Name "TIA Portal install" -Status "fail" -Required $true -Detail "TIA Portal $version executable was not found in the common Siemens install paths." -Remediation "Install TIA Portal $version (including Openness), or run a probe version that matches the installed Portal release." -Evidence @{
+        paths = $paths
+        registry = $registry
+        version = $version
+    }
 }
 
 function Get-OpennessAssemblyPaths {
+    param([int] $RequiredMajorVersion = 21)
+
     $roots = @(
         ${env:ProgramFiles(x86)},
         $env:ProgramFiles
@@ -163,11 +170,11 @@ function Get-OpennessAssemblyPaths {
             continue
         }
         Get-ChildItem -LiteralPath $automationRoot -Directory -ErrorAction SilentlyContinue |
-            Where-Object { $_.Name -like "Portal V*" } |
+            Where-Object { $_.Name -eq "Portal V$RequiredMajorVersion" } |
             ForEach-Object {
-                $publicApi = Join-Path $_.FullName "PublicAPI"
+                $publicApi = Join-Path $_.FullName "PublicAPI\V$RequiredMajorVersion\net48"
                 if (Test-Path -LiteralPath $publicApi) {
-                    Get-ChildItem -LiteralPath $publicApi -Filter "Siemens.Engineering*.dll" -Recurse -ErrorAction SilentlyContinue |
+                    Get-ChildItem -LiteralPath $publicApi -Filter "Siemens.Engineering*.dll" -File -ErrorAction SilentlyContinue |
                         ForEach-Object { $_.FullName }
                 }
             }
@@ -175,20 +182,42 @@ function Get-OpennessAssemblyPaths {
 }
 
 function Test-OpennessAssembly {
-    $assemblies = @(Get-OpennessAssemblyPaths)
-    if ($assemblies.Count -gt 0) {
-        $versionEvidence = $assemblies | ForEach-Object {
-            if ($_ -match "PublicAPI[\\/](?<version>V[0-9]+)") {
-                $Matches.version
+    param([int] $RequiredMajorVersion = 21)
+
+    $requiredModule = "Siemens.Engineering.Base.dll"
+    $assemblyPaths = @(Get-OpennessAssemblyPaths -RequiredMajorVersion $RequiredMajorVersion)
+    $modules = @(
+        foreach ($assemblyPath in $assemblyPaths) {
+            $assemblyVersion = "unknown"
+            try {
+                $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($assemblyPath).Version.ToString()
+            } catch {
             }
-        } | Select-Object -Unique
-        return New-TiaDoctorResult -Id "openness" -Name "TIA Openness assemblies" -Status "pass" -Required $true -Detail "Detected Openness assemblies." -Remediation "No action required." -Evidence @{
-            assemblies = $assemblies
-            versions = @($versionEvidence)
+            $fileVersion = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($assemblyPath).FileVersion
+            [pscustomobject]@{
+                name = [System.IO.Path]::GetFileName($assemblyPath)
+                path = $assemblyPath
+                fileVersion = $fileVersion
+                assemblyVersion = $assemblyVersion
+            }
+        }
+    )
+    $hasRequiredModule = @($modules | Where-Object { $_.name -eq $requiredModule }).Count -eq 1
+    $version = "V$RequiredMajorVersion"
+
+    if ($hasRequiredModule) {
+        return New-TiaDoctorResult -Id "openness" -Name "TIA Openness V21 modular API" -Status "pass" -Required $true -Detail "Detected the $version modular Openness core and $($modules.Count) Siemens.Engineering module(s)." -Remediation "No action required." -Evidence @{
+            requiredModule = $requiredModule
+            version = $version
+            modules = $modules
         }
     }
 
-    New-TiaDoctorResult -Id "openness" -Name "TIA Openness assemblies" -Status "fail" -Required $true -Detail "Siemens.Engineering assemblies were not found under TIA Portal PublicAPI folders." -Remediation "Install the TIA Portal Openness component for the installed TIA Portal version."
+    New-TiaDoctorResult -Id "openness" -Name "TIA Openness V21 modular API" -Status "fail" -Required $true -Detail "Required $version modular core '$requiredModule' was not found in PublicAPI\$version\net48." -Remediation "Install or repair the TIA Portal $version Openness component; ancillary Siemens.Engineering modules alone are not a complete core API installation." -Evidence @{
+        requiredModule = $requiredModule
+        version = $version
+        modules = $modules
+    }
 }
 
 function Get-CurrentWindowsIdentityName {
@@ -271,13 +300,21 @@ function Test-TiaMcp {
 }
 
 function Invoke-TiaDoctorProbe {
-    @(
-        Test-TiaPortalInstall
-        Test-OpennessAssembly
-        Test-OpennessUserGroup
-        Test-PythonTiaScripting
-        Test-TiaMcp
+    param(
+        [int] $RequiredMajorVersion = 21,
+        [switch] $SkipPython,
+        [switch] $SkipMcp
     )
+
+    Test-TiaPortalInstall -RequiredMajorVersion $RequiredMajorVersion
+    Test-OpennessAssembly -RequiredMajorVersion $RequiredMajorVersion
+    Test-OpennessUserGroup
+    if (-not $SkipPython) {
+        Test-PythonTiaScripting
+    }
+    if (-not $SkipMcp) {
+        Test-TiaMcp
+    }
 }
 
 function Get-TiaDoctorExitCode {
@@ -316,10 +353,15 @@ function Write-TiaDoctorHumanSummary {
 }
 
 function Invoke-TiaDoctorMain {
-    param([switch] $JsonOutput)
+    param(
+        [switch] $JsonOutput,
+        [int] $RequiredMajorVersion = 21,
+        [switch] $SkipPython,
+        [switch] $SkipMcp
+    )
 
     try {
-        $results = @(Invoke-TiaDoctorProbe)
+        $results = @(Invoke-TiaDoctorProbe -RequiredMajorVersion $RequiredMajorVersion -SkipPython:$SkipPython -SkipMcp:$SkipMcp)
         $manifest = New-TiaDoctorManifest -Results $results
         if ($JsonOutput) {
             $manifest | ConvertTo-Json -Depth 8
@@ -342,5 +384,5 @@ function Invoke-TiaDoctorMain {
 }
 
 if ($MyInvocation.InvocationName -ne ".") {
-    Invoke-TiaDoctorMain -JsonOutput:$Json
+    Invoke-TiaDoctorMain -JsonOutput:$Json -RequiredMajorVersion $RequiredMajorVersion -SkipPython:$SkipPython -SkipMcp:$SkipMcp
 }

@@ -58,4 +58,24 @@ Describe "tia-doctor probe helpers" {
             $result.remediation | Should -Match "sign out and sign back in"
         }
     }
+
+    It "supports a V21-only core probe without Python or MCP checks" {
+        $results = @(Invoke-TiaDoctorProbe -RequiredMajorVersion 21 -SkipPython -SkipMcp)
+
+        @($results.id) | Should -Contain "tia-portal"
+        @($results.id) | Should -Contain "openness"
+        @($results.id) | Should -Contain "openness-user-group"
+        @($results.id) | Should -Not -Contain "python-tia-scripting"
+        @($results.id) | Should -Not -Contain "tia-mcp"
+    }
+
+    It "requires the V21 modular Base assembly rather than any Siemens Engineering DLL" {
+        $result = Test-OpennessAssembly -RequiredMajorVersion 21
+
+        $result.evidence.requiredModule | Should -Be "Siemens.Engineering.Base.dll"
+        if ($result.status -eq "pass") {
+            @($result.evidence.modules.name) | Should -Contain "Siemens.Engineering.Base.dll"
+            $result.evidence.version | Should -Be "V21"
+        }
+    }
 }
