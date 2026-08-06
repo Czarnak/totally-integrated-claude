@@ -162,14 +162,17 @@ headless mode). See `portal-settings.md` for `TiaPortalSettingsFolder` usage.
 ## 7. Version Control Import Options
 
 Used during import of SimaticMl or SimaticSd files to control language activation.
+The installed V21 assembly uses the unusual `InActive` capitalization shown
+below; use these identifiers exactly even though some Siemens help text renders
+the word as `Inactive`.
 
 ```csharp
 namespace Siemens.Engineering.VersionControl
 {
   public enum ProjectLanguageImportOptions
   {
-    ActivateAll,
-    DoNotActivate
+    DoNotActivateInActiveCultures,
+    ActivateInActiveCultures
   }
 }
 ```

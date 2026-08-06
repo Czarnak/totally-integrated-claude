@@ -25,18 +25,19 @@ using Siemens.Engineering.VersionControl;
 - `DirectoryPath` — Path in the workspace.
 - `FileNameWithoutExtension` — File name.
 - `FileFormat` — Format (e.g. "xml").
-- `Status` — Current `MappingState`.
+- `Status` — Current `IndividualObjectCompareResult`.
 
 ### MappedObject operations
 
 - `GetStatus()` — Get individual `IndividualObjectCompareResult`.
-- `GetChildStatus()` — Get aggregated status.
-- `Synchronize(SynchronizationMode)` — Sync changes.
+- `GetChildStatus()` — Get aggregated `SynchronizationResult` for children.
+- `void Synchronize(SynchronizationMode)` — Sync changes; this method does not
+  return a result.
 - `Delete()` — Remove mapping.
 
 ### MappingState (Enum)
 
-- `CheckedIn`, `DeletedInProject`, `DeletedInWorkspace`, `Different`, `MappedOnlyInProject`, `MappedOnlyInWorkspace`, `NotConnected`, `UpToDate`.
+- `Equal`, `Unequal`.
 
 ---
 
@@ -46,15 +47,17 @@ Used to push/pull changes between project and workspace.
 
 ### SynchronizationMode (Enum)
 
-- `ExportProjectToWorkspace` — Push to disk.
-- `ImportWorkspaceToProject` — Pull from disk.
+- `ProjectToWorkspace` — Push project changes to disk.
+- `WorkspaceToProject` — Pull workspace changes into the project.
 
 ### SynchronizationResult
 
 - `MappingState` — Final state after sync.
 
 ```csharp
-SynchronizationResult result = mappedObj.Synchronize(SynchronizationMode.ImportWorkspaceToProject);
+mappedObj.Synchronize(SynchronizationMode.WorkspaceToProject);
+SynchronizationResult childResult = mappedObj.GetChildStatus();
+MappingState childState = childResult.MappingState;
 ```
 
 ---
@@ -65,7 +68,7 @@ Detailed comparison between project and workspace files.
 
 ### CompareState (Enum)
 
-- `Different`, `Equal`, `NotIdentified`.
+- `Equal`, `Unequal`, `WorkspaceFileMissing`, `Unknown`.
 
 ### IndividualObjectCompareResult
 
@@ -74,7 +77,7 @@ Detailed comparison between project and workspace files.
 
 ```csharp
 IndividualObjectCompareResult res = mappedObj.GetStatus();
-if (res.CompareState == CompareState.Different)
+if (res.CompareState == CompareState.Unequal)
 {
     // Handle differences
 }

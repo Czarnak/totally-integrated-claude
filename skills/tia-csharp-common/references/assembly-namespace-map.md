@@ -25,7 +25,7 @@ cross-assembly notes at the bottom.
 | `Siemens.Engineering.CustomIdentity` | Base | tia-project-general |
 | `Siemens.Engineering.Download` | Base | tia-plc-operations |
 | `Siemens.Engineering.Download.Configurations` | **★ Base + Step7 + Startdrive** | tia-plc-operations |
-| `Siemens.Engineering.FingerprintData` | Base | tia-project-general |
+| `Siemens.Engineering.FingerprintData` | Base | tia-plc-operations |
 | `Siemens.Engineering.HW` | **★ Base + Step7** | tia-devices-general |
 | `Siemens.Engineering.HW.CommunicationConnections` | Base | tia-networks |
 | `Siemens.Engineering.HW.CustomDataTypes` | Base | tia-devices-general |
@@ -62,7 +62,7 @@ cross-assembly notes at the bottom.
 | `Siemens.Engineering.MC.Drives.DFI` | Startdrive | tia-simatic-drives |
 | `Siemens.Engineering.MC.Drives.Enums` | Startdrive | tia-simatic-drives |
 | `Siemens.Engineering.MC.Drives.SecurityObjects` | Startdrive | tia-simatic-drives |
-| `Siemens.Engineering.Multiuser` | Base | tia-project-general |
+| `Siemens.Engineering.Multiuser` | Base | tia-multiuser |
 | `Siemens.Engineering.Online` | Base | tia-plc-operations |
 | `Siemens.Engineering.Online.Configurations` | Base | tia-plc-operations |
 | `Siemens.Engineering.Online.Security` | Base | tia-plc-operations |
@@ -70,6 +70,7 @@ cross-assembly notes at the bottom.
 | `Siemens.Engineering.Safety.Download.Configurations` | Safety | tia-plc-operations |
 | `Siemens.Engineering.SafetyValidation` | SafetyValidation | tia-plc-operations |
 | `Siemens.Engineering.Security` | Base | tia-project-general |
+| `Siemens.Engineering.SiVArc` | Sivarc | tia-sivarc |
 | `Siemens.Engineering.Settings` | Base | tia-project-general |
 | `Siemens.Engineering.SW` | Step7 | tia-plc-operations |
 | `Siemens.Engineering.SW.Alarm` | Step7 | tia-plc-operations |
@@ -90,8 +91,8 @@ cross-assembly notes at the bottom.
 | `Siemens.Engineering.SW.Types` | Step7 | tia-plc-operations |
 | `Siemens.Engineering.SW.Units` | Step7 | tia-plc-operations |
 | `Siemens.Engineering.SW.WatchAndForceTables` | Step7 | tia-plc-operations |
-| `Siemens.Engineering.TeamcenterGateway` | TeamcenterGateway | — |
-| `Siemens.Engineering.TestSuite.*` | TestSuite | — |
+| `Siemens.Engineering.TeamcenterGateway` | TeamcenterGateway | tia-teamcenter |
+| `Siemens.Engineering.TestSuite.*` | TestSuite | tia-testsuite |
 | `Siemens.Engineering.Umac` | Base | tia-project-general |
 | `Siemens.Engineering.Upload` | Base | tia-plc-operations |
 | `Siemens.Engineering.Upload.Configurations` | **★ Base + Startdrive** | tia-plc-operations |
@@ -101,30 +102,33 @@ cross-assembly notes at the bottom.
 
 ## DLL inventory
 
-15 assemblies total. Sorted by relevance to typical automation tasks.
+16 assemblies total. Counts below are the public type and namespace entries in the
+installed V21 IntelliSense XML files dated 03/2026; re-check them after a V21 update.
+Sorted by relevance to typical automation tasks.
 
 ### Core (always needed)
 
 | Assembly | Namespaces | Types | Purpose |
 | --- | --- | --- | --- |
-| `Siemens.Engineering.Base.dll` | 33 | 1419 | Core object model: TiaPortal, Project, HW, Library, Download, Upload, Compiler, UMAC, Security, Multiuser |
+| `Siemens.Engineering.Base.dll` | 33 | 1387 | Core object model: TiaPortal, Project, HW, Library, Download, Upload, Compiler, UMAC, Security, Multiuser |
 
 ### Domain-specific (add per task)
 
 | Assembly | Namespaces | Types | Purpose |
 | --- | --- | --- | --- |
-| `Siemens.Engineering.Step7.dll` | 19 | 180 | PLC software: blocks, tags, types, units, alarms, OPC UA, watch/force tables |
-| `Siemens.Engineering.WinCC.dll` | 18 | 269 | Classic HMI: screens, tags, alarms, recipes, logging, scripting, faceplates |
+| `Siemens.Engineering.Step7.dll` | 23 | 228 | PLC software: blocks, tags, types, units, alarms, OPC UA, watch/force tables |
+| `Siemens.Engineering.WinCC.dll` | 19 | 282 | Classic HMI: screens, tags, alarms, recipes, logging, scripting, faceplates |
 | `Siemens.Engineering.WinCCUnified.dll` | 32 | 536 | Unified HMI: screens, tags, widgets, controls, dynamization, events |
-| `Siemens.Engineering.Startdrive.dll` | 5 | 80 | SINAMICS drives: drive objects, parameters, telegrams, DFI, commissioning |
+| `Siemens.Engineering.Startdrive.dll` | 7 | 64 | SINAMICS drives: drive objects, parameters, telegrams, DFI, commissioning |
 | `Siemens.Engineering.Safety.dll` | 2 | 18 | F-system safety operations and download configurations |
 | `Siemens.Engineering.SafetyValidation.dll` | 1 | 19 | Safety validation rules |
+| `Siemens.Engineering.Sivarc.dll` | 1 | 92 | SiVArc rules, definitions, layout data, expression resolution, and generation |
 
 ### Add-In framework (for TIA Portal Add-Ins only)
 
 | Assembly | Namespaces | Types | Purpose |
 | --- | --- | --- | --- |
-| `Siemens.Engineering.AddIn.Base.dll` | 10 | 66 | Add-In providers, context menus, workflows, VCI integration |
+| `Siemens.Engineering.AddIn.Base.dll` | 13 | 81 | Add-In providers, context menus, workflows, VCI integration |
 | `Siemens.Engineering.AddIn.Permissions.dll` | 1 | 2 | Add-In permission declarations |
 | `Siemens.Engineering.AddIn.Step7.dll` | 1 | 10 | CAx workflow Add-In integration |
 | `Siemens.Engineering.AddIn.Utilities.dll` | 1 | 2 | Add-In utility helpers |
@@ -134,7 +138,7 @@ cross-assembly notes at the bottom.
 
 | Assembly | Namespaces | Types | Purpose |
 | --- | --- | --- | --- |
-| `Siemens.Engineering.WinCC.Extension.dll` | 1 | 17 | Extended HMI value types (ConstValue, ILimit, DateTimeValues) |
+| `Siemens.Engineering.WinCC.Extension.dll` | 1 | 4 | Extended HMI value types (ConstValue, ILimit, NullableDateTime, DateTimeValues) |
 | `Siemens.Engineering.TeamcenterGateway.dll` | 1 | 20 | Teamcenter PLM integration |
 | `Siemens.Engineering.TestSuite.dll` | 4 | 28 | Application tests, style guide checks, system tests |
 
@@ -176,17 +180,19 @@ plus ~900 enum types for HW configuration attributes
 
 **Download / Upload:**
 `DownloadProvider`, `DownloadConfiguration`, `DownloadConfigurationDelegate`,
-`UploadProvider`, `UploadConfiguration`
+`DownloadResult`, `RHDownloadProvider`, `StationUploadProvider`,
+`ParameterUploadProvider`, `UploadConfigurationDelegate`, `UploadResult`
 
 **Online (`Siemens.Engineering.Online`):**
-`OnlineProvider`, `OnlineState`, `GoOnlineConfiguration`, `GoOfflineConfiguration`
+`OnlineProvider`, `RHOnlineProvider`, `OnlineState`, `OnlineConfigurationDelegate`
 
 **Compiler (`Siemens.Engineering.Compiler`):**
 `CompilerResult`, `CompilerResultMessage`, `CompilerResultMessageComposition`
 
 **Multiuser (`Siemens.Engineering.Multiuser`):**
 `LocalSession`, `LocalSessionComposition`, `ProjectServer`, `ProjectServerComposition`,
-`MultiuserProject`, `MultiuserSession`
+`MultiuserProject`, `LocalSessionInfo`, `ProjectServerGroup`, `ServerProjectInfo`,
+`MarkingService`, `LockStateProvider`
 
 **Security / UMAC:**
 `SecurityController`, `CertificateComposition` (in `Siemens.Engineering.Security`);

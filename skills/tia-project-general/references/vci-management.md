@@ -34,11 +34,16 @@ Workspaces are organized into a system group and optional user groups.
 
 - `Name` — The name of the system group.
 - `Parent` — The engineering parent.
+- `Groups` — Child user groups.
+- `Workspaces` — Workspaces directly below the system group.
 
 ### WorkspaceUserGroup
 
 - `Name` — The name of the user group.
 - `Parent` — The engineering parent.
+- `Groups` — Nested user groups.
+- `Workspaces` — Workspaces directly below the user group.
+- `Delete()` — Delete this user group.
 
 ### WorkspaceUserGroupComposition
 
@@ -60,9 +65,9 @@ A workspace represents a mapping between TIA Portal objects and files on disk.
 - `Name` — The name of the workspace.
 - `RootPath` — The root path on disk (`DirectoryInfo`).
 - `WorkspaceLanguage` — The export language (`CultureInfo`).
-- `Comment` — Workspace comment.
+- `Comment` — Workspace comment (`MultilingualText`).
 - `MappedObjects` — Collection of mappings (`MappedObjectComposition`).
-- `GlobalLibraryPath` — Path to global library used for type import.
+- `GlobalLibraryPath` — Global-library file used for type import (`FileInfo`).
 - `DeleteUnusedTypeVersionFromLibrary` — Flag for cleaning up types on import.
 
 ### Workspace operations

@@ -11,6 +11,7 @@ Source: TIA Portal Openness V21 — Functions for Projects and Project Data (03/
 ```csharp
 using System.Globalization;
 using Siemens.Engineering;
+using Siemens.Engineering.Settings;
 using Siemens.Engineering.HW.Systemdiagnostics.Settings; // for SystemDiagnostics
 ```
 

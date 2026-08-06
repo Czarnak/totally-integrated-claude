@@ -1,6 +1,6 @@
 ---
 name: tia-project-general
-description: C# Openness implementation of project and portal lifecycle.
+description: C# Openness implementation of project, portal, and library lifecycle.
 license: MIT
 ---
 
@@ -8,7 +8,7 @@ license: MIT
 
 ## Scope
 
-Project and portal lifecycle — full C# Openness implementation.
+Project, portal, and project/global library lifecycle — full C# Openness implementation.
 
 When the roadmap routes here, the entire solution is C#.
 Do not mix with Python wrapper calls.
@@ -23,6 +23,7 @@ Load ONLY the reference file(s) relevant to the task. Do not load all files at o
 | Reference file | When to use |
 |---|---|
 | `references/project-lifecycle.md` | Load when the task involves project-level lifecycle operations: Open, OpenWithUpgrade, Create, Save, SaveAs, Close, Archive, Retrieve, RetrieveWithUpgrade, delete, or copy. |
+| `references/library-operations.md` | Load when the task involves project/global libraries, library folders, master copies, library types or versions, type instances, release/default/discard, update/harmonize/cleanup, or library comparison. |
 | `references/project-attributes.md` | Load when the task involves reading project metadata (Author, Name, Version, Path, Size, dates), project history entries, used products, simulation/virtual PLC properties, or accessing the VCI service entry point. |
 | `references/language-settings.md` | Load when the task involves project languages, active/editing/reference languages, multilingual text (MultilingualText, MultilingualTextItem), CommentML on devices, or VCI language import options. |
 | `references/umac-and-auth.md` | Load when the task involves UMAC-protected project operations, UmacDelegate, Authentication events, ProjectOpenMode (Primary/Secondary), or UMAC user types. |
@@ -40,6 +41,6 @@ For tasks spanning multiple areas, load all relevant reference files before gene
 1. Create or attach to `TiaPortal` instance (see `tia-csharp-common`)
 2. Open, create, or retrieve `Project`
 3. Use `ExclusiveAccess` / `Transaction` where needed (see `tia-csharp-common`)
-4. Perform project-level Openness operations
+4. Perform project-level or library operations; require explicit authorization before any library/project mutation
 5. Save / archive / close at the correct synchronisation point
 6. Dispose the TIA Portal session

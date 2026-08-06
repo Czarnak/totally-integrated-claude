@@ -23,14 +23,16 @@ using Siemens.Engineering;
 Project project = tiaPortal.Projects.Open(new FileInfo(@"D:\Projects\MyProject.ap21"));
 ```
 
-`Open()` only accepts projects at the current TIA Portal version. Use `OpenWithUpgrade()`
-for projects created with a previous version.
+`Open()` only accepts projects at the current TIA Portal version. In V21,
+`OpenWithUpgrade()` accepts the current version or the **immediately previous
+version**. A project older than the previous version raises an exception and
+must first be migrated through a supported intermediate TIA Portal version.
 
 ### Open with upgrade (previous version)
 
 ```csharp
 Project project = tiaPortal.Projects.OpenWithUpgrade(
-    new FileInfo(@"D:\Projects\OldProject.ap18"));
+    new FileInfo(@"D:\Projects\PreviousProject.ap20"));
 ```
 
 Creates a new upgraded project file. Original is not modified.
@@ -81,9 +83,12 @@ Project project = ((IEngineeringComposition)tiaPortal.Projects)
 // Save in place
 project.Save();
 
-// Save to a new location (does not change the active project path)
+// Save under a new location; this changes the active persistence location
 project.SaveAs(new DirectoryInfo(@"D:\TiaProjects\MyProjectCopy"));
 ```
+
+Unlike `Archive`, `SaveAs` changes the active project persistence location to
+the supplied directory.
 
 ---
 
@@ -146,7 +151,7 @@ Project project = tiaPortal.Projects.Retrieve(
 
 // Retrieve and upgrade from previous version
 Project project = tiaPortal.Projects.RetrieveWithUpgrade(
-    new FileInfo(archivePath),
+    new FileInfo(@"D:\Archives\PreviousProject.zap20"),
     new DirectoryInfo(targetDir));
 
 // RetrieveWithUpgrade + UMAC + ProjectOpenMode
@@ -160,12 +165,19 @@ Project project = tiaPortal.Projects.RetrieveWithUpgrade(
 > `umacDelegate` can be `null` for unprotected projects. Admin credentials required
 > for `RetrieveWithUpgrade` on a protected project.
 
+The same version boundary applies to `RetrieveWithUpgrade`: use it for a V20
+archive under V21, not for an arbitrary older archive.
+
 ---
 
 ## 7. Deleting a project
 
-Projects are deleted by deleting their directory via standard `System.IO`. There is no
-dedicated Openness API for deletion — close the project first, then delete the folder.
+There is no dedicated Openness API for deleting a project. Deletion therefore
+uses the file system and is destructive: close the project, resolve the exact
+canonical project directory, verify that it contains the intended `.ap21`
+project, obtain explicit confirmation, and only then delete that directory.
+Never derive a recursive-delete target from an unchecked project name or a
+broad parent directory. Prefer moving it to a recoverable location first.
 
 ---
 
@@ -179,9 +191,15 @@ try
 
     using (ExclusiveAccess ea = tiaPortal.ExclusiveAccess("Processing"))
     {
-        // ... do work ...
-        project.Save();
+        using (Transaction tx = ea.Transaction(project, "Process project"))
+        {
+            // ... do transactional project modifications ...
+            tx.CommitOnDispose();
+        }
     }
+
+    // Save is prohibited inside a transaction, so call it outside the transaction.
+    project.Save();
 
     project.Archive(
         new DirectoryInfo(archiveDir),

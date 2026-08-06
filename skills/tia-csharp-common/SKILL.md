@@ -17,13 +17,14 @@ V21 splits the API across multiple DLLs instead of a single `Siemens.Engineering
 Every project needs `Siemens.Engineering.Base.dll`; add domain DLLs as required.
 Referencing the wrong DLL (or omitting one) causes `TypeLoadException` at runtime.
 
-> **Full mapping:** See `references/assembly-namespace-map.md` for the exhaustive
+> **Full mapping:** See `references/assembly-namespace-map.md` for the V21
 > namespace → DLL → domain skill table, cross-assembly warnings, and csproj patterns.
 
 ### Namespaces by assembly
 
 Only import what is actually used. The list below covers the most commonly needed
-namespaces. The mapping file documents all 80+ namespaces across 15 DLLs.
+namespaces. The mapping file summarizes the XML-documented namespaces across all 16
+installed V21 PublicAPI DLLs.
 
 **Siemens.Engineering.Base.dll** (always required):
 
@@ -46,11 +47,11 @@ using Siemens.Engineering.Library.MasterCopies;     // MasterCopy, MasterCopyFol
 using Siemens.Engineering.Library.Types;            // LibraryType, LibraryTypeVersion
 using Siemens.Engineering.Multiuser;                // LocalSession, ProjectServer
 using Siemens.Engineering.Online;                   // OnlineProvider, OnlineState
-using Siemens.Engineering.Online.Configurations;    // GoOnlineConfiguration, GoOfflineConfiguration
+using Siemens.Engineering.Online.Configurations;    // OnlineConfiguration, TLS/authentication callbacks
 using Siemens.Engineering.Security;                 // SecurityController, certificates
 using Siemens.Engineering.Settings;                 // TIA Portal settings
 using Siemens.Engineering.Umac;                     // UmacRole, UmacUser, UmacFunctionRight
-using Siemens.Engineering.Upload;                   // UploadProvider
+using Siemens.Engineering.Upload;                   // StationUploadProvider, ParameterUploadProvider
 using Siemens.Engineering.Upload.Configurations;    // upload configs (★ also in Startdrive)
 using Siemens.Engineering.VersionControl;           // workspace and version control providers
 ```
@@ -112,7 +113,7 @@ using Siemens.Engineering.Safety;                   // safety operations
 
 ---
 
-## Assembly resolver — MANDATORY (standalone Openness apps)
+## Assembly loading — mandatory for standalone Openness apps
 
 > **Not needed for Add-Ins.** TIA Portal loads Add-In assemblies via its own loader.
 > This section applies only to standalone console/desktop Openness applications.
@@ -125,8 +126,9 @@ using Siemens.Engineering.Safety;                   // safety operations
 
 ### Resolver pattern
 
-The `AssemblyResolve` event **must** be registered before any Openness type is referenced.
-This includes method parameters, return types, and class properties — not just method bodies.
+When using the `AssemblyResolve` approach, register the event before any Openness type is
+referenced. This includes method parameters, return types, and class properties — not just
+method bodies. A correctly configured `app.config` binding is an alternative.
 
 Recommended pattern: register in a static constructor of `Program`, then move all Openness
 code to a separate class so the resolver is active before those classes are loaded.
@@ -222,8 +224,8 @@ internal class OpennessApp
 
 **Modes:**
 
-- `TiaPortalMode.WithUserInterface` — starts or attaches with visible GUI
-- `TiaPortalMode.WithoutUserInterface` — headless, suitable for automation pipelines
+- `TiaPortalMode.WithUserInterface` — starts a new TIA Portal instance with a visible GUI
+- `TiaPortalMode.WithoutUserInterface` — starts a new headless instance, suitable for automation pipelines
 
 **Attaching to a running instance:**
 
@@ -239,7 +241,8 @@ instance. Returns only processes from the same Openness version as the loaded as
 
 - If started headless and no other Openness client is attached, `Dispose()` closes TIA Portal.
 - If started with GUI or other clients are attached, `Dispose()` only disconnects.
-- After dispose, any further API access throws `NonRecoverableException`.
+- After disposal, the connection is no longer valid. A later API call after the TIA Portal
+  process is closed externally throws `NonRecoverableException`.
 
 ---
 
@@ -424,13 +427,16 @@ using (ExclusiveAccess exclusiveAccess = tiaPortal.ExclusiveAccess("Bulk edit"))
 
 **Rollback rules — critical:**
 
-- If `CommitOnDispose()` is never called → always rolled back on dispose.
-- If an exception occurs **before** `CommitOnDispose()` → rolled back, even inside try/catch.
-- If an exception occurs **after** `CommitOnDispose()` → changes are committed.
+- If `CommitOnDispose()` is never called → rolled back on dispose.
+- If an exception occurs at any point before the transaction is disposed → rolled back,
+  including when `CommitOnDispose()` was already requested or the exception was caught.
+- After an `EngineeringTargetInvocationException`, a later `CommitOnDispose()` request can
+  itself raise a recoverable exception; check `CanCommit` and do not assume persistence.
 
 **Not allowed inside a transaction:**
-Project open, save, close, archive, retrieve, and some compile/import/export operations
-cannot be called while a transaction is active.
+Compile, go online/offline, ProjectText import/export, opening or closing a global library,
+project create/open/open-with-upgrade/save/save-as/close, and changing a TIA Portal setting.
+These calls raise a recoverable exception while a transaction is active.
 
 ---
 
@@ -440,8 +446,9 @@ These rules are mandatory for generated C# Openness code:
 
 - **Never bare `.Delete()`**. Any destructive operation must be inside an active
   `ExclusiveAccess` scope and a `Transaction` when the API permits transactions.
-- Use `using` blocks for `ExclusiveAccess`, `Transaction`, `TiaPortal`, projects,
-  and other disposable Openness objects so rollback and release behavior is explicit.
+- Use `using` blocks for `ExclusiveAccess`, `Transaction`, `TiaPortal`, and other disposable
+  Openness objects so rollback and release behavior is explicit. Close projects explicitly
+  according to lifecycle ownership; `Project` is not an `IDisposable` object.
 - Call `transaction.CommitOnDispose()` only after every validation and mutation in
   the transaction has succeeded.
 - Run or request a `compile_check` after generated block, tag, hardware, or HMI
