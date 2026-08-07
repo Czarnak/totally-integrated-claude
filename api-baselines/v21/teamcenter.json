@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "tiaVersion": "V21",
+  "moduleId": "teamcenter",
+  "displayName": "Teamcenter Gateway",
+  "required": false,
+  "documentationCoverage": "complete",
+  "cataloguePaths": [
+    "skills/tia-teamcenter/references/v21-api-surface.md"
+  ],
+  "provenance": {
+    "sourceKind": "installed-public-api-xml-and-assembly-metadata",
+    "publicApiRelativePath": "PublicAPI/V21/net48",
+    "extractorVersion": 1
+  },
+  "assemblies": [
+    {
+      "name": "Siemens.Engineering.TeamcenterGateway.dll",
+      "assemblyVersion": "21.0.0.0",
+      "fileVersion": "2100.0.121.1",
+      "productVersion": "2100.0.121.1",
+      "dllSha256": "195d157ce00430de3393e525e671ffec0ce6ca56dc42536aaac952976298f8bd",
+      "xmlSha256": "206ed2ea306c210341c71e856de224e20c3c9c82ebc5dfc7f4fb28895bfc501d",
+      "typeCount": 20,
+      "types": [
+        "Siemens.Engineering.TeamcenterGateway.DatasetType",
+        "Siemens.Engineering.TeamcenterGateway.ErrorCallback",
+        "Siemens.Engineering.TeamcenterGateway.ItemDetails",
+        "Siemens.Engineering.TeamcenterGateway.ItemDetailsDelegate",
+        "Siemens.Engineering.TeamcenterGateway.ItemInfo",
+        "Siemens.Engineering.TeamcenterGateway.ItemType",
+        "Siemens.Engineering.TeamcenterGateway.ListOfValuesUsageType",
+        "Siemens.Engineering.TeamcenterGateway.LocalCacheOption",
+        "Siemens.Engineering.TeamcenterGateway.MappedCustomAttributeType",
+        "Siemens.Engineering.TeamcenterGateway.RevisionDetails",
+        "Siemens.Engineering.TeamcenterGateway.RevisionDetailsDelegate",
+        "Siemens.Engineering.TeamcenterGateway.SearchResult",
+        "Siemens.Engineering.TeamcenterGateway.TcGatewayConnectionInfo",
+        "Siemens.Engineering.TeamcenterGateway.TcGatewayException",
+        "Siemens.Engineering.TeamcenterGateway.TcGatewayLockProvider",
+        "Siemens.Engineering.TeamcenterGateway.TcGatewaySearchAndDownloadProvider",
+        "Siemens.Engineering.TeamcenterGateway.TcGatewayWorkflowProvider",
+        "Siemens.Engineering.TeamcenterGateway.TcPropertyListOfValueInfo",
+        "Siemens.Engineering.TeamcenterGateway.TeamcenterConnectionProvider",
+        "Siemens.Engineering.TeamcenterGateway.TeamcenterProperty"
+      ],
+      "namespaces": [
+        "Siemens.Engineering",
+        "Siemens.Engineering.TeamcenterGateway"
+      ],
+      "documentedMemberCounts": {
+        "types": 20,
+        "methods": 200,
+        "properties": 43,
+        "fields": 17,
+        "events": 0
+      },
+      "documentedMembersSha256": "dae484b194705c85dcdb7958597000d099b066a2358479fedbd1e6418d0850af"
+    }
+  ]
+}

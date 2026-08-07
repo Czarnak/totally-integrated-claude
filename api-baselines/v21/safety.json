@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "tiaVersion": "V21",
+  "moduleId": "safety",
+  "displayName": "SIMATIC Safety and Safety Validation",
+  "required": false,
+  "documentationCoverage": "partial",
+  "cataloguePaths": [],
+  "provenance": {
+    "sourceKind": "installed-public-api-xml-and-assembly-metadata",
+    "publicApiRelativePath": "PublicAPI/V21/net48",
+    "extractorVersion": 1
+  },
+  "assemblies": [
+    {
+      "name": "Siemens.Engineering.Safety.dll",
+      "assemblyVersion": "21.0.0.0",
+      "fileVersion": "2100.0.121.1",
+      "productVersion": "2100.0.121.1",
+      "dllSha256": "aa239702036fcffe2efb04dc0a9a925ef58c434e0c75e648d4713fcfb4afe892",
+      "xmlSha256": "b969c90b05c413b9f03b90888b1adcd2b21997005ef4b92db53b85a6b186d98d",
+      "typeCount": 18,
+      "types": [
+        "Siemens.Engineering.Safety.AssignmentOfBlockNumbers",
+        "Siemens.Engineering.Safety.BlockNumbersManagementMode",
+        "Siemens.Engineering.Safety.Download.Configurations.SafetyProgram",
+        "Siemens.Engineering.Safety.Download.Configurations.SafetyProgramSelections",
+        "Siemens.Engineering.Safety.GlobalSettings",
+        "Siemens.Engineering.Safety.RuntimeGroup",
+        "Siemens.Engineering.Safety.RuntimeGroupComposition",
+        "Siemens.Engineering.Safety.SafetyAdministration",
+        "Siemens.Engineering.Safety.SafetyBaseIdProvider",
+        "Siemens.Engineering.Safety.SafetyPrintout",
+        "Siemens.Engineering.Safety.SafetyPrintoutFilePrinter",
+        "Siemens.Engineering.Safety.SafetyPrintoutOption",
+        "Siemens.Engineering.Safety.SafetySettings",
+        "Siemens.Engineering.Safety.SafetySignature",
+        "Siemens.Engineering.Safety.SafetySignatureComposition",
+        "Siemens.Engineering.Safety.SafetySignatureProvider",
+        "Siemens.Engineering.Safety.SafetySignatureType",
+        "Siemens.Engineering.Safety.SafetySystemVersion"
+      ],
+      "namespaces": [
+        "Siemens.Engineering",
+        "Siemens.Engineering.Safety",
+        "Siemens.Engineering.Safety.Download",
+        "Siemens.Engineering.Safety.Download.Configurations"
+      ],
+      "documentedMemberCounts": {
+        "types": 18,
+        "methods": 202,
+        "properties": 51,
+        "fields": 12,
+        "events": 0
+      },
+      "documentedMembersSha256": "06690cb3879460ef09fcfae56897ebc737228fdb8521db12e68a5f3c8c20aede"
+    },
+    {
+      "name": "Siemens.Engineering.SafetyValidation.dll",
+      "assemblyVersion": "21.0.0.0",
+      "fileVersion": "2100.0.121.1",
+      "productVersion": "2100.0.121.1",
+      "dllSha256": "586f897179d8cf6376a52b0eb266e3bf6e009f5fd070e4d866f033970e29d2a0",
+      "xmlSha256": "c435bbf13890630290d8623b6a398437158d7d7dedc5c95867188f7f9f21da96",
+      "typeCount": 19,
+      "types": [
+        "Siemens.Engineering.SafetyValidation.ActivationTest",
+        "Siemens.Engineering.SafetyValidation.ActivationTestComposition",
+        "Siemens.Engineering.SafetyValidation.ActivationTestImportOptions",
+        "Siemens.Engineering.SafetyValidation.ActivationTestPrintout",
+        "Siemens.Engineering.SafetyValidation.ActivationTestUserGroup",
+        "Siemens.Engineering.SafetyValidation.ActivationTestUserGroupComposition",
+        "Siemens.Engineering.SafetyValidation.Condition",
+        "Siemens.Engineering.SafetyValidation.ConditionComposition",
+        "Siemens.Engineering.SafetyValidation.ConditionValue",
+        "Siemens.Engineering.SafetyValidation.DeviceQuery",
+        "Siemens.Engineering.SafetyValidation.SafetyFunction",
+        "Siemens.Engineering.SafetyValidation.SafetyFunctionComposition",
+        "Siemens.Engineering.SafetyValidation.SafetyValidationAssistant",
+        "Siemens.Engineering.SafetyValidation.SignalUsage",
+        "Siemens.Engineering.SafetyValidation.TestState",
+        "Siemens.Engineering.SafetyValidation.TestValidationResult",
+        "Siemens.Engineering.SafetyValidation.TestValidationResultState",
+        "Siemens.Engineering.SafetyValidation.TestValidity",
+        "Siemens.Engineering.SafetyValidation.TraceConfiguration"
+      ],
+      "namespaces": [
+        "Siemens.Engineering",
+        "Siemens.Engineering.SafetyValidation"
+      ],
+      "documentedMemberCounts": {
+        "types": 19,
+        "methods": 228,
+        "properties": 53,
+        "fields": 16,
+        "events": 0
+      },
+      "documentedMembersSha256": "242f5cc4bdd59148b1db4bd26c5f9e503c03ec895953efd6b7b4ee3f72d42a31"
+    }
+  ]
+}

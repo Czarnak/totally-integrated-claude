@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "tiaVersion": "V21",
+  "moduleId": "testsuite",
+  "displayName": "TIA Portal Test Suite Advanced",
+  "required": false,
+  "documentationCoverage": "complete",
+  "cataloguePaths": [
+    "skills/tia-testsuite/references/application-test.md",
+    "skills/tia-testsuite/references/style-guide.md",
+    "skills/tia-testsuite/references/system-test.md",
+    "skills/tia-testsuite/references/test-results.md"
+  ],
+  "provenance": {
+    "sourceKind": "installed-public-api-xml-and-assembly-metadata",
+    "publicApiRelativePath": "PublicAPI/V21/net48",
+    "extractorVersion": 1
+  },
+  "assemblies": [
+    {
+      "name": "Siemens.Engineering.TestSuite.dll",
+      "assemblyVersion": "21.0.0.0",
+      "fileVersion": "21.0.0.0",
+      "productVersion": "21.0.0.0",
+      "dllSha256": "03e1b656eea82492ce3852a722d02cbc261c19c6c008035807c6e6d30c3d1fdb",
+      "xmlSha256": "6eeb5842454b70fb9131fe25ce7653472ba9686a5f1db85d0ea35350889c4637",
+      "typeCount": 28,
+      "types": [
+        "Siemens.Engineering.TestSuite.ApplicationTest.ApplicationTestSet",
+        "Siemens.Engineering.TestSuite.ApplicationTest.ApplicationTestSetComposition",
+        "Siemens.Engineering.TestSuite.ApplicationTest.ApplicationTestSystemGroup",
+        "Siemens.Engineering.TestSuite.ApplicationTest.ExecutionMode",
+        "Siemens.Engineering.TestSuite.ApplicationTest.SupportSimulationNotEnabledException",
+        "Siemens.Engineering.TestSuite.ApplicationTest.TCLoadOptions",
+        "Siemens.Engineering.TestSuite.ApplicationTest.TSLoadOptions",
+        "Siemens.Engineering.TestSuite.ApplicationTest.TestCase",
+        "Siemens.Engineering.TestSuite.ApplicationTest.TestCaseComposition",
+        "Siemens.Engineering.TestSuite.ApplicationTest.TestCaseExecutor",
+        "Siemens.Engineering.TestSuite.StyleGuide.RSLoadOptions",
+        "Siemens.Engineering.TestSuite.StyleGuide.RuleSet",
+        "Siemens.Engineering.TestSuite.StyleGuide.RuleSetComposition",
+        "Siemens.Engineering.TestSuite.StyleGuide.RuleSetExecutor",
+        "Siemens.Engineering.TestSuite.StyleGuide.StyleGuideSystemGroup",
+        "Siemens.Engineering.TestSuite.StyleGuide.UpdateOptions",
+        "Siemens.Engineering.TestSuite.SystemTest.OpcUaServerAddressNotValidException",
+        "Siemens.Engineering.TestSuite.SystemTest.ServerInterfaces",
+        "Siemens.Engineering.TestSuite.SystemTest.SystemTestCase",
+        "Siemens.Engineering.TestSuite.SystemTest.SystemTestCaseComposition",
+        "Siemens.Engineering.TestSuite.SystemTest.SystemTestCaseExecutor",
+        "Siemens.Engineering.TestSuite.SystemTest.SystemTestSystemGroup",
+        "Siemens.Engineering.TestSuite.SystemTest.TCLoadOptions",
+        "Siemens.Engineering.TestSuite.TestResults",
+        "Siemens.Engineering.TestSuite.TestResultsMessage",
+        "Siemens.Engineering.TestSuite.TestResultsMessageComposition",
+        "Siemens.Engineering.TestSuite.TestResultsState",
+        "Siemens.Engineering.TestSuite.TestSuiteService"
+      ],
+      "namespaces": [
+        "Siemens.Engineering",
+        "Siemens.Engineering.TestSuite",
+        "Siemens.Engineering.TestSuite.ApplicationTest",
+        "Siemens.Engineering.TestSuite.StyleGuide",
+        "Siemens.Engineering.TestSuite.SystemTest"
+      ],
+      "documentedMemberCounts": {
+        "types": 28,
+        "methods": 307,
+        "properties": 58,
+        "fields": 21,
+        "events": 0
+      },
+      "documentedMembersSha256": "f3ad1b76cb03fc0020b2f3ae8aa7491385c454873ea5345bc8e85cfe77f3fe45"
+    }
+  ]
+}

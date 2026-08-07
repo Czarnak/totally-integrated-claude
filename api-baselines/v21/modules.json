@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "tiaVersion": "V21",
+  "modules": [
+    {
+      "id": "base",
+      "displayName": "TIA Openness Base",
+      "required": true,
+      "documentationCoverage": "partial",
+      "assemblies": [
+        "Siemens.Engineering.Base.dll"
+      ],
+      "cataloguePaths": []
+    },
+    {
+      "id": "addin",
+      "displayName": "TIA Portal Add-In API",
+      "required": false,
+      "documentationCoverage": "partial",
+      "assemblies": [
+        "Siemens.Engineering.AddIn.Base.dll",
+        "Siemens.Engineering.AddIn.Permissions.dll",
+        "Siemens.Engineering.AddIn.Safety.dll",
+        "Siemens.Engineering.AddIn.Step7.dll",
+        "Siemens.Engineering.AddIn.Utilities.dll"
+      ],
+      "cataloguePaths": []
+    },
+    {
+      "id": "step7",
+      "displayName": "SIMATIC STEP 7",
+      "required": false,
+      "documentationCoverage": "partial",
+      "assemblies": [
+        "Siemens.Engineering.Step7.dll"
+      ],
+      "cataloguePaths": []
+    },
+    {
+      "id": "safety",
+      "displayName": "SIMATIC Safety and Safety Validation",
+      "required": false,
+      "documentationCoverage": "partial",
+      "assemblies": [
+        "Siemens.Engineering.Safety.dll",
+        "Siemens.Engineering.SafetyValidation.dll"
+      ],
+      "cataloguePaths": []
+    },
+    {
+      "id": "hmi",
+      "displayName": "SIMATIC WinCC and WinCC Unified",
+      "required": false,
+      "documentationCoverage": "complete",
+      "assemblies": [
+        "Siemens.Engineering.WinCC.dll",
+        "Siemens.Engineering.WinCC.Extension.dll",
+        "Siemens.Engineering.WinCCUnified.dll"
+      ],
+      "cataloguePaths": [
+        "skills/tia-hmi-operations"
+      ]
+    },
+    {
+      "id": "startdrive",
+      "displayName": "SINAMICS Startdrive",
+      "required": false,
+      "documentationCoverage": "complete",
+      "assemblies": [
+        "Siemens.Engineering.Startdrive.dll"
+      ],
+      "cataloguePaths": [
+        "skills/tia-simatic-drives/references/api-catalogue.md"
+      ]
+    },
+    {
+      "id": "sivarc",
+      "displayName": "SIMATIC Visualization Architect",
+      "required": false,
+      "documentationCoverage": "complete",
+      "assemblies": [
+        "Siemens.Engineering.Sivarc.dll"
+      ],
+      "cataloguePaths": [
+        "skills/tia-sivarc/references/api-catalogue.md"
+      ]
+    },
+    {
+      "id": "teamcenter",
+      "displayName": "Teamcenter Gateway",
+      "required": false,
+      "documentationCoverage": "complete",
+      "assemblies": [
+        "Siemens.Engineering.TeamcenterGateway.dll"
+      ],
+      "cataloguePaths": [
+        "skills/tia-teamcenter/references/v21-api-surface.md"
+      ]
+    },
+    {
+      "id": "testsuite",
+      "displayName": "TIA Portal Test Suite Advanced",
+      "required": false,
+      "documentationCoverage": "complete",
+      "assemblies": [
+        "Siemens.Engineering.TestSuite.dll"
+      ],
+      "cataloguePaths": [
+        "skills/tia-testsuite/references/application-test.md",
+        "skills/tia-testsuite/references/style-guide.md",
+        "skills/tia-testsuite/references/system-test.md",
+        "skills/tia-testsuite/references/test-results.md"
+      ]
+    }
+  ]
+}
