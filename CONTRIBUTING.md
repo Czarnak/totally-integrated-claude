@@ -14,7 +14,7 @@ Recommended tools:
 
 - PowerShell 7 (`pwsh`) for validation and tests.
 - Windows PowerShell 5.1 compatibility for `skills/tia-doctor/probe.ps1`.
-- Pester for PowerShell tests. CI installs the current Pester version.
+- Pester 5.7.1 for PowerShell tests. CI installs this pinned version.
 - TIA Portal V17 or later when manually verifying Openness, TIA Scripting, or MCP
   behavior.
 
@@ -30,7 +30,7 @@ Run these commands before opening a PR:
 
 ```powershell
 pwsh -NoProfile -File .\scripts\validate-repo.ps1
-pwsh -NoProfile -Command "Invoke-Pester -Path .\tests"
+pwsh -NoProfile -Command "Invoke-Pester -Path .\tests -ExcludeTagFilter ReferenceAudit -CI"
 git diff --check
 ```
 
@@ -41,6 +41,7 @@ The validator checks:
   `.codex-plugin/plugin.json`, and `plugin.json`.
 - Referenced paths in manifests and `tia-openness-roadmap`.
 - `SKILL.md` frontmatter with `name` and `description`.
+- The committed V21 API baselines and their documentation catalogue mappings.
 
 ## Skill Authoring Rules
 
@@ -78,13 +79,25 @@ as part of the public interface.
 Add or update tests with behavior changes:
 
 - Hook logic: `tests/tia-write-guard.Tests.ps1`.
-- Skill safety text and invariants: `tests/skill-content.Tests.ps1`.
+- Portable skill safety contracts: `tests/safety-contract.Tests.ps1`.
+- Certified API baseline behavior: `tests/api-baseline.Tests.ps1`.
+- Hosted/manual test boundaries: `tests/ci-scope.Tests.ps1`.
+- Exact installed-V21 reference audit: `tests/skill-content.Tests.ps1` with the
+  `ReferenceAudit` tag.
 - Doctor probe helper behavior: `tests/tia-doctor.Tests.ps1`.
 - Repository metadata validation: `scripts/validate-repo.ps1`.
 
-Keep tests compatible with the current CI flow. If a test needs a real TIA
-Portal installation, make it an explicit manual verification step instead of a
-required CI test.
+Hosted CI runs all tests except `ReferenceAudit` and validates committed API
+evidence without requiring TIA Portal. Run the strict audit after an intentional
+Openness/documentation update:
+
+```powershell
+pwsh -NoProfile -Command "Invoke-Pester -Path .\tests -TagFilter ReferenceAudit -CI"
+```
+
+The installed-API extractor and comparison workflow is documented in
+[`api-baselines/README.md`](api-baselines/README.md). Any check that needs a real
+TIA Portal process, license, project, or device remains an explicit manual step.
 
 ## Manifest And Release Notes
 
@@ -100,7 +113,8 @@ When changing user-facing capabilities:
 ## Pull Request Checklist
 
 - [ ] `pwsh -NoProfile -File .\scripts\validate-repo.ps1` passes.
-- [ ] `pwsh -NoProfile -Command "Invoke-Pester -Path .\tests"` passes.
+- [ ] `pwsh -NoProfile -Command "Invoke-Pester -Path .\tests -ExcludeTagFilter ReferenceAudit -CI"` passes.
+- [ ] `ReferenceAudit` was run when installed V21 API or exact reference content changed.
 - [ ] `git diff --check` passes.
 - [ ] New or changed skills are reachable from the roadmap when appropriate.
 - [ ] Safety-sensitive changes include tests or a documented manual verification.

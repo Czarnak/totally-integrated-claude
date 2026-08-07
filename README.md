@@ -17,6 +17,7 @@ Provides a routed skill framework covering the full TIA Portal Openness API surf
 - **TIA Portal MCP server** - work with your agent directly in TIA Portal V21 (separate installation required, see below)
 - **MCP write safety hooks** - Claude Code blocks TIA Portal writes unless the call includes `confirm=true` and a server-issued `safetyToken`
 - **Environment diagnostics** - `tia-doctor` verifies the exact V21 executable, modular Openness core, and user group, with optional Python/MCP checks
+- **Certified V21 API baselines** - hosted CI validates committed installed-API evidence without requiring TIA Portal on the runner
 
 ---
 
@@ -188,6 +189,8 @@ and `tia-mcp` checks are optional and can be skipped independently.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contributor setup, validation
 commands, test expectations, skill authoring rules, and safety requirements.
+Maintainers certifying a new Openness API surface should also follow the
+[V21 API baseline workflow](api-baselines/README.md).
 
 ## Sources
 
