@@ -108,21 +108,6 @@ Install from GitHub or clone this repository and link it locally while developin
 /plugin marketplace add Czarnak/totally-integrated-claude
 ```
 
-### Antigravity CLI
-
-Install from GitHub:
-
-```bash
-agy plugin install https://github.com/Czarnak/totally-integrated-claude
-```
-
-For local development, load the plugin:
-
-```bash
-agy plugin validate
-agy plugin install
-```
-
 ### Codex
 
 Install the marketplace from GitHub:
