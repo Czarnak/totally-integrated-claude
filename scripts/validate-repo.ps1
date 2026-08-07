@@ -8,6 +8,22 @@ function Add-Failure {
     $script:Failures.Add($Message)
 }
 
+function Test-CertifiedTiaApiBaseline {
+    $validationRepoRoot = [string] $RepoRoot
+    $validatorPath = Join-Path $validationRepoRoot "scripts/api-baseline.ps1"
+    $baselineRoot = Join-Path $validationRepoRoot "api-baselines/v21"
+
+    try {
+        . $validatorPath -RepoRoot $validationRepoRoot -BaselineRoot $baselineRoot
+        $result = Test-TiaApiBaselineRepository -BaselineRoot $baselineRoot -RepoRoot $validationRepoRoot
+        foreach ($errorMessage in @($result.errors)) {
+            Add-Failure "TIA API baseline: $errorMessage"
+        }
+    } catch {
+        Add-Failure "TIA API baseline validation failed: $($_.Exception.Message)"
+    }
+}
+
 function Resolve-RepoPath {
     param([string] $RelativePath)
 
@@ -288,6 +304,7 @@ Test-RoadmapReferences
 Test-OrphanedSkills
 Test-SkillFrontmatter
 Test-TiaPortalMcpSkillSurface
+Test-CertifiedTiaApiBaseline
 
 if ($script:Failures.Count -gt 0) {
     Write-Error ("Repository validation failed:`n - " + ($script:Failures -join "`n - "))

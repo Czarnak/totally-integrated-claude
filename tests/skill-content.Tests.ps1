@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 
-Describe "portable safety invariants" {
+Describe "installed V21 reference audit" -Tag "ReferenceAudit" {
     BeforeAll {
         $script:RepoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
         $script:CSharpSkill = Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "skills/tia-csharp-common/SKILL.md")

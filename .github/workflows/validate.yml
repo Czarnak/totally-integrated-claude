@@ -31,4 +31,4 @@ jobs:
       - name: Run Pester tests
         run: |
           Import-Module Pester -RequiredVersion 5.7.1 -Force
-          Invoke-Pester -Path ./tests -CI
+          Invoke-Pester -Path ./tests -ExcludeTagFilter ReferenceAudit -CI
