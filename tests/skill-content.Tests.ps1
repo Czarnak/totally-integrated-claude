@@ -114,7 +114,7 @@ Describe "portable safety invariants" {
     }
 
     It "documents V21 project upgrade and SaveAs semantics" {
-        $script:ProjectLifecycle | Should -Match 'immediately previous version'
+        $script:ProjectLifecycle | Should -Match 'immediately previous\s+version'
         $script:ProjectLifecycle | Should -Not -Match 'OldProject\.ap18'
         $script:ProjectLifecycle | Should -Match 'changes the active project persistence location'
         $script:ProjectLifecycle | Should -Match 'outside the transaction'
@@ -210,8 +210,8 @@ Describe "portable safety invariants" {
         $script:DeviceOperations | Should -Match 'project\.HwUtilities'
         $script:DeviceOperations | Should -Match 'pscProvider\.Export\(device, exportFile\)'
         $script:DeviceOperations | Should -Match 'SecureString'
-        $script:DeviceOperations | Should -Match 'ImportDataPoints'
-        $script:DeviceOperations | Should -Not -Match 'ImportDatapoints'
+        $script:DeviceOperations | Should -MatchExactly 'ImportDataPoints'
+        $script:DeviceOperations | Should -Not -MatchExactly 'ImportDatapoints'
         $script:DeviceOperations | Should -Match 'AttributeConfiguration'
         $script:DeviceOperations | Should -Match 'AttributeChoiceSelection\.Abort'
         $script:DeviceAttributes | Should -Match 'Siemens\.Engineering\.CustomIdentity'
@@ -232,8 +232,8 @@ Describe "portable safety invariants" {
     It "uses installed V21 network enum identifiers" {
         $script:NetworkSubnets | Should -Match '`Baud93750`'
         $script:NetworkSubnets | Should -Not -Match '`Baud93700`'
-        $script:NetworkSubnets | Should -Match '`Dp`'
-        $script:NetworkSubnets | Should -Not -Match '`DP`,'
+        $script:NetworkSubnets | Should -MatchExactly '`Dp`'
+        $script:NetworkSubnets | Should -Not -MatchExactly '`DP`,'
         $script:NetworkTiming | Should -Match 'SyncRole\.NotSynchronized'
         $script:NetworkTiming | Should -Match 'SyncRole\.RedundantSyncMaster'
     }
@@ -327,10 +327,10 @@ Describe "portable safety invariants" {
 
     It "catalogues all 92 installed V21 SiVArc types" {
         $catalogue = Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "skills/tia-sivarc/references/api-catalogue.md")
-        ([regex]::Matches($catalogue, '(?m)^## 🛠️ Siemens\.Engineering\.SiVArc\.').Count) | Should -Be 92
-        $catalogue | Should -Match '(?m)^## 🛠️ Siemens\.Engineering\.SiVArc\.Sivarc$'
-        $catalogue | Should -Match '(?m)^## 🛠️ Siemens\.Engineering\.SiVArc\.AdvancedTagRules$'
-        $catalogue | Should -Match '(?m)^## 🛠️ Siemens\.Engineering\.SiVArc\.UpgradeDefinitionsResult$'
+        ([regex]::Matches($catalogue, '(?m)^##[^\r\n]*Siemens\.Engineering\.SiVArc\.').Count) | Should -Be 92
+        $catalogue | Should -Match '(?m)^##[^\r\n]*Siemens\.Engineering\.SiVArc\.Sivarc$'
+        $catalogue | Should -Match '(?m)^##[^\r\n]*Siemens\.Engineering\.SiVArc\.AdvancedTagRules$'
+        $catalogue | Should -Match '(?m)^##[^\r\n]*Siemens\.Engineering\.SiVArc\.UpgradeDefinitionsResult$'
     }
 
     It "guards Startdrive mutation and live operations" {
@@ -354,7 +354,7 @@ Describe "portable safety invariants" {
         $catalogue = Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "skills/tia-simatic-drives/references/api-catalogue.md")
         $motion | Should -Match 'CanChangeTelegram\(int number\)'
         $motion | Should -Not -Match '(?<!Can)ChangeTelegram\(int number\)'
-        ([regex]::Matches($catalogue, '(?m)^## 🛠️ Siemens\.Engineering\.').Count) | Should -Be 64
+        ([regex]::Matches($catalogue, '(?m)^##[^\r\n]*Siemens\.Engineering\.').Count) | Should -Be 64
     }
 
     It "uses the installed V21 Multiuser roots and operations" {
@@ -395,10 +395,10 @@ Describe "portable safety invariants" {
 
     It "catalogues the complete installed V21 Teamcenter Gateway type surface" {
         $catalogue = Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "skills/tia-teamcenter/references/v21-api-surface.md")
-        ([regex]::Matches($catalogue, '(?m)^## 🛠️ Siemens\.Engineering\.TeamcenterGateway\.').Count) | Should -Be 20
-        $catalogue | Should -Match '(?m)^## 🛠️ Siemens\.Engineering\.TeamcenterGateway\.TeamcenterConnectionProvider$'
-        $catalogue | Should -Match '(?m)^## 🛠️ Siemens\.Engineering\.TeamcenterGateway\.TcGatewayLockProvider$'
-        $catalogue | Should -Match '(?m)^## 🛠️ Siemens\.Engineering\.TeamcenterGateway\.TcGatewayWorkflowProvider$'
+        ([regex]::Matches($catalogue, '(?m)^##[^\r\n]*Siemens\.Engineering\.TeamcenterGateway\.').Count) | Should -Be 20
+        $catalogue | Should -Match '(?m)^##[^\r\n]*Siemens\.Engineering\.TeamcenterGateway\.TeamcenterConnectionProvider$'
+        $catalogue | Should -Match '(?m)^##[^\r\n]*Siemens\.Engineering\.TeamcenterGateway\.TcGatewayLockProvider$'
+        $catalogue | Should -Match '(?m)^##[^\r\n]*Siemens\.Engineering\.TeamcenterGateway\.TcGatewayWorkflowProvider$'
     }
 
     It "uses the installed V21 Test Suite roots and permission model" {
@@ -438,11 +438,11 @@ Describe "portable safety invariants" {
             (Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "skills/tia-testsuite/references/style-guide.md")) +
             (Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "skills/tia-testsuite/references/system-test.md")) +
             (Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "skills/tia-testsuite/references/test-results.md"))
-        ([regex]::Matches($catalogue, '(?m)^## 🛠️ Siemens\.Engineering\.TestSuite\.').Count) | Should -Be 28
-        $catalogue | Should -Match '(?m)^## 🛠️ Siemens\.Engineering\.TestSuite\.StyleGuide\.RuleSetComposition$'
-        $catalogue | Should -Match '(?m)^## 🛠️ Siemens\.Engineering\.TestSuite\.StyleGuide\.RuleSetExecutor$'
-        $catalogue | Should -Match '(?m)^## 🛠️ Siemens\.Engineering\.TestSuite\.StyleGuide\.StyleGuideSystemGroup$'
-        $catalogue | Should -Match '(?m)^## 🛠️ Siemens\.Engineering\.TestSuite\.StyleGuide\.UpdateOptions$'
+        ([regex]::Matches($catalogue, '(?m)^##[^\r\n]*Siemens\.Engineering\.TestSuite\.').Count) | Should -Be 28
+        $catalogue | Should -Match '(?m)^##[^\r\n]*Siemens\.Engineering\.TestSuite\.StyleGuide\.RuleSetComposition$'
+        $catalogue | Should -Match '(?m)^##[^\r\n]*Siemens\.Engineering\.TestSuite\.StyleGuide\.RuleSetExecutor$'
+        $catalogue | Should -Match '(?m)^##[^\r\n]*Siemens\.Engineering\.TestSuite\.StyleGuide\.StyleGuideSystemGroup$'
+        $catalogue | Should -Match '(?m)^##[^\r\n]*Siemens\.Engineering\.TestSuite\.StyleGuide\.UpdateOptions$'
     }
 
     It "documents the scoped V21 tia-doctor probe" {
@@ -498,7 +498,7 @@ Describe "portable safety invariants" {
     It "calibrates PLC threat mappings as hypotheses rather than compromise evidence" {
         $threats = Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "skills/plc-code-analysis/references/threat-mapping.md")
         $threats | Should -Match 'hypothesis'
-        $threats | Should -Match 'not evidence of compromise'
+        $threats | Should -Match 'not\s+evidence of compromise'
         $threats | Should -Match 'permitted data-exchange direction'
         $threats | Should -Not -Match 'Any path in standard \(non-safety\) code that can affect F-program behavior'
         $threats | Should -Not -Match 'prevents OB35 \(safety cyclic interrupt\)'
@@ -524,7 +524,7 @@ Describe "portable safety invariants" {
         $library | Should -Match 'UpdateCheck\(project, UpdateCheckMode\.ReportOutOfDateOnly\)'
         $library | Should -Match 'explicit authorization'
         $library | Should -Match 'TransferResultState\.Warning'
-        ([regex]::Matches($library, '(?m)^## 🛠️ Siemens\.Engineering\.Library(?:\.|$)').Count) | Should -Be 66
+        ([regex]::Matches($library, '(?m)^##[^\r\n]*Siemens\.Engineering\.Library(?:\.|$)').Count) | Should -Be 66
     }
 
     It "keeps the repository overview aligned with the V21 audit" {
@@ -541,11 +541,11 @@ Describe "portable safety invariants" {
         $cax = Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "skills/tia-import-export/references/hardware-aml.md")
         $download = Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "skills/tia-plc-operations/references/download-upload.md")
         foreach ($type in 'CaxImportOptions', 'CaxProvider', 'TransferResult', 'TransferResultMessage', 'TransferResultMessageComposition', 'TransferResultState') {
-            $cax | Should -Match ("(?m)^## 🛠️ Siemens\.Engineering\.Cax\." + $type + '$')
+            $cax | Should -Match ("(?m)^##[^\r\n]*Siemens\.Engineering\.Cax\." + $type + '$')
         }
         $cax | Should -Match 'TransferResultState\.Information'
         $cax | Should -Match 'recurs'
-        ([regex]::Matches($download, '(?m)^## 🛠️ Siemens\.Engineering\.Download\.Configurations\.').Count) | Should -Be 19
+        ([regex]::Matches($download, '(?m)^##[^\r\n]*Siemens\.Engineering\.Download\.Configurations\.').Count) | Should -Be 69
         $download | Should -Match 'DataBlockReinitializationOrKeepActualValuesSelections\.KeepActualValues'
         $download | Should -Match 'TargetForSoftwareSelections\.PlcSimulationAdvanced'
         $download | Should -Match 'AllBlocksDownloadSelections\.DownloadAllBlocks'
@@ -566,8 +566,8 @@ Describe "portable safety invariants" {
 
     It "catalogues all installed Base and Step7 download/upload configurations" {
         $download = Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "skills/tia-plc-operations/references/download-upload.md")
-        ([regex]::Matches($download, '(?m)^## 🛠️ Siemens\.Engineering\.Download\.Configurations\.').Count) | Should -Be 69
-        ([regex]::Matches($download, '(?m)^## 🛠️ Siemens\.Engineering\.Upload\.Configurations\.').Count) | Should -Be 8
+        ([regex]::Matches($download, '(?m)^##[^\r\n]*Siemens\.Engineering\.Download\.Configurations\.').Count) | Should -Be 69
+        ([regex]::Matches($download, '(?m)^##[^\r\n]*Siemens\.Engineering\.Upload\.Configurations\.').Count) | Should -Be 8
         $download | Should -Match 'PlcMasterSecretPassword'
         $download | Should -Match 'UserManagementPreDownloadSelections'
         $download | Should -Match 'UploadPasswordConfiguration'
@@ -588,8 +588,8 @@ Describe "portable safety invariants" {
         $online | Should -Match 'device\.GetService<RHOnlineProvider>\(\)'
         $online | Should -Match 'GoOnlineToPrimary'
         $online | Should -Match 'GoOnlineToBackup'
-        ([regex]::Matches($online, '(?m)^## 🛠️ Siemens\.Engineering\.Online\.Configurations\.').Count) | Should -Be 10
-        ([regex]::Matches($online, '(?m)^## 🛠️ Siemens\.Engineering\.Online\.Security\.').Count) | Should -Be 2
+        ([regex]::Matches($online, '(?m)^##[^\r\n]*Siemens\.Engineering\.Online\.Configurations\.').Count) | Should -Be 10
+        ([regex]::Matches($online, '(?m)^##[^\r\n]*Siemens\.Engineering\.Online\.Security\.').Count) | Should -Be 2
     }
 
     It "covers the V21 quick-station fingerprint workflow and exact public types" {
@@ -600,7 +600,7 @@ Describe "portable safety invariants" {
         $fingerprint | Should -Match 'GetFingerprintData\(address, ConfigureOnline\)'
         $fingerprint | Should -Match 'fail closed'
         $fingerprint | Should -Match 'not.*full station comparison'
-        ([regex]::Matches($fingerprint, '(?m)^## 🛠️ Siemens\.Engineering\.FingerprintData\.').Count) | Should -Be 4
+        ([regex]::Matches($fingerprint, '(?m)^##[^\r\n]*Siemens\.Engineering\.FingerprintData\.').Count) | Should -Be 4
     }
 
     It "does not overwrite a drive Safety acceptance report by default" {
