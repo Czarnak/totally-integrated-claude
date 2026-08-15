@@ -192,6 +192,134 @@ function Test-SkillFrontmatter {
     }
 }
 
+function Test-TiaPythonSkillSurface {
+    $skillRoot = Resolve-RepoPath "skills/tia-python"
+    $requiredFiles = @(
+        "SKILL.md",
+        "references/global_portal.md",
+        "references/plc.md",
+        "references/hmi.md",
+        "references/library.md",
+        "references/project.md"
+    )
+
+    $contents = @{}
+    foreach ($relativePath in $requiredFiles) {
+        $path = Join-Path $skillRoot $relativePath
+        if (-not (Test-Path -LiteralPath $path)) {
+            Add-Failure "skills/tia-python is missing required file '$relativePath'"
+            continue
+        }
+        $contents[$relativePath] = Get-Content -Raw -LiteralPath $path
+    }
+
+    if (-not $contents.ContainsKey("SKILL.md")) {
+        return
+    }
+
+    $entrypoint = $contents["SKILL.md"]
+    $packageContent = ($requiredFiles | ForEach-Object {
+        if ($contents.ContainsKey($_)) { $contents[$_] }
+    }) -join "`n"
+
+    foreach ($requiredEntrypointFact in @(
+        'Library: `siemens_tia_scripting` (v1.4.3)',
+        'Python 3.12.x, 3.13.x, or 3.14.x',
+        'TIA Portal V15.1',
+        'V18-V21',
+        'GeneralExportFormats',
+        'GeneralExportOptions',
+        'GeneralImportOptions',
+        'ExecutionResult'
+    )) {
+        if ($entrypoint -notmatch [regex]::Escape($requiredEntrypointFact)) {
+            Add-Failure "skills/tia-python/SKILL.md must document '$requiredEntrypointFact'"
+        }
+    }
+
+    foreach ($requiredApi in @(
+        'set_umac_credentials_by_config',
+        'set_log_level',
+        'get_devices',
+        'get_modules',
+        'get_download_configuration',
+        'get_system_constants',
+        'export_cfc_charts',
+        'import_cfc_charts',
+        'get_master_copies',
+        'create_master_copy',
+        'export_project_texts',
+        'import_project_texts',
+        'import_application_tests',
+        'import_system_tests',
+        'import_rule_sets',
+        'login_to_safety'
+    )) {
+        if ($packageContent -notmatch [regex]::Escape($requiredApi)) {
+            Add-Failure "skills/tia-python must document V1.4.3 API '$requiredApi'"
+        }
+    }
+
+    foreach ($requiredReturnContract in @(
+        'get_supported_export_format() -> List[str]',
+        'commit_and_close(commit_message: str) -> int'
+    )) {
+        if ($packageContent -notmatch [regex]::Escape($requiredReturnContract)) {
+            Add-Failure "skills/tia-python must document V1.4.3 return contract '$requiredReturnContract'"
+        }
+    }
+
+    foreach ($fabricatedNoneContract in @(
+        'get_supported_export_format() -> None',
+        'commit_and_close(commit_message: str) -> None'
+    )) {
+        if ($packageContent -match [regex]::Escape($fabricatedNoneContract)) {
+            Add-Failure "skills/tia-python must not fabricate return contract '$fabricatedNoneContract'"
+        }
+    }
+
+    foreach ($requiredSafetyFact in @(
+        'explicit live-operation authorization',
+        'exact target',
+        'project.end_transaction(rollback=True)',
+        'pc_interface_type',
+        'pc_interface_name',
+        'target_interface'
+    )) {
+        if ($packageContent -notmatch [regex]::Escape($requiredSafetyFact)) {
+            Add-Failure "skills/tia-python must document safety contract '$requiredSafetyFact'"
+        }
+    }
+
+    foreach ($staleClaim in @(
+        '(v1.1.0)',
+        'ts.Enums.ExportFormats',
+        'ts.Enums.ExportOptions',
+        'ts.Enums.CleanUpMode',
+        'ts.Enums.HarmonizeOptions',
+        'ts.Enums.DependenciesMode',
+        'LibraryTypeFolder',
+        'pci_interface',
+        'Password123',
+        'Password!123',
+        'mySecret'
+    )) {
+        if ($packageContent -match [regex]::Escape($staleClaim)) {
+            Add-Failure "skills/tia-python must not retain stale or unsafe claim '$staleClaim'"
+        }
+    }
+
+    foreach ($bareDestructiveExample in @(
+        '(?m)^\s*project\.delete\(\)\s*(?:#.*)?$',
+        '(?m)^\s*server\.delete\(\)\s*(?:#.*)?$',
+        '(?m)^\s*(?:global_lib|project_lib)\.delete_folder\('
+    )) {
+        if ($packageContent -match $bareDestructiveExample) {
+            Add-Failure "skills/tia-python contains an unguarded destructive example matching '$bareDestructiveExample'"
+        }
+    }
+}
+
 function Test-TiaPortalMcpSkillSurface {
     $skillPath = Resolve-RepoPath "skills/tia-portal-mcp/SKILL.md"
     if (-not (Test-Path -LiteralPath $skillPath)) {
@@ -303,6 +431,7 @@ Test-VersionSync
 Test-RoadmapReferences
 Test-OrphanedSkills
 Test-SkillFrontmatter
+Test-TiaPythonSkillSurface
 Test-TiaPortalMcpSkillSurface
 Test-CertifiedTiaApiBaseline
 

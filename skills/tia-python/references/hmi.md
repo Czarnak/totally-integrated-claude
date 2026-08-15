@@ -1,179 +1,240 @@
 # HMI Reference
 
-Shared trait methods (`get_name`, `get_property`, `get_properties`, `set_property`,
-`get_identifier`, `export`) are documented in SKILL.md.
-Only unique methods are listed here.
+V1.4.3 authority: Siemens manual sections 2.2 and 2.11-2.21, plus the
+bundled `siemens_tia_scripting.pyi`.
 
----
+## Scope boundary
 
-## Hmi Device
+The Python wrapper exposes one generic `Hmi` class. Siemens' V1.4.3 examples
+branch on `hmi.get_hmi_type()` values such as `"Comfort"` and `"Unified"`, but
+the wrapper does not expose the full C# Classic and Unified object models.
+Describe this as wrapper-level HMI coverage, not complete HMI Openness coverage.
+Route unsupported or model-specific engineering to `tia-hmi-operations`.
 
-Retrieved via `project.get_hmis()` → `List[Hmi]`
+Select the exact HMI by confirmed name/identifier and type. Do not use the first
+returned device.
 
-```python
-hmis = project.get_hmis()
-for hmi in hmis:
-    print(hmi.get_name())
+## Hmi discovery, compile, and hardware
+
+```text
+project.get_hmis() -> List[ts.Hmi]
+
+hmi.get_name() -> str
+hmi.get_hmi_type() -> str
+hmi.get_identifier() -> str
+hmi.get_property(name: str) -> str
+hmi.get_properties() -> List[str]
+hmi.set_property(name: str, value: str) -> int
+hmi.open_device_editor() -> None
+
+hmi.compile_hardware() -> bool
+hmi.compile_software() -> bool
+hmi.upgrade_hardware(full_upgrade: bool) -> None
+hmi.create_master_copy(
+    library_folder_path: Optional[str] = None,
+) -> ts.MasterCopy
 ```
 
-### Device Info
+HMI compile methods are deliberately different from PLC compile methods:
+`True` means compile errors exist and `False` means no errors exist.
 
 ```python
-hmi.get_hmi_type()   # → str  type of the HMI device
-hmi.open_device_editor()
+has_errors = hmi.compile_software()
+if has_errors:
+    raise RuntimeError("HMI software compile reported errors; inspect TIA logs.")
 ```
 
-### Compile & Upgrade
+Compiling, property writes, hardware upgrade, editor opening, and master-copy
+creation are side-effecting. Require explicit mutation/UI authorization as
+appropriate. `full_upgrade=True` may change device order number as well as
+firmware.
 
-```python
-result = hmi.compile_hardware()         # → bool  True = errors present
-result = hmi.compile_software()         # → bool  True = errors present
-hmi.upgrade_hardware(full_upgrade=True) # full_upgrade=True changes order number too
+## Retrieve HMI objects
+
+```text
+hmi.get_hmi_tag_tables(
+    folder_path: Optional[str] = None,
+) -> List[ts.HmiTagTable]
+hmi.get_screens(
+    folder_path: Optional[str] = None,
+) -> List[ts.HmiScreen]
+hmi.get_text_lists() -> List[ts.HmiTextList]
+hmi.get_scripts(
+    folder_path: Optional[str] = None,
+) -> List[ts.HmiScript]
+hmi.get_alarms() -> List[ts.HmiAlarm]
+hmi.get_alarm_classes() -> List[ts.HmiAlarmClass]
+hmi.get_connections() -> List[ts.HmiConnection]
+hmi.get_cycles() -> List[ts.HmiCycle]
+hmi.get_graphic_lists() -> List[ts.HmiGraphicList]
+hmi.get_global_screen_elements() -> ts.HmiScreen
+hmi.get_screen_overview() -> ts.HmiScreen
+hmi.get_slide_in_screens(
+    folder_path: Optional[str] = None,
+) -> List[ts.HmiScreen]
 ```
 
-### Retrieve HMI Sub-objects
+Although the stub does not annotate optional returns for global elements or the
+screen overview, the shipped examples check them before export. Do the same.
 
-Methods accepting `folder_path` use `"group1/group2"` syntax.
+## HMI imports
 
-```python
-hmi.get_hmi_tag_tables(folder_path=None)        # → List[HmiTagTable]
-hmi.get_screens(folder_path=None)               # → List[HmiScreen]
-hmi.get_slide_in_screens(folder_path=None)      # → List[HmiScreen]
-hmi.get_scripts(folder_path=None)               # → List[HmiScript]
-hmi.get_text_lists()                            # → List[HmiTextList]
-hmi.get_alarms()                                # → List[HmiAlarm]
-hmi.get_alarm_classes()                         # → List[HmiAlarmClass]
-hmi.get_connections()                           # → List[HmiConnection]
-hmi.get_cycles()                                # → List[HmiCycle]
-hmi.get_graphic_lists()                         # → List[HmiGraphicList]
-hmi.get_global_screen_elements()                # → HmiScreen
-hmi.get_screen_overview()                       # → HmiScreen
-```
+All imports mutate the selected HMI. Preflight source content, select one exact
+HMI and target folder, pass `import_options` explicitly, and require overwrite
+authorization before `GeneralImportOptions.Override`.
 
-### Import into HMI
+### Directory-based imports
 
-All `import_*` take a directory path (folder of exported files).
-
-```python
+```text
 hmi.import_hmi_tags(
-    import_root_directory="C:\\ws\\importfolder\\HMI_1\\Tags",
-    target_folder_path=None   # Optional
-)
-hmi.import_connections(import_root_directory="C:\\ws\\importfolder\\HMI_1\\Connections")
-hmi.import_cycles(import_root_directory="C:\\ws\\importfolder\\HMI_1\\Cycles")
+    import_root_directory: str,
+    target_folder_path: Optional[str] = None,
+    import_options: Optional[ts.Enums.GeneralImportOptions] = None,
+) -> None
+
+hmi.import_connections(
+    import_root_directory: str,
+    import_options: Optional[ts.Enums.GeneralImportOptions] = None,
+) -> None
+
+hmi.import_cycles(
+    import_root_directory: str,
+    import_options: Optional[ts.Enums.GeneralImportOptions] = None,
+) -> None
+
 hmi.import_scripts(
-    import_root_directory="C:\\ws\\importfolder\\HMI_1\\Scripts",
-    target_folder_path=None
-)
-hmi.import_text_lists(import_root_directory="C:\\ws\\importfolder\\HMI_1\\Text lists")
-hmi.import_graphic_lists(import_root_directory="C:\\ws\\importfolder\\HMI_1\\Graphics")
+    import_root_directory: str,
+    target_folder_path: Optional[str] = None,
+    import_options: Optional[ts.Enums.GeneralImportOptions] = None,
+) -> None
+
+hmi.import_text_lists(
+    import_root_directory: str,
+    import_options: Optional[ts.Enums.GeneralImportOptions] = None,
+) -> None
+
+hmi.import_graphic_lists(
+    import_root_directory: str,
+    import_options: Optional[ts.Enums.GeneralImportOptions] = None,
+) -> None
+
 hmi.import_screens(
-    import_root_directory="C:\\ws\\importfolder\\HMI_1\\Screens",
-    target_folder_path=None
-)
+    import_root_directory: str,
+    target_folder_path: Optional[str] = None,
+    import_options: Optional[ts.Enums.GeneralImportOptions] = None,
+) -> None
+
 hmi.import_popup_screens(
-    import_root_directory="C:\\ws\\importfolder\\HMI_1\\PopUpScreens",
-    target_folder_path=None
-)
+    import_root_directory: str,
+    target_folder_path: Optional[str] = None,
+    import_options: Optional[ts.Enums.GeneralImportOptions] = None,
+) -> None
+
 hmi.import_template_screens(
-    import_root_directory="C:\\ws\\importfolder\\HMI_1\\TemplateScreens",
-    target_folder_path=None
-)
-hmi.import_slidein_screens(import_root_directory="C:\\ws\\importfolder\\HMI_1\\SlideinScreens")
+    import_root_directory: str,
+    target_folder_path: Optional[str] = None,
+    import_options: Optional[ts.Enums.GeneralImportOptions] = None,
+) -> None
 
-# These take a single FILE path, not a directory
-hmi.import_global_elements(import_file="C:\\ws\\importfolder\\HMI_1\\GlobalElements.xml")
-hmi.import_screen_overview(import_file="C:\\ws\\importfolder\\HMI_1\\ScreenOverview.xml")
+hmi.import_slidein_screens(
+    import_root_directory: str,
+    import_options: Optional[ts.Enums.GeneralImportOptions] = None,
+) -> None
 ```
 
----
+### File-based imports
 
-## HmiTagTable
+```text
+hmi.import_global_elements(
+    import_file: str,
+    import_options: Optional[ts.Enums.GeneralImportOptions] = None,
+) -> None
 
-```python
-# Has: get_name, get_property, get_properties, set_property, get_identifier, export
-# No unique methods beyond shared traits
+hmi.import_screen_overview(
+    import_file: str,
+    import_options: Optional[ts.Enums.GeneralImportOptions] = None,
+) -> None
 ```
 
----
+Do not pass the parent directory to the two file-based methods. After imports,
+compile the appropriate HMI target and treat `True` as failure.
 
-## HmiTag
+## Export-capable HMI objects
 
-```python
-# Has: get_name, get_property, get_properties, set_property, get_identifier, export
-# No unique methods beyond shared traits
+These classes expose the common property and identifier methods plus the common
+V1.4.3 export signature using `GeneralExportOptions` and
+`GeneralExportFormats`:
+
+- `HmiTagTable`
+- `HmiTag`
+- `HmiScreen`
+- `HmiScript`
+- `HmiConnection`
+- `HmiCycle`
+- `HmiGraphicList`
+- `HmiTextList`
+
+```text
+obj.export(
+    target_directory_path=r"C:\Engineering\hmi-export",
+    export_options=ts.Enums.GeneralExportOptions.WithDefaults,
+    export_format=ts.Enums.GeneralExportFormats.SimaticSD,
+    keep_folder_structure=True,
+) -> None
 ```
 
----
+Supported formats vary by object and HMI type. Siemens' examples use
+`SimaticSD` for selected Unified scripts, tag tables, and text lists; do not
+generalize that example to every HMI object. Prefer a validated object/type
+combination and preserve the exact export path.
 
-## HmiScreen
+## HMI object surface
 
-Returned by `get_screens()`, `get_slide_in_screens()`, `get_global_screen_elements()`, `get_screen_overview()`.
+### HmiTagTable, HmiTag, HmiScreen, and HmiScript
 
-```python
-# Has: get_name, get_property, get_properties, set_property, get_identifier, export
-# No unique methods beyond shared traits
+Each exposes:
+
+```text
+get_name() -> str
+get_property(name: str) -> str
+get_properties() -> List[str]
+set_property(name: str, value: str) -> int
+export(... GeneralExportOptions, GeneralExportFormats ...) -> None
+get_identifier() -> str
+create_master_copy(library_folder_path: Optional[str] = None) -> MasterCopy
 ```
 
----
+`HmiTagTable` does not expose a `get_hmi_tags()` method in the supplied V1.4.3
+stub. Do not invent table-to-tag traversal.
 
-## HmiScript
+### HmiConnection, HmiCycle, HmiGraphicList, and HmiTextList
 
-```python
-# Has: get_name, get_property, get_properties, set_property, get_identifier, export
-# No unique methods beyond shared traits
+Each exposes name/property methods, `export(...)`, and `get_identifier()`.
+These four classes do not expose `create_master_copy()` in the V1.4.3 stub.
+
+### HmiAlarm and HmiAlarmClass
+
+```text
+alarm.get_name() -> str
+alarm.get_property(name: str) -> str
+alarm.get_properties() -> List[str]
+alarm.set_property(name: str, value: str) -> int
+alarm.get_identifier() -> str
 ```
 
----
+`HmiAlarmClass` has the same surface. Neither class exposes `export()` or
+`create_master_copy()` in V1.4.3.
 
-## HmiAlarm
+## Safe HMI workflow
 
-```python
-# Has: get_name, get_property, get_properties, set_property, get_identifier
-# Note: HmiAlarm does NOT have an export() method
-```
-
----
-
-## HmiAlarmClass
-
-```python
-# Has: get_name, get_property, get_properties, set_property, get_identifier
-# Note: HmiAlarmClass does NOT have an export() method
-```
-
----
-
-## HmiConnection
-
-```python
-# Has: get_name, get_property, get_properties, set_property, get_identifier, export
-# export() uses the standard shared signature (see SKILL.md)
-```
-
----
-
-## HmiCycle
-
-```python
-# Has: get_name, get_property, get_properties, set_property, get_identifier, export
-# No unique methods beyond shared traits
-```
-
----
-
-## HmiTextList
-
-```python
-# Has: get_name, get_property, get_properties, set_property, get_identifier, export
-# No unique methods beyond shared traits
-```
-
----
-
-## HmiGraphicList
-
-```python
-# Has: get_name, get_property, get_properties, set_property, get_identifier, export
-# No unique methods beyond shared traits
-```
+1. Identify one exact HMI by name, identifier, and `get_hmi_type()`.
+2. Export or otherwise capture the current target state when the operation is
+   reversible through that artifact.
+3. Start a project transaction only if the specific wrapper operation supports
+   it; a transaction is not proof of HMI-operation support.
+4. Apply only the authorized import/property/master-copy/hardware change.
+5. Compile and fail when the HMI compile method returns `True`.
+6. Roll back on every exception path. Save only under separate explicit save
+   authorization.
+7. If the wrapper cannot provide the required exact selector, model-specific
+   surface, rollback, or result evidence, route to C# Openness or guarded MCP.

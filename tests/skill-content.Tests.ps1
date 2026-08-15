@@ -44,6 +44,10 @@ Describe "installed V21 reference audit" -Tag "ReferenceAudit" {
         $script:HmiUnifiedLogging = Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "skills/tia-hmi-operations/references/unified-logging.md")
         $script:HmiUnifiedAlarms = Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "skills/tia-hmi-operations/references/unified-tags-alarms.md")
         $script:PythonSkill = Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "skills/tia-python/SKILL.md")
+        $script:PythonLibrary = Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "skills/tia-python/references/library.md")
+        $script:PythonPlc = Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "skills/tia-python/references/plc.md")
+        $script:PythonProject = Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "skills/tia-python/references/project.md")
+        $script:PythonReferenceSurface = @($script:PythonLibrary, $script:PythonPlc, $script:PythonProject) -join "`n"
     }
 
     It "documents C# destructive-operation safety" {
@@ -61,6 +65,13 @@ Describe "installed V21 reference audit" -Tag "ReferenceAudit" {
         $script:PythonSkill | Should -Match 'end_transaction\(\)'
         $script:PythonSkill | Should -Match 'compile_check'
         $script:PythonSkill | Should -Match 'C# Openness or MCP'
+    }
+
+    It "documents V1.4.3 return contracts without fabricated None annotations" {
+        $script:PythonReferenceSurface | Should -Match 'get_supported_export_format\(\) -> List\[str\]'
+        $script:PythonReferenceSurface | Should -Not -Match 'get_supported_export_format\(\) -> None'
+        $script:PythonReferenceSurface | Should -Match 'commit_and_close\(commit_message: str\) -> int'
+        $script:PythonReferenceSurface | Should -Not -Match 'commit_and_close\(commit_message: str\) -> None'
     }
 
     It "documents V21 transaction rollback after any in-transaction exception" {

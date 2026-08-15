@@ -2,7 +2,7 @@
 
 A Claude Code plugin for **Siemens TIA Portal engineering automation**.
 
-Provides a routed skill framework covering the full TIA Portal Openness API surface — Python TIA Scripting for everyday tasks and C# Openness for advanced object-model work.
+Provides a routed skill framework for TIA Portal engineering automation: Siemens TIA Scripting Python V1.4.3 for its supported wrapper surface and audited C# Openness skills for advanced object-model work.
 
 ![image](img/repo_graphic.png)
 
@@ -11,7 +11,7 @@ Provides a routed skill framework covering the full TIA Portal Openness API surf
 ## Features
 
 - **Scoped automation routing** - `tia-openness-roadmap` honors an explicit implementation choice, then selects MCP, Python, C#, diagnostic, or Add-In skills
-- **Python TIA Scripting** - full coverage of PLC blocks/tags, HMI, libraries, devices, project lifecycle via `tia-python`
+- **Python TIA Scripting V1.4.3** - Siemens wrapper coverage for PLC data, generic HMI access, devices, libraries, and project workflows via `tia-python`
 - **C# Openness** - eleven domain skills covering the V21 Openness domain assemblies (see table below)
 - **TIA Portal Add-In development** — VS Code–based Add-In authoring workflow
 - **TIA Portal MCP server** - work with your agent directly in TIA Portal V21 (separate installation required, see below)
@@ -29,7 +29,7 @@ Provides a routed skill framework covering the full TIA Portal Openness API surf
 | `tia-doctor` | **Manual diagnostic.** Read-only V21 executable/modular API/group probe, with optional Python and MCP checks. |
 | `plc-code-analysis` | **Standalone.** Evidence-gated PLC security/quality analysis for raw SCL/ST, V21 SIMATIC SD, or schema-valid SimaticML. |
 | `tia-portal-mcp` | **Interactive.** Direct TIA Portal interaction via MCP tools (browse tree, read/write logic, list tags, hardware config). |
-| `tia-python` | Python TIA Scripting: PLC blocks/tags/UDTs, HMI tags/screens, library types/versions, project lifecycle, CAx import/export. |
+| `tia-python` | Siemens TIA Scripting Python V1.4.3: wrapper-level PLC, HMI, device, library, project, CAx, CFC, project-text, master-copy, and Test Suite workflows. |
 | `tia-csharp-common` | C# foundation: TIA Portal process attach, `ExclusiveAccess`, `Transaction`, disposable patterns. Required first load for every C# task. |
 | `tia-project-general` | C# project, portal, and library lifecycle: open/create/save/archive/retrieve, project/global libraries, master copies, type/version workflows, UMAC/UMC, language settings, diagnostics. |
 | `tia-devices-general` | C# device & device-item operations: hardware catalog, device creation/deletion, slot/subslot traversal, software containers, network connections, hardware parameters. |
@@ -50,9 +50,9 @@ Provides a routed skill framework covering the full TIA Portal Openness API surf
 
 ### For Python TIA Scripting
 
-- Siemens TIA Portal V17 or later
-- TIA Scripting Python downloaded from Siemens Industry Online Support
-- Python 3.12.x for the current `siemens_tia_scripting` wheel
+- TIA Scripting Python V1.4.3 downloaded from Siemens Industry Online Support
+- Python 3.12.x, 3.13.x, or 3.14.x with the matching Windows x64 wheel
+- TIA Portal and Openness V15.1 or later according to the V1.4.3 manual; Siemens package metadata separately lists V18-V21, so verify the exact installed target
 
 ### For C# Openness
 
@@ -69,14 +69,14 @@ TIA Scripting Python is not installed from PyPI by package name. Download the
 TIA Scripting Python ZIP from Siemens, then use one of Siemens' supported setup
 paths:
 
-- File import: unzip it and set `TIA_SCRIPTING` to the extracted `binaries`
-  directory.
-- Wheel install: from the extracted `binaries` directory, install the matching
-  wheel file, for example:
+- File import: unzip it and set `TIA_SCRIPTING` to the directory containing
+  `siemens_tia_scripting.pyd` and the supplied adapter DLLs.
+- Wheel install: from the extracted package's `install` directory, install the
+  V1.4.3 wheel whose CPython tag matches the interpreter, for example:
 
 ```powershell
-cd C:\Path\To\Your\TIA_Scripting_Python\binaries
-py -3.12 -m pip install .\siemens_tia_scripting-x.x.x-cp312-cp312-win_amd64.whl
+cd C:\Path\To\Your\TIA_Scripting_Python\install
+py -3.12 -m pip install .\siemens_tia_scripting-1.4.3-cp312-cp312-win_amd64.whl
 ```
 
 To check a local machine, run the bundled doctor probe:
