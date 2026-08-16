@@ -1,7 +1,7 @@
 {
   "name": "totally-integrated-claude",
-  "version": "4.4.0",
-  "description": "Siemens TIA Portal engineering automation for Codex. Provides routed skills for Python TIA Scripting and C# Openness API (project lifecycle, PLC, HMI, devices, networks, drives, import/export, Add-Ins).",
+  "version": "4.5.0",
+  "description": "Siemens TIA Portal engineering automation for Codex. Provides routed skills for Python TIA Scripting, C# Openness API, and Modular Application Creator / Module Builder workflows.",
   "author": {
     "name": "Łukasz Rafał Czarnacki",
     "email": "czarnacki.lukasz.rafal@gmail.com"
@@ -14,6 +14,8 @@
     "tia-portal",
     "tia-openness",
     "tia-scripting",
+    "modular-application-creator",
+    "module-builder",
     "plc",
     "hmi",
     "scl",
@@ -27,7 +29,7 @@
   "interface": {
     "displayName": "Totally Integrated Claude",
     "shortDescription": "Siemens TIA Portal skills and MCP.",
-    "longDescription": "Siemens TIA Portal engineering automation with routed skills for Python TIA Scripting and C# Openness API workflows, plus TIA Portal MCP configuration.",
+    "longDescription": "Siemens TIA Portal engineering automation with routed skills for Python TIA Scripting, C# Openness API, Modular Application Creator / Module Builder workflows, and TIA Portal MCP configuration.",
     "developerName": "Lukasz Rafal Czarnacki",
     "category": "Engineering",
     "capabilities": [
@@ -37,6 +39,7 @@
     "defaultPrompt": [
       "Use the TIA roadmap skill to plan a PLC automation task.",
       "Inspect a TIA Portal Openness workflow for C# or Python.",
+      "Review a Modular Application Creator module and its generated ownership boundaries.",
       "Draft an import/export workflow for PLC or HMI assets."
     ]
   }

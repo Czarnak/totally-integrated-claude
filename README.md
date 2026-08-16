@@ -2,7 +2,7 @@
 
 A Claude Code plugin for **Siemens TIA Portal engineering automation**.
 
-Provides a routed skill framework for TIA Portal engineering automation: Siemens TIA Scripting Python V1.4.3 for its supported wrapper surface and audited C# Openness skills for advanced object-model work.
+Provides a routed skill framework for TIA Portal engineering automation: Siemens TIA Scripting Python V1.4.3 for its supported wrapper surface, audited C# Openness skills for advanced object-model work, and a dedicated Modular Application Creator path.
 
 ![image](img/repo_graphic.png)
 
@@ -10,9 +10,10 @@ Provides a routed skill framework for TIA Portal engineering automation: Siemens
 
 ## Features
 
-- **Scoped automation routing** - `tia-openness-roadmap` honors an explicit implementation choice, then selects MCP, Python, C#, diagnostic, or Add-In skills
+- **Scoped automation routing** - `tia-openness-roadmap` honors an explicit implementation choice, then selects MCP, Python, C#, MAC Module Builder, diagnostic, or Add-In skills
 - **Python TIA Scripting V1.4.3** - Siemens wrapper coverage for PLC data, generic HMI access, devices, libraries, and project workflows via `tia-python`
 - **C# Openness** - eleven domain skills covering the V21 Openness domain assemblies (see table below)
+- **Modular Application Creator** - `tia-mac-module-builder` covers the audited MAC V21.0.5 lifecycle, generated/custom ownership, resources, packaging, and qualification boundaries
 - **TIA Portal Add-In development** — VS Code–based Add-In authoring workflow
 - **TIA Portal MCP server** - work with your agent directly in TIA Portal V21 (separate installation required, see below)
 - **MCP write safety hooks** - Claude Code blocks TIA Portal writes unless the call includes `confirm=true` and a server-issued `safetyToken`
@@ -42,6 +43,7 @@ Provides a routed skill framework for TIA Portal engineering automation: Siemens
 | `tia-teamcenter` | C# provider-based Teamcenter Gateway: connection, search/download, dataset locking, and project/global-library save workflows. |
 | `tia-testsuite` | C# TestSuite & Application Test: test sets, application tests, style-guide rules, automated system testing. |
 | `tia-sivarc` | C# SiVArc: rule tables and libraries, definitions, expression resolution, layout exchange, and guarded visualization generation. |
+| `tia-mac-module-builder` | Modular Application Creator and Module Builder: `TiaEquipmentModule` lifecycle, models/use cases, `.tiares`, generated/custom ownership, packaging, and qualification. |
 | `addin-operations` | TIA Portal Add-In development: project structure, VS Code workflow, Add-In lifecycle, menus, permissions, deployment. |
 
 ---
@@ -59,6 +61,12 @@ Provides a routed skill framework for TIA Portal engineering automation: Siemens
 - Siemens TIA Portal V21 for these audited API references
 - V21 modular Openness API, including `Siemens.Engineering.Base.dll` under `PublicAPI\V21\net48`
 - .NET Framework 4.8 or later
+
+### For Modular Application Creator
+
+- Siemens Modular Application Creator and Module Builder matching the target project; the audited skill baseline is MAC V21.0.5
+- TIA Portal V21 and its matching Openness PublicAPI for the audited baseline
+- .NET Framework 4.8 and access to the project's approved MAC/Module Builder package source
 
 ### For Add-In development
 
@@ -133,7 +141,7 @@ Start every TIA Portal task by asking Claude to load the routing skill:
 How do I read all PLC tag tables from an open TIA Portal project?
 ```
 
-Claude will load `tia-openness-roadmap`, select the correct implementation path (Python or C#), and load the matching domain skill automatically.
+Claude will load `tia-openness-roadmap`, select the correct implementation path (MCP, Python, C#, MAC Module Builder, diagnostic, or Add-In), and load the matching focused skill automatically.
 
 ### TIA Portal MCP write safety
 
@@ -176,6 +184,7 @@ and `tia-mcp` checks are optional and can be skipped independently.
 | Teamcenter managed projects | C# | `tia-teamcenter` |
 | Automated PLC/HMI testing | C# | `tia-testsuite` |
 | SiVArc rules or visualization generation | C# | `tia-sivarc` |
+| Modular Application Creator module or `.tiares` work | MAC Module Builder | `tia-mac-module-builder` |
 | TIA Portal Add-In project | C# | `addin-operations` |
 
 ---

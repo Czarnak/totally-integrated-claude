@@ -2,8 +2,9 @@
 name: tia-openness-roadmap
 description: >
   Entry point for TIA Portal engineering automation tasks. Routes to the requested
-  or appropriate MCP, Python, C#, diagnostic, or Add-In implementation. Pure review
-  of already supplied/exported PLC code uses the standalone plc-code-analysis skill.
+  or appropriate MCP, Python, C#, MAC Module Builder, diagnostic, or Add-In
+  implementation. Pure review of already supplied/exported PLC code uses the
+  standalone plc-code-analysis skill.
 license: MIT
 ---
 
@@ -20,8 +21,10 @@ Route the task to the correct implementation path and load the right skill files
 2. Otherwise prefer **TIA Portal MCP** for interactive, single-step read/write operations when available.
 3. Prefer **TIA Scripting Python** for scripted/multi-step automation only when the exact wrapper operation is documented.
 4. Use **C# TIA Portal Openness** when requested or when its exact installed API is the appropriate/required surface.
-5. Do not invent wrapper or Openness methods.
-6. For multi-domain tasks, select all required skills.
+5. Use **MAC Module Builder** for Modular Application Creator modules, lifecycle
+   phases, `.tiares`, generated/custom ownership, and MAC packaging or qualification.
+6. Do not invent wrapper, Openness, MAC, or Module Builder methods.
+7. For multi-domain tasks, select all required skills.
 
 ## Standalone analysis exclusion
 
@@ -70,6 +73,20 @@ Always starts with the common foundation skill, then domain skill(s):
 | `tia-testsuite` | `skills/tia-testsuite/SKILL.md` | Domain skill |
 | `tia-sivarc` | `skills/tia-sivarc/SKILL.md` | Domain skill |
 
+### MAC Module Builder path
+
+Dedicated higher-level path for Siemens Modular Application Creator source and
+Module Builder workflows:
+
+| Skill | Location |
+|---|---|
+| `tia-mac-module-builder` | `skills/tia-mac-module-builder/SKILL.md` |
+
+Use it for `TiaEquipmentModule`, MAC lifecycle/model/use-case code, `.tiares`,
+generated library wrappers, packaging, `MacFunctionTest`, and
+`MacGenerationTest`. If the module directly uses raw `Siemens.Engineering`
+objects, also route that part through the C# common and domain skills.
+
 ### Add-In path
 
 Standalone skill for TIA Portal Add-In development (always C#, VS Code workflow):
@@ -112,9 +129,11 @@ Standalone skill for TIA Portal Add-In development (always C#, VS Code workflow)
 | Teamcenter integration / managed projects | C# | `tia-teamcenter` |
 | automated testing / TestSuite / application test / style guide / system test | C# | `tia-testsuite` |
 | SiVArc rules / definitions / expression resolver / layout data / generation | C# | `tia-sivarc` |
+| Modular Application Creator / MAC / Module Builder / `TiaEquipmentModule` / `.tiares` | MAC Module Builder | `tia-mac-module-builder` |
+| MAC function tests / generation tests / packaging | MAC Module Builder | `tia-mac-module-builder` |
 | TIA Portal Add-In / addin-project / .addin | C# | `addin-operations` |
 
-## MCP vs Python vs C# decision rule
+## MCP vs Python vs C# vs MAC Module Builder decision rule
 
 Apply the user's explicit implementation/scope choice before these defaults.
 
@@ -126,6 +145,12 @@ Choose **MCP** when:
 - the `tia-portal` MCP server is available (check `mcp__tia-portal__*` tools)
 
 Choose **Python** when the exact required operation exists in the `tia-python` reference files.
+
+Choose **MAC Module Builder** when the task's primary artifact is a Modular
+Application Creator module, Module Builder resource/generation input, or MAC
+package/test project. This path is source-first; it does not itself authorize a
+live generation run.
+
 Choose **C#** when:
 
 - the required operation is absent from the Python reference catalogue
@@ -149,7 +174,7 @@ Choose **C#** when:
 Use this exact structure:
 
 - `Use skill(s): ...`
-- `Implementation path: MCP` or `Implementation path: Python` or `Implementation path: C# Openness` or `Implementation path: Diagnostic probe`
+- `Implementation path: MCP` or `Implementation path: Python` or `Implementation path: C# Openness` or `Implementation path: MAC Module Builder` or `Implementation path: Diagnostic probe`
 - `Reason: ...`
 - `Execution order: ...`
 
@@ -162,6 +187,10 @@ Report the probe output and remediation items. Do not create or modify projects.
 
 **If Python:** read `skills/tia-python/SKILL.md`, then load the reference file(s) it
 points to for the task domain. Do NOT load domain skills — they are for C# only.
+
+**If MAC Module Builder:** read `skills/tia-mac-module-builder/SKILL.md`, then
+load only the reference file(s) selected by its reference table. If direct raw
+Openness work is required, additionally follow the C# path for that domain.
 
 **If C#:**
 
