@@ -17,14 +17,13 @@ Route the task to the correct implementation path and load the right skill files
 ## Mandatory policy
 
 1. Honor the user's explicit implementation and scope constraints (including a
-   request to skip MCP, Python, C#, or live operations).
-2. Otherwise prefer **TIA Portal MCP** for interactive, single-step read/write operations when available.
-3. Prefer **TIA Scripting Python** for scripted/multi-step automation only when the exact wrapper operation is documented.
-4. Use **C# TIA Portal Openness** when requested or when its exact installed API is the appropriate/required surface.
-5. Use **MAC Module Builder** for Modular Application Creator modules, lifecycle
+   request to skip Python, C#, or live operations).
+2. Prefer **TIA Scripting Python** for scripted/multi-step automation only when the exact wrapper operation is documented.
+3. Use **C# TIA Portal Openness** when requested or when its exact installed API is the appropriate/required surface.
+4. Use **MAC Module Builder** for Modular Application Creator modules, lifecycle
    phases, `.tiares`, generated/custom ownership, and MAC packaging or qualification.
-6. Do not invent wrapper, Openness, MAC, or Module Builder methods.
-7. For multi-domain tasks, select all required skills.
+5. Do not invent wrapper, Openness, MAC, or Module Builder methods.
+6. For multi-domain tasks, select all required skills.
 
 ## Standalone analysis exclusion
 
@@ -34,14 +33,6 @@ accepts raw SCL/ST, SIMATIC SD, and SimaticML without authorizing engineering wr
 or live TIA operations.
 
 ## Implementation paths
-
-### MCP path
-
-Direct tool calls — no code generation. Use when the TIA Portal MCP server is available.
-
-| Skill | Location |
-|---|---|
-| `tia-portal-mcp` | `skills/tia-portal-mcp/SKILL.md` |
 
 ### Python path
 
@@ -99,16 +90,7 @@ Standalone skill for TIA Portal Add-In development (always C#, VS Code workflow)
 
 | Task pattern | Implementation | Skill |
 |---|---|---|
-| browse / explore project tree structure | MCP | `tia-portal-mcp` |
-| read a single PLC block (view logic / generate code) | MCP | `tia-portal-mcp` |
-| targeted single-block edit | MCP | `tia-portal-mcp` |
-| list tag tables and tags | MCP | `tia-portal-mcp` |
-| inspect hardware topology / IP addresses | MCP | `tia-portal-mcp` |
-| cross-reference diagnostics / unused objects | MCP | `tia-portal-mcp` |
 | prerequisite / environment / missing install diagnostics | Diagnostic probe | `tia-doctor` |
-| add a single device to the project | MCP | `tia-portal-mcp` |
-| configure device network identity (IP, PN name) | MCP | `tia-portal-mcp` |
-| compile check / view errors and warnings | MCP | `tia-portal-mcp` |
 | open/create/save/archive/retrieve project | Python | `tia-python` |
 | project server / local session / portal attach | Python | `tia-python` |
 | PLC blocks / tags / UDTs / sources / compile | Python | `tia-python` |
@@ -133,16 +115,9 @@ Standalone skill for TIA Portal Add-In development (always C#, VS Code workflow)
 | MAC function tests / generation tests / packaging | MAC Module Builder | `tia-mac-module-builder` |
 | TIA Portal Add-In / addin-project / .addin | C# | `addin-operations` |
 
-## MCP vs Python vs C# vs MAC Module Builder decision rule
+## Python vs C# vs MAC Module Builder decision rule
 
 Apply the user's explicit implementation/scope choice before these defaults.
-
-Choose **MCP** when:
-
-- the task is a single read or targeted write (one block, one device, one compile check)
-- the user wants to explore or inspect a project interactively
-- no looping, no bulk changes, no code generation is needed
-- the `tia-portal` MCP server is available (check `mcp__tia-portal__*` tools)
 
 Choose **Python** when the exact required operation exists in the `tia-python` reference files.
 
@@ -174,7 +149,7 @@ Choose **C#** when:
 Use this exact structure:
 
 - `Use skill(s): ...`
-- `Implementation path: MCP` or `Implementation path: Python` or `Implementation path: C# Openness` or `Implementation path: MAC Module Builder` or `Implementation path: Diagnostic probe`
+- `Implementation path: Python` or `Implementation path: C# Openness` or `Implementation path: MAC Module Builder` or `Implementation path: Diagnostic probe`
 - `Reason: ...`
 - `Execution order: ...`
 
@@ -182,8 +157,6 @@ Use this exact structure:
 
 **If Diagnostic probe:** read `skills/tia-doctor/SKILL.md` and run its probe command.
 Report the probe output and remediation items. Do not create or modify projects.
-
-**If MCP:** read `skills/tia-portal-mcp/SKILL.md`. Use the MCP tools directly — no code generation.
 
 **If Python:** read `skills/tia-python/SKILL.md`, then load the reference file(s) it
 points to for the task domain. Do NOT load domain skills — they are for C# only.
