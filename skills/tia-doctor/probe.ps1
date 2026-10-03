@@ -1,8 +1,7 @@
 param(
     [switch] $Json,
     [int] $RequiredMajorVersion = 21,
-    [switch] $SkipPython,
-    [switch] $SkipMcp
+    [switch] $SkipPython
 )
 
 $ErrorActionPreference = "Stop"
@@ -282,28 +281,10 @@ function Test-PythonTiaScripting {
     New-TiaDoctorResult -Id "python-tia-scripting" -Name "Python TIA Scripting" -Status "fail" -Required $true -Detail "Could not import siemens_tia_scripting with py or python." -Remediation "Download TIA Scripting Python from Siemens, unzip it, then either set TIA_SCRIPTING to the extracted binaries directory or run py -3.12 -m pip install .\siemens_tia_scripting-x.x.x-cp312-cp312-win_amd64.whl from that binaries directory."
 }
 
-function Test-TiaMcp {
-    $tiaMcp = Find-CommandPath -Names @("tia-mcp")
-    if ($null -ne $tiaMcp) {
-        return New-TiaDoctorResult -Id "tia-mcp" -Name "TIA MCP server" -Status "pass" -Required $true -Detail "tia-mcp is available on PATH." -Remediation "No action required." -Evidence @{ command = $tiaMcp }
-    }
-
-    $dotnet = Find-CommandPath -Names @("dotnet")
-    if ($null -ne $dotnet) {
-        $toolList = Invoke-DoctorProcess -FileName $dotnet -Arguments @("tool", "list", "-g") -TimeoutMilliseconds 8000
-        if ($toolList.exitCode -eq 0 -and $toolList.stdout -match "(?im)TiaMcpServer|tia-mcp") {
-            return New-TiaDoctorResult -Id "tia-mcp" -Name "TIA MCP server" -Status "pass" -Required $true -Detail "TIA MCP server appears in dotnet global tools." -Remediation "No action required." -Evidence @{ command = "dotnet tool list -g" }
-        }
-    }
-
-    New-TiaDoctorResult -Id "tia-mcp" -Name "TIA MCP server" -Status "fail" -Required $true -Detail "tia-mcp was not found on PATH or in dotnet global tools." -Remediation "Install it with: dotnet tool install -g TiaMcpServer"
-}
-
 function Invoke-TiaDoctorProbe {
     param(
         [int] $RequiredMajorVersion = 21,
-        [switch] $SkipPython,
-        [switch] $SkipMcp
+        [switch] $SkipPython
     )
 
     Test-TiaPortalInstall -RequiredMajorVersion $RequiredMajorVersion
@@ -311,9 +292,6 @@ function Invoke-TiaDoctorProbe {
     Test-OpennessUserGroup
     if (-not $SkipPython) {
         Test-PythonTiaScripting
-    }
-    if (-not $SkipMcp) {
-        Test-TiaMcp
     }
 }
 
@@ -356,12 +334,11 @@ function Invoke-TiaDoctorMain {
     param(
         [switch] $JsonOutput,
         [int] $RequiredMajorVersion = 21,
-        [switch] $SkipPython,
-        [switch] $SkipMcp
+        [switch] $SkipPython
     )
 
     try {
-        $results = @(Invoke-TiaDoctorProbe -RequiredMajorVersion $RequiredMajorVersion -SkipPython:$SkipPython -SkipMcp:$SkipMcp)
+        $results = @(Invoke-TiaDoctorProbe -RequiredMajorVersion $RequiredMajorVersion -SkipPython:$SkipPython)
         $manifest = New-TiaDoctorManifest -Results $results
         if ($JsonOutput) {
             $manifest | ConvertTo-Json -Depth 8
@@ -384,5 +361,5 @@ function Invoke-TiaDoctorMain {
 }
 
 if ($MyInvocation.InvocationName -ne ".") {
-    Invoke-TiaDoctorMain -JsonOutput:$Json -RequiredMajorVersion $RequiredMajorVersion -SkipPython:$SkipPython -SkipMcp:$SkipMcp
+    Invoke-TiaDoctorMain -JsonOutput:$Json -RequiredMajorVersion $RequiredMajorVersion -SkipPython:$SkipPython
 }

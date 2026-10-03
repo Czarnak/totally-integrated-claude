@@ -237,4 +237,4 @@ alarm.get_identifier() -> str
 6. Roll back on every exception path. Save only under separate explicit save
    authorization.
 7. If the wrapper cannot provide the required exact selector, model-specific
-   surface, rollback, or result evidence, route to C# Openness or guarded MCP.
+   surface, rollback, or result evidence, route to guarded C# Openness.

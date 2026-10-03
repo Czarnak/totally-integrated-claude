@@ -2,7 +2,7 @@
 name: tia-openness-roadmap
 description: >
   Entry point for TIA Portal engineering automation tasks. Routes to the requested
-  or appropriate MCP, Python, C#, MAC Module Builder, diagnostic, or Add-In
+  or appropriate Python, C#, MAC Module Builder, diagnostic, or Add-In
   implementation. Pure review of already supplied/exported PLC code uses the
   standalone plc-code-analysis skill.
 license: MIT

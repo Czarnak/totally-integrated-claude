@@ -1,7 +1,7 @@
 # Contributing
 
 Thanks for improving `totally-integrated-claude`. This repository ships agent
-skills, manifests, hooks, and bundled language-server configuration for Siemens
+skills, manifests, and bundled language-server configuration for Siemens
 TIA Portal automation. Changes should stay portable across Claude Code, Codex,
 and Antigravity unless a file is explicitly client-specific.
 
@@ -15,7 +15,7 @@ Recommended tools:
 - PowerShell 7 (`pwsh`) for validation and tests.
 - Windows PowerShell 5.1 compatibility for `skills/tia-doctor/probe.ps1`.
 - Pester 5.7.1 for PowerShell tests. CI installs this pinned version.
-- TIA Portal V17 or later when manually verifying Openness, TIA Scripting, or MCP
+- TIA Portal V17 or later when manually verifying Openness or TIA Scripting
   behavior.
 
 Optional local environment check:
@@ -62,9 +62,6 @@ The validator checks:
 TIA Portal automation can mutate real engineering projects. Treat safety checks
 as part of the public interface.
 
-- Do not weaken the preview-token flow for MCP write tools.
-- Do not bypass `confirm=true` and `safetyToken` requirements in
-  `hooks/tia-write-guard.ps1`.
 - Never document bare destructive calls such as `.Delete()` or `delete()` as
   safe examples.
 - Generated C# Openness mutations must use `ExclusiveAccess` and `Transaction`
@@ -78,7 +75,6 @@ as part of the public interface.
 
 Add or update tests with behavior changes:
 
-- Hook logic: `tests/tia-write-guard.Tests.ps1`.
 - Portable skill safety contracts: `tests/safety-contract.Tests.ps1`.
 - Certified API baseline behavior: `tests/api-baseline.Tests.ps1`.
 - Hosted/manual test boundaries: `tests/ci-scope.Tests.ps1`.

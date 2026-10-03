@@ -10,14 +10,12 @@ Provides a routed skill framework for TIA Portal engineering automation: Siemens
 
 ## Features
 
-- **Scoped automation routing** - `tia-openness-roadmap` honors an explicit implementation choice, then selects MCP, Python, C#, MAC Module Builder, diagnostic, or Add-In skills
+- **Scoped automation routing** - `tia-openness-roadmap` honors an explicit implementation choice, then selects Python, C#, MAC Module Builder, diagnostic, or Add-In skills
 - **Python TIA Scripting V1.4.3** - Siemens wrapper coverage for PLC data, generic HMI access, devices, libraries, and project workflows via `tia-python`
 - **C# Openness** - eleven domain skills covering the V21 Openness domain assemblies (see table below)
 - **Modular Application Creator** - `tia-mac-module-builder` covers the audited MAC V21.0.5 lifecycle, generated/custom ownership, resources, packaging, and qualification boundaries
 - **TIA Portal Add-In development** — VS Code–based Add-In authoring workflow
-- **TIA Portal MCP server** - work with your agent directly in TIA Portal V21 (separate installation required, see below)
-- **MCP write safety hooks** - Claude Code blocks TIA Portal writes unless the call includes `confirm=true` and a server-issued `safetyToken`
-- **Environment diagnostics** - `tia-doctor` verifies the exact V21 executable, modular Openness core, and user group, with optional Python/MCP checks
+- **Environment diagnostics** - `tia-doctor` verifies the exact V21 executable, modular Openness core, and user group, with an optional Python check
 - **Certified V21 API baselines** - hosted CI validates committed installed-API evidence without requiring TIA Portal on the runner
 
 ---
@@ -27,9 +25,8 @@ Provides a routed skill framework for TIA Portal engineering automation: Siemens
 | Skill | Purpose |
 | --- | --- |
 | `tia-openness-roadmap` | **Automation entry point.** Honors explicit scope/path constraints and routes engineering tasks. Pure exported-code review uses `plc-code-analysis` directly. |
-| `tia-doctor` | **Manual diagnostic.** Read-only V21 executable/modular API/group probe, with optional Python and MCP checks. |
+| `tia-doctor` | **Manual diagnostic.** Read-only V21 executable/modular API/group probe, with an optional Python check. |
 | `plc-code-analysis` | **Standalone.** Evidence-gated PLC security/quality analysis for raw SCL/ST, V21 SIMATIC SD, or schema-valid SimaticML. |
-| `tia-portal-mcp` | **Interactive.** Direct TIA Portal interaction via MCP tools (browse tree, read/write logic, list tags, hardware config). |
 | `tia-python` | Siemens TIA Scripting Python V1.4.3: wrapper-level PLC, HMI, device, library, project, CAx, CFC, project-text, master-copy, and Test Suite workflows. |
 | `tia-csharp-common` | C# foundation: TIA Portal process attach, `ExclusiveAccess`, `Transaction`, disposable patterns. Required first load for every C# task. |
 | `tia-project-general` | C# project, portal, and library lifecycle: open/create/save/archive/retrieve, project/global libraries, master copies, type/version workflows, UMAC/UMC, language settings, diagnostics. |
@@ -99,10 +96,10 @@ For machine-readable output:
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File skills\tia-doctor\probe.ps1 -RequiredMajorVersion 21 -Json
 ```
 
-For a C#-only V21 check while Python and MCP are intentionally out of scope:
+For a C#-only V21 check while Python is intentionally out of scope:
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File skills\tia-doctor\probe.ps1 -RequiredMajorVersion 21 -SkipPython -SkipMcp
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File skills\tia-doctor\probe.ps1 -RequiredMajorVersion 21 -SkipPython
 ```
 
 ---
@@ -141,38 +138,20 @@ Start every TIA Portal task by asking Claude to load the routing skill:
 How do I read all PLC tag tables from an open TIA Portal project?
 ```
 
-Claude will load `tia-openness-roadmap`, select the correct implementation path (MCP, Python, C#, MAC Module Builder, diagnostic, or Add-In), and load the matching focused skill automatically.
-
-### TIA Portal MCP write safety
-
-TIA Portal MCP write tools use a preview-then-apply workflow. First call the matching `preview_*` tool, review the summary/diff and `currentStateHash`, then pass the returned `safetyToken` to the write tool with `confirm=true`.
-
-Examples:
-
-| Write | Required preview |
-| --- | --- |
-| `update_block_logic` | `preview_update_block_logic` |
-| `create_tag_table`, `delete_tag_table` | `preview_create_tag_table`, `preview_delete_tag_table` |
-| `create_tag`, `update_tag`, `delete_tag` | `preview_create_tag`, `preview_update_tag`, `preview_delete_tag` |
-| `create_user_constant`, `update_user_constant`, `delete_user_constant` | matching `preview_*_user_constant` tool |
-| `add_network_device`, `configure_network_device` | `preview_add_network_device`, `preview_configure_network_device` |
-| `open_project`, `create_project`, `save_project`, `save_project_as`, `archive_project`, `close_project` | matching `preview_*_project` tool |
-
-Claude Code also loads `hooks/tia-write-guard.ps1` through `hooks/hooks.json` as defense-in-depth. The MCP server is still the authority: other clients must use the same preview token flow.
+Claude will load `tia-openness-roadmap`, select the correct implementation path (Python, C#, MAC Module Builder, diagnostic, or Add-In), and load the matching focused skill automatically.
 
 ### Environment diagnostics
 
 Use `tia-doctor` when TIA Portal automation fails because of missing local
 prerequisites. It is a read-only PowerShell probe that checks the exact V21 Portal
 executable, `Siemens.Engineering.Base.dll` and installed modular API metadata, and
-membership in the `Siemens TIA Openness` Windows user group. Python TIA Scripting
-and `tia-mcp` checks are optional and can be skipped independently.
+membership in the `Siemens TIA Openness` Windows user group. The Python TIA
+Scripting check is optional and can be skipped with `-SkipPython`.
 
 ### Routing examples
 
 | Task | Path | Domain skill |
 | --- | --- | --- |
-| Explore project structure interactively | MCP | `tia-portal-mcp` |
 | Analyze raw SCL/ST, SIMATIC SD, or SimaticML for security issues | Standalone | `plc-code-analysis` |
 | Read/write PLC blocks and tags | Python | `tia-python` |
 | HMI screen access and export | Python | `tia-python` |

@@ -55,7 +55,7 @@ Describe "installed V21 reference audit" -Tag "ReferenceAudit" {
         $script:CSharpSkill | Should -Match 'Never bare `\.Delete\(\)`'
         $script:CSharpSkill | Should -Match 'Transaction'
         $script:CSharpSkill | Should -Match 'ExclusiveAccess'
-        $script:CSharpSkill | Should -Match 'compile_check'
+        $script:CSharpSkill | Should -Match 'compile check'
     }
 
     It "documents Python destructive-operation safety" {
@@ -63,8 +63,8 @@ Describe "installed V21 reference audit" -Tag "ReferenceAudit" {
         $script:PythonSkill | Should -Match 'delete\(\)'
         $script:PythonSkill | Should -Match 'start_transaction\(\)'
         $script:PythonSkill | Should -Match 'end_transaction\(\)'
-        $script:PythonSkill | Should -Match 'compile_check'
-        $script:PythonSkill | Should -Match 'C# Openness or MCP'
+        $script:PythonSkill | Should -Match 'compile check'
+        $script:PythonSkill | Should -Match 'route the task to C# Openness'
     }
 
     It "documents V1.4.3 return contracts without fabricated None annotations" {
@@ -461,11 +461,11 @@ Describe "installed V21 reference audit" -Tag "ReferenceAudit" {
         $probe = Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "skills/tia-doctor/probe.ps1")
         $skill | Should -Match '-RequiredMajorVersion 21'
         $skill | Should -Match '-SkipPython'
-        $skill | Should -Match '-SkipMcp'
+        $skill | Should -Not -Match 'SkipMcp|tia-mcp'
         $skill | Should -Match 'Siemens\.Engineering\.Base\.dll'
         $probe | Should -Match '\[int\] \$RequiredMajorVersion = 21'
         $probe | Should -Match '\[switch\] \$SkipPython'
-        $probe | Should -Match '\[switch\] \$SkipMcp'
+        $probe | Should -Not -Match 'SkipMcp|tia-mcp'
         $probe | Should -Match 'Siemens\.Engineering\.Base\.dll'
     }
 
@@ -542,7 +542,8 @@ Describe "installed V21 reference audit" -Tag "ReferenceAudit" {
         $readme = Get-Content -Raw -LiteralPath (Join-Path $script:RepoRoot "README.md")
         $readme | Should -Match 'SIMATIC SD'
         $readme | Should -Match 'Siemens\.Engineering\.Base\.dll'
-        $readme | Should -Match '-SkipPython -SkipMcp'
+        $readme | Should -Match '-SkipPython'
+        $readme | Should -Not -Match 'SkipMcp'
         $readme | Should -Match 'Classic and Unified'
         $readme | Should -Match 'provider-based Teamcenter Gateway'
         $readme | Should -Not -Match 'bundled Siemens PLC language\s+server'

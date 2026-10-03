@@ -5,11 +5,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
-    content="Totally Integrated Claude routes Siemens TIA Portal automation tasks across Claude Code, Codex, Antigravity CLI, Python TIA Scripting, C# Openness, Modular Application Creator, and MCP workflows." />
+    content="Totally Integrated Claude routes Siemens TIA Portal automation tasks across Claude Code, Codex, Antigravity CLI, Python TIA Scripting, C# Openness, and Modular Application Creator workflows." />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Totally Integrated Claude" />
   <meta property="og:description"
-    content="A routed agent workflow for Siemens TIA Portal automation across Python TIA Scripting, C# Openness, Modular Application Creator, MCP, and Add-Ins." />
+    content="A routed agent workflow for Siemens TIA Portal automation across Python TIA Scripting, C# Openness, Modular Application Creator, and Add-Ins." />
   <meta property="og:url" content="https://czarnak.github.io/totally-integrated-claude/" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Totally Integrated Claude" />
@@ -396,11 +396,8 @@
       border-top: 4px solid var(--blue);
     }
 
-    .route-grid .mcp {
-      border-top: 4px solid var(--gold);
-    }
-
     .route-grid .mac {
+      grid-column: 1 / -1;
       border-top: 4px solid var(--green-dark);
     }
 
@@ -734,14 +731,13 @@
           <h1 id="hero-title">Totally Integrated Claude</h1>
           <p class="hero-lede">
             A routed skill framework that sends TIA Portal tasks to the right implementation path:
-            Claude Code, Codex, Antigravity CLI, Python TIA Scripting, C# Openness, Modular Application Creator,
-            or MCP workflows.
+            Claude Code, Codex, Antigravity CLI, Python TIA Scripting, C# Openness, or Modular Application Creator
+            workflows.
           </p>
           <ul class="hero-points" aria-label="Supported workflow areas">
             <li>Python TIA Scripting</li>
             <li>C# Openness</li>
             <li>Modular Application Creator</li>
-            <li>TIA Portal MCP</li>
             <li>Add-In authoring</li>
           </ul>
           <div class="cta-row" aria-label="Primary actions">
@@ -756,7 +752,7 @@
         </div>
 
         <div class="route-visual" role="img"
-          aria-label="Routing flow from user task to tia-openness-roadmap, then to Python TIA Scripting, C# Openness, Modular Application Creator, and MCP paths">
+          aria-label="Routing flow from user task to tia-openness-roadmap, then to Python TIA Scripting, C# Openness, and Modular Application Creator paths">
           <div class="visual-label">
             <span>Routing flow</span>
             <span>Skill-first</span>
@@ -780,10 +776,6 @@
               <div class="node openness">
                 <strong>C# Openness</strong>
                 <span>Advanced object-model traversal and full Openness API coverage.</span>
-              </div>
-              <div class="node mcp">
-                <strong>TIA Portal MCP</strong>
-                <span>Direct agent work in TIA Portal V21 with explicit write safety.</span>
               </div>
               <div class="node mac">
                 <strong>MAC Module Builder</strong>
@@ -817,13 +809,13 @@
 
           <article class="install-block" id="install-codex">
             <h3>Codex</h3>
-            <p>Codex reads the bundled plugin manifest, skills, and MCP config.</p>
+            <p>Codex reads the bundled plugin manifest and skills.</p>
             <pre><code>codex plugin marketplace add Czarnak/totally-integrated-claude</code></pre>
           </article>
 
           <article class="install-block" id="install-antigravity">
             <h3>Antigravity CLI</h3>
-            <p>Antigravity CLI reads the plugin manifest, bundled skills, instructions, and MCP server configuration.
+            <p>Antigravity CLI reads the plugin manifest, bundled skills, and instructions.
             </p>
             <pre><code>agy plugin install https://github.com/Czarnak/totally-integrated-claude</code></pre>
           </article>
@@ -847,8 +839,8 @@
             <li>
               <div>
                 <strong>Describe the engineering task.</strong>
-                <span>Ask for PLC block analysis, HMI export, device traversal, Add-In authoring, or MCP-driven
-                  work.</span>
+                <span>Ask for PLC block analysis, HMI export, device traversal, MAC modules, or Add-In
+                  authoring.</span>
               </div>
             </li>
             <li>
@@ -860,14 +852,14 @@
             <li>
               <div>
                 <strong>A domain skill narrows the work.</strong>
-                <span>Projects, devices, PLC, HMI, networks, drives, import/export, Add-Ins, or MCP workflows stay
+                <span>Projects, devices, PLC, HMI, networks, drives, import/export, MAC, or Add-In workflows stay
                   focused.</span>
               </div>
             </li>
             <li>
               <div>
                 <strong>The agent works with safer local context.</strong>
-                <span>Commands, prerequisites, safety tokens, and implementation constraints are handled by the selected
+                <span>Commands, prerequisites, safety rules, and implementation constraints are handled by the selected
                   route.</span>
               </div>
             </li>
@@ -882,7 +874,7 @@
           <p class="eyebrow">What users get</p>
           <h2 id="features-title">A TIA Portal automation stack built for agent workflows.</h2>
           <p>
-            The repository combines routed skills, environment checks, and MCP safety
+            The repository combines routed skills, environment checks, and safety guidance
             into one installable workflow.
           </p>
         </div>
@@ -890,7 +882,7 @@
         <div class="feature-grid">
           <article class="panel">
             <h3>Automatic routing</h3>
-            <p><code>tia-openness-roadmap</code> selects MCP, Python, C#, MAC Module Builder, or Add-In and loads the right focused skill.</p>
+            <p><code>tia-openness-roadmap</code> selects Python, C#, MAC Module Builder, or Add-In and loads the right focused skill.</p>
           </article>
           <article class="panel">
             <h3>Python TIA Scripting</h3>
@@ -910,7 +902,7 @@
           </article>
           <article class="panel">
             <h3>Environment diagnostics</h3>
-            <p><code>tia-doctor</code> checks TIA Portal, Openness, Python TIA Scripting, and MCP prerequisites.
+            <p><code>tia-doctor</code> checks TIA Portal, Openness, and Python TIA Scripting prerequisites.
             </p>
           </article>
         </div>
@@ -930,7 +922,7 @@
         <div class="skill-grid">
           <article class="panel">
             <h3>tia-openness-roadmap</h3>
-            <p>Entry point that chooses Python, C#, MCP, MAC Module Builder, diagnostic, or Add-In workflow.</p>
+            <p>Entry point that chooses Python, C#, MAC Module Builder, diagnostic, or Add-In workflow.</p>
           </article>
           <article class="panel">
             <h3>tia-python</h3>
@@ -989,10 +981,6 @@
                   <th scope="row">C# path</th>
                   <td>Openness assemblies, .NET environment, and Siemens TIA Openness user group access.</td>
                 </tr>
-                <tr>
-                  <th scope="row">MCP path</th>
-                  <td>TIA Portal V21 plus the separate TIA Portal MCP server when direct TIA work is needed.</td>
-                </tr>
               </tbody>
             </table>
           </div>
@@ -1003,15 +991,9 @@
               <p>
                 Run <code>tia-doctor</code> when automation fails because of missing local prerequisites.
                 It is a read-only PowerShell probe for TIA Portal, Openness assemblies, Windows group membership,
-                Python TIA Scripting, and <code>tia-mcp</code>.
+                and Python TIA Scripting.
               </p>
             </article>
-
-            <div class="callout">
-              <strong>MCP write safety</strong>
-              Claude Code blocks TIA Portal writes unless the call includes <code>confirm=true</code> and a
-              server-issued <code>safetyToken</code>. Read-only exploration stays available without that write token.
-            </div>
           </div>
         </div>
       </div>

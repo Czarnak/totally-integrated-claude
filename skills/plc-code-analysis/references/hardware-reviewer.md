@@ -8,7 +8,6 @@ examines infrastructure security rather than code logic.
 
 This pass requires hardware configuration data. Sources may include:
 
-- MCP `read_hardware_config` output
 - Exported hardware configuration files (AML, HW config screenshots)
 - CPU property settings visible in code comments or documentation
 - Information embedded in SimaticML XML block attributes

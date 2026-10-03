@@ -256,7 +256,7 @@ These rules are mandatory for generated TIA Scripting Python:
 3. Inspect every `ExecutionResult` and stop on errors. For HMI compile calls,
    remember that `True` means errors exist.
 4. After generated block, tag, hardware, or HMI changes, run or request a
-   `compile_check` through MCP. Do not present the project change as deployable
+   compile check with the matching wrapper compile method. Do not present the project change as deployable
    until that check passes.
 5. Do not save, archive, commit a server session, close a portal, delete, or
    overwrite existing content unless that exact action was authorized.
@@ -283,7 +283,7 @@ except Exception:
 
 7. A transaction does not make an unsupported operation safe. If the wrapper or
    target object cannot provide the required exclusive-access, rollback, exact
-   selection, or result evidence, route the task to C# Openness or MCP through a
+   selection, or result evidence, route the task to C# Openness through a
    guarded workflow.
 8. Do not hardcode, print, or commit UMAC, Safety, know-how, module-access, or
    PLC master-secret credentials. Read them from the user's approved secret

@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<test-results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nunit_schema_2.5.xsd" name="Pester" total="64" errors="0" failures="0" not-run="55" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2026-08-24" time="18:31:39">
+  <environment cwd="C:\Users\LCZ\Desktop\RnD\AI\totally-integrated-claude" platform="Microsoft Windows 11 Pro|C:\WINDOWS|\Device\Harddisk0\Partition3" clr-version="10.0.11" user="LCZ" os-version="10.0.26200" machine-name="S1614W" user-domain="S1614W" nunit-version="2.5.8.0" />
+  <culture-info current-culture="pl-PL" current-uiculture="en-GB" />
+  <test-suite type="TestFixture" name="Pester" executed="True" result="Success" success="True" time="37.1408" asserts="0" description="Pester">
+    <results>
+      <test-suite type="TestFixture" name="C:\Users\LCZ\Desktop\RnD\AI\totally-integrated-claude\tests\api-baseline.Tests.ps1" executed="True" result="Success" success="True" time="4.0337" asserts="0" description="C:\Users\LCZ\Desktop\RnD\AI\totally-integrated-claude\tests\api-baseline.Tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="portable V21 API baseline tooling" executed="True" result="Success" success="True" time="3.3867" asserts="0" description="portable V21 API baseline tooling">
+            <results>
+              <test-case description="ships the portable baseline validator and maintainer extractor" name="portable V21 API baseline tooling.ships the portable baseline validator and maintainer extractor" time="0.1187" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="extracts a deterministic documented API surface from XML" name="portable V21 API baseline tooling.extracts a deterministic documented API surface from XML" time="0.1745" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="reports exact type additions removals and member-surface changes" name="portable V21 API baseline tooling.reports exact type additions removals and member-surface changes" time="0.0399" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="reports matching baseline directories without synthetic changes" name="portable V21 API baseline tooling.reports matching baseline directories without synthetic changes" time="0.1092" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="does not make an absent optional module a blocking extraction failure" name="portable V21 API baseline tooling.does not make an absent optional module a blocking extraction failure" time="0.0359" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="writes an extraction manifest when every absent module is optional" name="portable V21 API baseline tooling.writes an extraction manifest when every absent module is optional" time="0.0531" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="emits valid CLI output without phantom errors for optional-only extraction" name="portable V21 API baseline tooling.emits valid CLI output without phantom errors for optional-only extraction" time="1.7286" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="distinguishes invented documentation symbols from missing complete coverage" name="portable V21 API baseline tooling.distinguishes invented documentation symbols from missing complete coverage" time="0.065" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="validates committed baselines without requiring a TIA installation" name="portable V21 API baseline tooling.validates committed baselines without requiring a TIA installation" time="0.9134" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\Users\LCZ\Desktop\RnD\AI\totally-integrated-claude\tests\ci-scope.Tests.ps1" executed="True" result="Success" success="True" time="0.1275" asserts="0" description="C:\Users\LCZ\Desktop\RnD\AI\totally-integrated-claude\tests\ci-scope.Tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="hosted validation scope" executed="True" result="Success" success="True" time="0.0354" asserts="0" description="hosted validation scope">
+            <results>
+              <test-case description="keeps exact installed-reference assertions in an opt-in audit" name="hosted validation scope.keeps exact installed-reference assertions in an opt-in audit" time="0.0128" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="excludes reference audits from hosted Pester validation" name="hosted validation scope.excludes reference audits from hosted Pester validation" time="0.0051" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="runs the portable certified API baseline validator" name="hosted validation scope.runs the portable certified API baseline validator" time="0.0057" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\Users\LCZ\Desktop\RnD\AI\totally-integrated-claude\tests\harness-support.Tests.ps1" executed="True" result="Success" success="True" time="24.9702" asserts="0" description="C:\Users\LCZ\Desktop\RnD\AI\totally-integrated-claude\tests\harness-support.Tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="harness descriptors" executed="True" result="Success" success="True" time="0.1939" asserts="0" description="harness descriptors">
+            <results>
+              <test-case description="has canonical metadata with every field the templates interpolate" name="harness descriptors.has canonical metadata with every field the templates interpolate" time="0.0554" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="declares a descriptor for claude and codex" name="harness descriptors.declares a descriptor for claude and codex" time="0.0312" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="gives every descriptor a valid id, tier, and mechanism set" name="harness descriptors.gives every descriptor a valid id, tier, and mechanism set" time="0.093" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="harness manifest generation" executed="True" result="Success" success="True" time="0.6909" asserts="0" description="harness manifest generation">
+            <results>
+              <test-case description="reproduces every committed manifest byte-for-byte" name="harness manifest generation.reproduces every committed manifest byte-for-byte" time="0.0797" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="emits CRLF and no BOM" name="harness manifest generation.emits CRLF and no BOM" time="0.0334" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="preserves each target's trailing-newline convention" name="harness manifest generation.preserves each target's trailing-newline convention" time="0.0147" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="is idempotent" name="harness manifest generation.is idempotent" time="0.0137" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="reports drift in -Check mode" name="harness manifest generation.reports drift in -Check mode" time="0.3091" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="propagates a version bump to every versioned target" name="harness manifest generation.propagates a version bump to every versioned target" time="0.0197" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="harness tier invariant" executed="True" result="Success" success="True" time="8.2554" asserts="0" description="harness tier invariant">
+            <results>
+              <test-case description="backs every verified tier with a hook artifact that exists" name="harness tier invariant.backs every verified tier with a hook artifact that exists" time="0.0275" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="forces best-effort when there is no hook mechanism" name="harness tier invariant.forces best-effort when there is no hook mechanism" time="0.0184" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="rejects a verified descriptor whose hook artifact is missing" name="harness tier invariant.rejects a verified descriptor whose hook artifact is missing" time="1.4082" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="rejects a verified descriptor whose hook artifact is a directory" name="harness tier invariant.rejects a verified descriptor whose hook artifact is a directory" time="1.579" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="rejects a verified descriptor whose hook artifact escapes the repo root" name="harness tier invariant.rejects a verified descriptor whose hook artifact escapes the repo root" time="1.7315" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="rejects a verified descriptor whose hook artifact is not referenced by hooks.path" name="harness tier invariant.rejects a verified descriptor whose hook artifact is not referenced by hooks.path" time="2.7884" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="harness facet mechanism cross-check" executed="True" result="Success" success="True" time="16.5397" asserts="0" description="harness facet mechanism cross-check">
+            <results>
+              <test-case description="rejects a generated-file facet whose path is absent from generates[]" name="harness facet mechanism cross-check.rejects a generated-file facet whose path is absent from generates[]" time="2.2509" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="rejects a bundled-file facet whose path also appears in generates[]" name="harness facet mechanism cross-check.rejects a bundled-file facet whose path also appears in generates[]" time="2.2123" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="accepts the real claude and codex descriptors' bundled-file mcp and hooks facets" name="harness facet mechanism cross-check.accepts the real claude and codex descriptors' bundled-file mcp and hooks facets" time="3.8075" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="harness generated manifest field coverage" executed="True" result="Success" success="True" time="22.6852" asserts="0" description="harness generated manifest field coverage">
+            <results>
+              <test-case description="rejects a generated target missing a field its own template declares" name="harness generated manifest field coverage.rejects a generated target missing a field its own template declares" time="3.1149" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="rejects a generated target whose path-bearing property references a missing file" name="harness generated manifest field coverage.rejects a generated target whose path-bearing property references a missing file" time="3.0163" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="harness gitattributes coverage" executed="True" result="Success" success="True" time="23.1614" asserts="0" description="harness gitattributes coverage">
+            <results>
+              <test-case description="pins eol=crlf for every generated target and its template" name="harness gitattributes coverage.pins eol=crlf for every generated target and its template" time="0.4584" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="antigravity adapter" executed="True" result="Success" success="True" time="24.805" asserts="0" description="antigravity adapter">
+            <results>
+              <test-case description="generates a root manifest carrying only the keys Antigravity permits" name="antigravity adapter.generates a root manifest carrying only the keys Antigravity permits" time="0.018" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="fails validation when the root manifest carries a forbidden key" name="antigravity adapter.fails validation when the root manifest carries a forbidden key" time="1.604" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="ships the root mcp_config.json the bundle layout requires" name="antigravity adapter.ships the root mcp_config.json the bundle layout requires" time="0.0032" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="ships no root hooks.json while the harness tier is best-effort" name="antigravity adapter.ships no root hooks.json while the harness tier is best-effort" time="0.0072" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\Users\LCZ\Desktop\RnD\AI\totally-integrated-claude\tests\safety-contract.Tests.ps1" executed="True" result="Success" success="True" time="0.1551" asserts="0" description="C:\Users\LCZ\Desktop\RnD\AI\totally-integrated-claude\tests\safety-contract.Tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="portable safety contracts" executed="True" result="Success" success="True" time="0.0523" asserts="0" description="portable safety contracts">
+            <results>
+              <test-case description="requires guarded C# destructive operations" name="portable safety contracts.requires guarded C# destructive operations" time="0.006" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="requires exact authorization and fail-closed handling for live PLC operations" name="portable safety contracts.requires exact authorization and fail-closed handling for live PLC operations" time="0.0048" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="guards project mutation and persistence across domain skills" name="portable safety contracts.guards project mutation and persistence across domain skills" time="0.0086" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="fails closed when network dependency identity is incomplete" name="portable safety contracts.fails closed when network dependency identity is incomplete" time="0.0115" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="requires authorization before overwriting a drive Safety acceptance report" name="portable safety contracts.requires authorization before overwriting a drive Safety acceptance report" time="0.0059" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\Users\LCZ\Desktop\RnD\AI\totally-integrated-claude\tests\skills-portability.Tests.ps1" executed="True" result="Success" success="True" time="0.6752" asserts="0" description="C:\Users\LCZ\Desktop\RnD\AI\totally-integrated-claude\tests\skills-portability.Tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="Agent Skills standard portability" executed="True" result="Success" success="True" time="0.3388" asserts="0" description="Agent Skills standard portability">
+            <results>
+              <test-case description="finds every skill" name="Agent Skills standard portability.finds every skill" time="0.004" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="matches every skill name to its parent directory" name="Agent Skills standard portability.matches every skill name to its parent directory" time="0.0433" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="keeps every skill name within the standard's character rules" name="Agent Skills standard portability.keeps every skill name within the standard's character rules" time="0.07" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="gives every skill a description within 1024 characters" name="Agent Skills standard portability.gives every skill a description within 1024 characters" time="0.0311" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\Users\LCZ\Desktop\RnD\AI\totally-integrated-claude\tests\tia-doctor.Tests.ps1" executed="True" result="Success" success="True" time="0.7679" asserts="0" description="C:\Users\LCZ\Desktop\RnD\AI\totally-integrated-claude\tests\tia-doctor.Tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="tia-doctor probe helpers" executed="True" result="Success" success="True" time="0.5512" asserts="0" description="tia-doctor probe helpers">
+            <results>
+              <test-case description="creates machine-readable result objects" name="tia-doctor probe helpers.creates machine-readable result objects" time="0.0346" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="returns exit code 1 when a required check fails" name="tia-doctor probe helpers.returns exit code 1 when a required check fails" time="0.0078" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="returns exit code 0 when only optional checks warn" name="tia-doctor probe helpers.returns exit code 0 when only optional checks warn" time="0.0035" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="converts results to the documented JSON manifest shape" name="tia-doctor probe helpers.converts results to the documented JSON manifest shape" time="0.0165" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="reports Siemens TIA Openness group membership as a required check" name="tia-doctor probe helpers.reports Siemens TIA Openness group membership as a required check" time="0.0639" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="supports a V21-only core probe without Python or MCP checks" name="tia-doctor probe helpers.supports a V21-only core probe without Python or MCP checks" time="0.3227" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="requires the V21 modular Base assembly rather than any Siemens Engineering DLL" name="tia-doctor probe helpers.requires the V21 modular Base assembly rather than any Siemens Engineering DLL" time="0.0564" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\Users\LCZ\Desktop\RnD\AI\totally-integrated-claude\tests\tia-mac-module-builder.Tests.ps1" executed="True" result="Success" success="True" time="0.267" asserts="0" description="C:\Users\LCZ\Desktop\RnD\AI\totally-integrated-claude\tests\tia-mac-module-builder.Tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="TIA MAC Module Builder skill contract" executed="True" result="Success" success="True" time="0.1422" asserts="0" description="TIA MAC Module Builder skill contract">
+            <results>
+              <test-case description="publishes the skill and focused references" name="TIA MAC Module Builder skill contract.publishes the skill and focused references" time="0.0237" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="documents the supported baseline, ownership model, lifecycle, and proof boundary" name="TIA MAC Module Builder skill contract.documents the supported baseline, ownership model, lifecycle, and proof boundary" time="0.03" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="resolves the PublicAPI version from the target before applying the V21 baseline" name="TIA MAC Module Builder skill contract.resolves the PublicAPI version from the target before applying the V21 baseline" time="0.006" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="guards MAC GUI and CLI execution without inventing a command surface" name="TIA MAC Module Builder skill contract.guards MAC GUI and CLI execution without inventing a command surface" time="0.0046" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="routes MAC as a distinct implementation path" name="TIA MAC Module Builder skill contract.routes MAC as a distinct implementation path" time="0.0151" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="exposes MAC in pool documentation and plugin metadata" name="TIA MAC Module Builder skill contract.exposes MAC in pool documentation and plugin metadata" time="0.0543" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+      <test-suite type="TestFixture" name="C:\Users\LCZ\Desktop\RnD\AI\totally-integrated-claude\tests\tia-write-guard.Tests.ps1" executed="True" result="Success" success="True" time="5.9895" asserts="0" description="C:\Users\LCZ\Desktop\RnD\AI\totally-integrated-claude\tests\tia-write-guard.Tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="tia-write-guard" executed="True" result="Success" success="True" time="5.848" asserts="0" description="tia-write-guard">
+            <results>
+              <test-case description="allows unknown tools" name="tia-write-guard.allows unknown tools" time="1.3796" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="denies missing confirm on write tools" name="tia-write-guard.denies missing confirm on write tools" time="1.2772" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="denies missing safetyToken on write tools" name="tia-write-guard.denies missing safetyToken on write tools" time="1.3881" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="allows valid write tool confirmation and token" name="tia-write-guard.allows valid write tool confirmation and token" time="0.877" asserts="0" success="True" result="Success" executed="True" />
+              <test-case description="denies malformed JSON" name="tia-write-guard.denies malformed JSON" time="0.9034" asserts="0" success="True" result="Success" executed="True" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

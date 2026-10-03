@@ -1,6 +1,6 @@
 ---
 name: tia-doctor
-description: Manual, read-only prerequisite probe for TIA Portal V21 and its modular Openness API, with optional Python TIA Scripting and TIA MCP checks.
+description: Manual, read-only prerequisite probe for TIA Portal V21 and its modular Openness API, with an optional Python TIA Scripting check.
 disable-model-invocation: true
 license: MIT
 ---
@@ -18,10 +18,10 @@ Full probe:
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File skills\tia-doctor\probe.ps1 -RequiredMajorVersion 21
 ```
 
-V21 C# Openness core only (the audit mode while Python and MCP are intentionally out of scope):
+V21 C# Openness core only (the audit mode while Python is intentionally out of scope):
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File skills\tia-doctor\probe.ps1 -RequiredMajorVersion 21 -SkipPython -SkipMcp
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File skills\tia-doctor\probe.ps1 -RequiredMajorVersion 21 -SkipPython
 ```
 
 Add `-Json` to either command for machine-readable output.
@@ -48,13 +48,11 @@ The core probe verifies:
 Registry entries are supplemental evidence only; they do not replace the exact
 Portal executable or modular core assembly checks.
 
-Unless skipped, the full probe also checks:
+Unless skipped, the full probe also checks `siemens_tia_scripting`
+importability through `py` or `python`.
 
-- `siemens_tia_scripting` importability through `py` or `python`;
-- `tia-mcp` on `PATH` or a `TiaMcpServer` dotnet global tool.
-
-Python and MCP are client/tooling choices, not prerequisites for direct C#
-Openness. Use the skip switches whenever those integrations are outside scope.
+Python is a client/tooling choice, not a prerequisite for direct C# Openness.
+Use `-SkipPython` whenever that integration is outside scope.
 
 ## Safety and evidence boundary
 

@@ -24,12 +24,10 @@
     "engineering"
   ],
   "skills": "./skills/",
-  "hooks": "./hooks/hooks.json",
-  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Totally Integrated Claude",
-    "shortDescription": "Siemens TIA Portal skills and MCP.",
-    "longDescription": "Siemens TIA Portal engineering automation with routed skills for Python TIA Scripting, C# Openness API, Modular Application Creator / Module Builder workflows, and TIA Portal MCP configuration.",
+    "shortDescription": "Siemens TIA Portal engineering skills.",
+    "longDescription": "Siemens TIA Portal engineering automation with routed skills for Python TIA Scripting, C# Openness API, and Modular Application Creator / Module Builder workflows.",
     "developerName": "Lukasz Rafal Czarnacki",
     "category": "Engineering",
     "capabilities": [

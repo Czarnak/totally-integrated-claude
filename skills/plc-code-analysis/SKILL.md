@@ -7,8 +7,7 @@ description: >
   PLC, SCL, ST, LAD, FBD, Structured Text, or block context. Also triggers when the user
   pastes PLC code and asks for feedback, or uploads exported SimaticML XML files.
   This skill is independent of tia-openness-roadmap — it does not perform engineering
-  automation. It analyzes code that has already been exported, pasted, or is accessible
-  via the TIA Portal MCP server.
+  automation. It analyzes code that has already been exported or pasted.
 license: MIT
 disable-model-invocation: true
 ---
@@ -27,12 +26,12 @@ This skill is NOT routed by `tia-openness-roadmap`. It has its own trigger patte
 operates independently. The Openness roadmap handles engineering automation (create, modify,
 import/export via API). This skill handles analysis and review of existing code.
 
-The skill can consume code retrieved through an integration or exported through
-Openness/VCI, but it does not depend on a particular wrapper.
+The skill consumes code exported through Openness/VCI or pasted by the user, but
+it does not depend on a particular wrapper.
 
 ## Input recognition
 
-PLC code commonly arrives in one of four ways. Identify the exact format and
+PLC code commonly arrives in one of three ways. Identify the exact format and
 provenance before analysis.
 
 ### Format 1 — Raw SCL / Structured Text
@@ -78,26 +77,10 @@ For LAD/FBD analysis, reconstruct the logic flow from the `<FlgNet>` graph:
 Parts are nodes, Wires are edges. Follow Powerrail → Contact chain → Coil/Function to
 understand each network's behavior.
 
-### Format 4 — MCP-assisted retrieval
-
-If the TIA Portal MCP server is available, context retrieval is required before issuing
-security findings. Use the current Totally Integrated Claude MCP tools:
-
-1. `browse_project_tree` — map PLCs, block folders, block names, and execution entry points
-2. `get_block_content` — retrieve SIMATIC SD YAML for each block under review
-3. `list_tag_tables` — retrieve PLC tags, user constants, and externally writable names
-4. `read_cross_references` — inspect call paths, unused blocks, and variable references
-5. `read_hardware_config` — retrieve CPU, network, IP, subnet, and interface settings
-6. `compile_check` — record compile errors/warnings when the user asks for remediation
-
-Legacy source documents may name equivalent operations as `GetBlocksWithHierarchy`,
-`ExportBlock`, `GetBlockInfo`, `GetTypes` / `GetTypeInfo`, or `GetHardwareConfig`.
-Treat those as conceptual aliases, not callable tool names.
-
-If MCP is unavailable or a required context item cannot be retrieved, continue only as a
-limited review. The final report must include a context manifest and mark affected findings
-as inference-based where missing declarations, UDTs, call paths, tag tables, or hardware
-mapping prevent confirmation.
+If a required context item (declarations, UDTs, call paths, tag tables, or hardware
+mapping) is not supplied, continue only as a limited review. The final report must
+include a context manifest and mark affected findings as inference-based where the
+missing context prevents confirmation.
 
 ## Analysis workflow
 
@@ -146,7 +129,7 @@ After all passes, run a final verification synthesis:
 
 - Challenge high/critical findings against the context manifest
 - Downgrade or label findings that depend on missing UDTs, call paths, or hardware mapping
-- Flag any proposed remediation that requires `compile_check`, simulation, or safety review
+- Flag any proposed remediation that requires a compile check, simulation, or safety review
 - Do not present generated PLC code as deployable without compile and engineering validation
 
 Every finding must be source-backed: cite the supplied line/network/XML/SD node or
@@ -156,20 +139,20 @@ is a review question or verification request, not a confirmed vulnerability.
 ### Hardware reviewer conditionality
 
 If no hardware configuration data is available (user only provided code, no HW config,
-no MCP access), the Hardware Reviewer pass still runs but produces a single finding:
+no hardware export), the Hardware Reviewer pass still runs but produces a single finding:
 
 ```
 #### [INFO] Hardware configuration not available
 - **Category:** HW-REVIEW
-- **Description:** No hardware configuration data was provided or retrievable.
+- **Description:** No hardware configuration data was provided.
   The following checks could not be performed: PUT/GET access status, web server
   settings, communication protocol security, access level configuration,
   protection level status.
-- **Evidence:** No `read_hardware_config` result or hardware export was available.
+- **Evidence:** No hardware configuration export was available.
 - **Inference level:** Confirmed limitation
-- **Verification required:** Provide hardware export or enable MCP hardware retrieval.
-- **Remediation:** Provide hardware configuration export or enable MCP server
-  access for a complete security assessment.
+- **Verification required:** Provide a hardware configuration export.
+- **Remediation:** Provide a hardware configuration export for a complete
+  security assessment.
 ```
 
 ## Output format
@@ -190,13 +173,13 @@ gets the highest severity assigned and cross-references both categories), and so
 
 | Context item | Status | Source |
 |--------------|--------|--------|
-| Block logic | Provided / Retrieved / Missing | Paste / file / `get_block_content` |
+| Block logic | Provided / Missing | Paste / file / export |
 | Variable declarations | Complete / Partial / Missing | block interface / XML / YAML |
-| UDT and array definitions | Complete / Partial / Missing | source / `get_block_content` |
-| Call tree and cross references | Complete / Partial / Missing | `browse_project_tree` / `read_cross_references` |
-| Tag tables and external inputs | Complete / Partial / Missing | `list_tag_tables` |
-| Hardware and network config | Complete / Partial / Missing | `read_hardware_config` / export |
-| Compile baseline | Clean / Warnings / Errors / Not run | `compile_check` / not available |
+| UDT and array definitions | Complete / Partial / Missing | source / export |
+| Call tree and cross references | Complete / Partial / Missing | export / cross-reference listing |
+| Tag tables and external inputs | Complete / Partial / Missing | tag table export |
+| Hardware and network config | Complete / Partial / Missing | hardware export |
+| Compile baseline | Clean / Warnings / Errors / Not run | TIA Portal compile output / not available |
 
 ### Summary
 
@@ -213,13 +196,13 @@ gets the highest severity assigned and cross-references both categories), and so
 #### [CRITICAL] Finding title
 - **Category:** TOP20-P08 / CWE-787 / T0836 / HW-PUTGET (one or more)
 - **Location:** FB_MixerControl, Line 47 / Network 3
-- **Evidence:** Direct source evidence or retrieved MCP context supporting the finding
+- **Evidence:** Direct source evidence or supplied context supporting the finding
 - **Inference level:** Confirmed / Probable / Suspicious / Context-limited
 - **Confidence:** High / Medium / Low
 - **Description:** Clear explanation of the issue
 - **Impact:** What could happen if this is exploited or left unaddressed
 - **Remediation:** Specific, actionable fix with code example where applicable
-- **Verification required:** compile_check / simulation / safety review / hardware review
+- **Verification required:** compile check / simulation / safety review / hardware review
 - **References:** Relevant standard or practice citation
 
 ---

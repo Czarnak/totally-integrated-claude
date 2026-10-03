@@ -86,7 +86,7 @@ except Exception:
 ```
 
 Do not assume every wrapper operation is transaction-compatible. If an operation
-cannot be proven rollback-safe, use a copy or route to C# Openness/guarded MCP.
+cannot be proven rollback-safe, use a copy or route to guarded C# Openness.
 Project save/archive/close remains a separate post-transaction decision.
 
 ## Hardware, simulation, editors, and generators

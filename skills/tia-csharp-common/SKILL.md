@@ -451,7 +451,7 @@ These rules are mandatory for generated C# Openness code:
   according to lifecycle ownership; `Project` is not an `IDisposable` object.
 - Call `transaction.CommitOnDispose()` only after every validation and mutation in
   the transaction has succeeded.
-- Run or request a `compile_check` after generated block, tag, hardware, or HMI
+- Run or request a compile check after generated block, tag, hardware, or HMI
   changes. Do not present generated project changes as deployable until that check
   passes.
 - If an API refuses to run inside a transaction, state that limitation explicitly,

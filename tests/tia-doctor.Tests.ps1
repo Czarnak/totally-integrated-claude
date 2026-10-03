@@ -59,8 +59,8 @@ Describe "tia-doctor probe helpers" {
         }
     }
 
-    It "supports a V21-only core probe without Python or MCP checks" {
-        $results = @(Invoke-TiaDoctorProbe -RequiredMajorVersion 21 -SkipPython -SkipMcp)
+    It "supports a V21-only core probe without Python checks" {
+        $results = @(Invoke-TiaDoctorProbe -RequiredMajorVersion 21 -SkipPython)
 
         @($results.id) | Should -Contain "tia-portal"
         @($results.id) | Should -Contain "openness"

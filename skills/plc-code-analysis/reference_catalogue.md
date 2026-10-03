@@ -54,4 +54,4 @@ code) and may not always have data available.
 | Security Practices | Code (any format) | UDT definitions, DB structures, call tree |
 | Threat Mapping | Code (any format) | Block metadata (timestamps, checksums), call tree |
 | Compiler Critic | Code (any format) | TIA Portal version info, block attributes (MemoryLayout) |
-| Hardware Reviewer | Hardware config data | MCP `read_hardware_config` output, CPU property screenshots |
+| Hardware Reviewer | Hardware config data | Hardware configuration export, CPU property screenshots |
