@@ -47,6 +47,10 @@ Provides a routed skill framework for TIA Portal engineering automation: Siemens
 
 ## Prerequisites
 
+### Bundled MCP server
+
+The plugin registers [Siemens Docs MCP](https://github.com/Czarnak/siemens-docs-mcp) (`siemens-docs`) for live search and reading of `docs.tia.siemens.cloud`. It starts via `uvx siemens-docs-mcp`, so [uv](https://docs.astral.sh/uv/) must be on `PATH` (it fetches Python 3.11+ as needed).
+
 ### For Python TIA Scripting
 
 - TIA Scripting Python V1.4.3 downloaded from Siemens Industry Online Support

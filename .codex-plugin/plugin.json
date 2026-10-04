@@ -1,6 +1,6 @@
 {
   "name": "totally-integrated-claude",
-  "version": "4.5.1",
+  "version": "4.6.0",
   "description": "Siemens TIA Portal engineering automation for Codex. Provides routed skills for Python TIA Scripting, C# Openness API, and Modular Application Creator / Module Builder workflows.",
   "author": {
     "name": "Łukasz Rafał Czarnacki",
@@ -24,12 +24,13 @@
     "engineering"
   ],
   "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Totally Integrated Claude",
     "shortDescription": "Siemens TIA Portal engineering skills.",
     "longDescription": "Siemens TIA Portal engineering automation with routed skills for Python TIA Scripting, C# Openness API, and Modular Application Creator / Module Builder workflows.",
     "developerName": "Lukasz Rafal Czarnacki",
-    "category": "Engineering",
+    "category": "Development",
     "capabilities": [
       "Read",
       "Write"

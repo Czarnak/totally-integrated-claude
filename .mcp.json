@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "siemens-docs": {
+      "command": "uvx",
+      "args": ["siemens-docs-mcp"]
+    }
+  }
+}
