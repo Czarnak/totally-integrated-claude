@@ -113,7 +113,8 @@ function Test-ManifestPathReferences {
 function Test-VersionSync {
     $paths = @(
         ".claude-plugin/plugin.json",
-        ".codex-plugin/plugin.json"
+        ".codex-plugin/plugin.json",
+        "plugin.json"
     )
     $versions = @{}
     foreach ($path in $paths) {
@@ -126,6 +127,62 @@ function Test-VersionSync {
     if (($versions.Values | Select-Object -Unique).Count -gt 1) {
         $versionSummary = ($versions.GetEnumerator() | ForEach-Object { "$($_.Key)=$($_.Value)" } | Sort-Object) -join ", "
         Add-Failure "Manifest versions are not in sync: $versionSummary"
+    }
+}
+
+function Test-AgentPluginConfiguration {
+    $manifest = Read-JsonFile -Path (Resolve-RepoPath "plugin.json")
+    if ($null -ne $manifest) {
+        if ($manifest.'$schema' -ne "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json") {
+            Add-Failure "plugin.json must declare the Agent Plugins 1.0 schema"
+        }
+        if ($manifest.name -cnotmatch '^[a-z0-9](?:[a-z0-9.-]{0,62}[a-z0-9])?$' -or $manifest.name -match '--|\.\.') {
+            Add-Failure "plugin.json has an invalid Agent Plugins name"
+        }
+        $allowedFields = @('$schema', 'name', 'version', 'description', 'author', 'homepage', 'repository', 'license', 'keywords', 'extensions')
+        foreach ($property in $manifest.PSObject.Properties) {
+            if ($property.Name -notin $allowedFields) {
+                Add-Failure "plugin.json contains unsupported Agent Plugins field '$($property.Name)'"
+            }
+        }
+        $claude = Read-JsonFile -Path (Resolve-RepoPath ".claude-plugin/plugin.json")
+        if ($null -ne $claude -and $manifest.name -cne $claude.name) {
+            Add-Failure "plugin.json and .claude-plugin/plugin.json must use the same plugin name"
+        }
+    }
+
+    $portableMcp = Read-JsonFile -Path (Resolve-RepoPath "mcp.json")
+    $legacyMcp = Read-JsonFile -Path (Resolve-RepoPath ".mcp.json")
+    if ($null -eq $portableMcp -or $null -eq $legacyMcp) {
+        return
+    }
+    if ($portableMcp.'$schema' -ne "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json") {
+        Add-Failure "mcp.json must declare the Agent Plugins 1.0 MCP schema"
+    }
+    foreach ($property in $portableMcp.PSObject.Properties) {
+        if ($property.Name -notin @('$schema', 'mcpServers')) {
+            Add-Failure "mcp.json contains unsupported top-level field '$($property.Name)'"
+        }
+    }
+    $portableNames = @($portableMcp.mcpServers.PSObject.Properties.Name | Sort-Object)
+    $legacyNames = @($legacyMcp.mcpServers.PSObject.Properties.Name | Sort-Object)
+    if ($portableNames.Count -eq 0 -or ($portableNames -join ',') -cne ($legacyNames -join ',')) {
+        Add-Failure "mcp.json and .mcp.json must declare the same MCP servers"
+    }
+    foreach ($serverName in $legacyNames) {
+        $server = $portableMcp.mcpServers.PSObject.Properties[$serverName].Value
+        $legacyServer = $legacyMcp.mcpServers.PSObject.Properties[$serverName].Value
+        if ($null -eq $server) {
+            continue
+        }
+        if ($server.type -ne "stdio") {
+            Add-Failure "mcp.json server '$serverName' must declare the stdio transport"
+        }
+        $serverConfig = $server | Select-Object -Property * -ExcludeProperty type | ConvertTo-Json -Depth 20 -Compress
+        $legacyConfig = $legacyServer | ConvertTo-Json -Depth 20 -Compress
+        if ($serverConfig -cne $legacyConfig) {
+            Add-Failure "mcp.json server '$serverName' must match .mcp.json apart from its transport type"
+        }
     }
 }
 
@@ -185,6 +242,12 @@ function Test-SkillFrontmatter {
         $frontmatter = $lines[1..($end - 1)] -join "`n"
         if ($frontmatter -notmatch "(?m)^name:\s*\S+") {
             Add-Failure "$($skillFile.FullName) frontmatter missing name"
+        } elseif ($frontmatter -cmatch '(?m)^name:\s*([a-z0-9]+(?:-[a-z0-9]+)*)\s*$') {
+            if ($Matches[1] -cne $skillFile.Directory.Name) {
+                Add-Failure "$($skillFile.FullName) skill name must match its directory name"
+            }
+        } else {
+            Add-Failure "$($skillFile.FullName) skill name must be plain kebab-case for Copilot discovery"
         }
         if ($frontmatter -notmatch "(?m)^description:\s*\S+") {
             Add-Failure "$($skillFile.FullName) frontmatter missing description"
@@ -322,6 +385,19 @@ function Test-TiaPythonSkillSurface {
 
 $manifestChecks = @(
     @{
+        Manifest = "plugin.json"
+        RequiredFields = @('$schema', "name", "version", "description", "author", "license", "keywords")
+        ExpectedTypes = @{
+            '$schema' = "string"; name = "string"; version = "string"; description = "string";
+            author = "object"; license = "string"; keywords = "array"
+        }
+    },
+    @{
+        Manifest = "mcp.json"
+        RequiredFields = @('$schema', "mcpServers")
+        ExpectedTypes = @{ '$schema' = "string"; mcpServers = "object" }
+    },
+    @{
         Manifest = ".claude-plugin/plugin.json"
         RequiredFields = @("name", "version", "description", "author", "license", "keywords", "skills")
         ExpectedTypes = @{
@@ -359,6 +435,7 @@ foreach ($check in $manifestChecks) {
 }
 
 Test-VersionSync
+Test-AgentPluginConfiguration
 Test-RoadmapReferences
 Test-OrphanedSkills
 Test-SkillFrontmatter
