@@ -1,6 +1,6 @@
 # totally-integrated-claude
 
-A Claude Code plugin for **Siemens TIA Portal engineering automation**.
+An agent plugin for **Siemens TIA Portal engineering automation**, compatible with Claude Code, Codex, and GitHub Copilot in VS Code and Copilot CLI.
 
 Provides a routed skill framework for TIA Portal engineering automation: Siemens TIA Scripting Python V1.4.3 for its supported wrapper surface, audited C# Openness skills for advanced object-model work, and a dedicated Modular Application Creator path.
 
@@ -132,17 +132,59 @@ From inside an interactive Codex session, you can use the slash-command form:
 /plugin marketplace add Czarnak/totally-integrated-claude
 ```
 
+
+### VS Code And GitHub Copilot
+
+1. Enable agent plugins in VS Code with `chat.plugins.enabled` set to `true`.
+2. Run **Chat: Install Plugin From Source** from the Command Palette.
+3. Enter `https://github.com/Czarnak/totally-integrated-claude` and review the trust prompt before installing.
+4. Check **Chat: Configure Skills** for `tia-openness-roadmap` and **MCP: List Servers** for `siemens-docs`.
+
+For a local checkout, add its absolute path to your VS Code user settings instead
+of installing the remote copy. For example, if cloned to `C:\src\totally-integrated-claude`:
+
+```json
+{
+  "chat.plugins.enabled": true,
+  "chat.pluginLocations": {
+    "C:/src/totally-integrated-claude": true
+  }
+}
+```
+
+Alternatively, add `Czarnak/totally-integrated-claude` to
+`chat.plugins.marketplaces`, then find and install the plugin in the Extensions
+view with the `@agentPlugins` filter. The existing Claude marketplace is also
+recognized by VS Code and Copilot CLI.
+
+### GitHub Copilot CLI
+
+```bash
+copilot plugin install Czarnak/totally-integrated-claude
+```
+
+To install a local checkout, run `copilot plugin install .` from its root.
+VS Code also discovers plugins installed by Copilot CLI.
+
+The root `plugin.json` and `mcp.json` use the
+[Agent Plugins 1.0 format](https://code.visualstudio.com/docs/agent-customization/agent-plugins).
+All clients share the same `skills/` content. Claude Code and Codex retain their
+client-specific manifests and `.mcp.json`; no skills need to be copied. The plugin
+bundles the Siemens documentation server, not a live TIA Portal connection.
+
+
 ---
 
 ## Usage
 
-Start every TIA Portal task by asking Claude to load the routing skill:
+Start TIA Portal automation tasks by asking your agent to load `tia-openness-roadmap`.
+For review of supplied or exported PLC code, use `plc-code-analysis` directly.
 
 ```text
 How do I read all PLC tag tables from an open TIA Portal project?
 ```
 
-Claude will load `tia-openness-roadmap`, select the correct implementation path (Python, C#, MAC Module Builder, diagnostic, or Add-In), and load the matching focused skill automatically.
+The agent will load `tia-openness-roadmap`, select the correct implementation path (Python, C#, MAC Module Builder, diagnostic, or Add-In), and load the matching focused skill automatically.
 
 ### Environment diagnostics
 

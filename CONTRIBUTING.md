@@ -1,9 +1,9 @@
 # Contributing
 
 Thanks for improving `totally-integrated-claude`. This repository ships agent
-skills, manifests, and bundled language-server configuration for Siemens
-TIA Portal automation. Changes should stay portable across Claude Code, Codex,
-and Antigravity unless a file is explicitly client-specific.
+skills, manifests, and bundled MCP configuration for Siemens TIA Portal
+automation. Changes should stay portable across Claude Code, Codex, and GitHub
+Copilot (VS Code and CLI) unless a file is explicitly client-specific.
 
 ## Development Setup
 
@@ -36,11 +36,14 @@ git diff --check
 
 The validator checks:
 
-- Manifest JSON shape for Claude, Codex, Antigravity, and marketplace metadata.
+- Manifest JSON shape for Agent Plugins 1.0, Claude, Codex, and marketplace metadata.
 - Version sync across `.claude-plugin/plugin.json`,
   `.codex-plugin/plugin.json`, and `plugin.json`.
+- Agent Plugins schema identifiers and MCP server parity between `mcp.json` and
+  `.mcp.json` (the portable configuration also declares `type: stdio`).
 - Referenced paths in manifests and `tia-openness-roadmap`.
-- `SKILL.md` frontmatter with `name` and `description`.
+- `SKILL.md` frontmatter with a kebab-case `name` matching its directory and a
+  `description`.
 - The committed V21 API baselines and their documentation catalogue mappings.
 
 ## Skill Authoring Rules
@@ -101,6 +104,9 @@ When changing user-facing capabilities:
 
 - Update the relevant manifest descriptions if the capability changes.
 - Keep all manifest versions synchronized.
+- Keep portable MCP definitions in `mcp.json` synchronized with `.mcp.json`.
+  Agent Plugins discovers `skills/` and `mcp.json` by convention; do not add
+  legacy component path fields to the root `plugin.json`.
 - Update `README.md` when installation, usage, prerequisites, routing, or safety
   behavior changes.
 - Avoid adding new top-level docs unless the content does not fit the README,

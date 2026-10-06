@@ -1,0 +1,28 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "totally-integrated-claude",
+  "version": "4.6.0",
+  "description": "Siemens TIA Portal engineering automation for GitHub Copilot in VS Code and compatible agents. Provides routed skills for Python TIA Scripting, C# Openness API, and Modular Application Creator / Module Builder workflows.",
+  "author": {
+    "name": "\u0141ukasz Rafa\u0142 Czarnacki"
+  },
+  "homepage": "https://czarnak.github.io/totally-integrated-claude",
+  "repository": "https://github.com/Czarnak/totally-integrated-claude",
+  "license": "MIT",
+  "keywords": [
+    "siemens",
+    "tia-portal",
+    "tia-openness",
+    "tia-scripting",
+    "modular-application-creator",
+    "module-builder",
+    "plc",
+    "hmi",
+    "scl",
+    "s7",
+    "automation",
+    "engineering",
+    "vscode",
+    "github-copilot"
+  ]
+}
