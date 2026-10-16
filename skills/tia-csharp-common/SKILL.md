@@ -323,6 +323,12 @@ catch (NonRecoverableException ex)
 }
 ```
 
+`NonRecoverableException` is generic; it can also mean TIA Portal crashed inside the
+call. Never retry the same call or continue an unattended batch after it. The real
+cause is in the Portal's crash report: `%ProgramData%\Siemens\Automation\Portal V21\Diagnostics\<build>\<id>\<id>.dr`
+(a ZIP with `ErrorReport.xml`, `Reason="Openness"`) and the Windows Application log at
+the crash time.
+
 ---
 
 ## Project open mode

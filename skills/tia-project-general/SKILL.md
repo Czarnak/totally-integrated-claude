@@ -34,6 +34,11 @@ Load ONLY the reference file(s) relevant to the task. Do not load all files at o
 
 For tasks spanning multiple areas, load all relevant reference files before generating code.
 
+> **VCI crash hazard:** never pass a container (device, PLC software, block group, project
+> library) to `Workspace.ExportObject` / `ConnectObject` — on V21 a device or the project
+> library crashed TIA Portal. Export leaf objects only (PLC objects as `SimaticML`), and read the safety
+> rules in `references/vci-management.md` before writing any VCI export or sync code.
+
 ---
 
 ## Execution pattern
