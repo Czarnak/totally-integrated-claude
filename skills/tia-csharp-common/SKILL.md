@@ -22,94 +22,9 @@ Referencing the wrong DLL (or omitting one) causes `TypeLoadException` at runtim
 
 ### Namespaces by assembly
 
-Only import what is actually used. The list below covers the most commonly needed
-namespaces. The mapping file summarizes the XML-documented namespaces across all 16
-installed V21 PublicAPI DLLs.
-
-**Siemens.Engineering.Base.dll** (always required):
-
-```csharp
-using Siemens.Engineering;                          // TiaPortal, Project, ExclusiveAccess, Transaction, events, exceptions
-using Siemens.Engineering.Compiler;                 // CompilerResult
-using Siemens.Engineering.Compare;                  // CompareResult
-using Siemens.Engineering.Connection;               // connection objects between devices
-using Siemens.Engineering.CrossReference;            // cross-reference queries
-using Siemens.Engineering.Download;                 // DownloadProvider, DownloadConfiguration
-using Siemens.Engineering.Download.Configurations;  // device-specific download configs (★ also in Step7 + Startdrive)
-using Siemens.Engineering.HW;                       // Device, DeviceItem, Subnet, Node, IoSystem (★ also in Step7)
-using Siemens.Engineering.HW.CommunicationConnections; // communication connection configs
-using Siemens.Engineering.HW.Extensions;            // extension methods on HW objects
-using Siemens.Engineering.HW.Features;              // SoftwareContainer, NetworkInterface (★ also in Step7)
-using Siemens.Engineering.HW.HardwareCatalog;       // hardware catalog access
-using Siemens.Engineering.HW.Utilities;             // HW utility helpers
-using Siemens.Engineering.Library;                  // ProjectLibrary, GlobalLibrary
-using Siemens.Engineering.Library.MasterCopies;     // MasterCopy, MasterCopyFolder
-using Siemens.Engineering.Library.Types;            // LibraryType, LibraryTypeVersion
-using Siemens.Engineering.Multiuser;                // LocalSession, ProjectServer
-using Siemens.Engineering.Online;                   // OnlineProvider, OnlineState
-using Siemens.Engineering.Online.Configurations;    // OnlineConfiguration, TLS/authentication callbacks
-using Siemens.Engineering.Security;                 // SecurityController, certificates
-using Siemens.Engineering.Settings;                 // TIA Portal settings
-using Siemens.Engineering.Umac;                     // UmacRole, UmacUser, UmacFunctionRight
-using Siemens.Engineering.Upload;                   // StationUploadProvider, ParameterUploadProvider
-using Siemens.Engineering.Upload.Configurations;    // upload configs (★ also in Startdrive)
-using Siemens.Engineering.VersionControl;           // workspace and version control providers
-```
-
-**Siemens.Engineering.Step7.dll** (PLC operations):
-
-```csharp
-using Siemens.Engineering.Cax;                      // CAx import/export
-using Siemens.Engineering.SW;                       // PlcSoftware
-using Siemens.Engineering.SW.Alarm;                 // PlcAlarm, AlarmClass
-using Siemens.Engineering.SW.Alarm.TextLists;       // alarm text lists
-using Siemens.Engineering.SW.Blocks;                // PlcBlock, OB, FB, FC, GlobalDB, InstanceDB, ArrayDB
-using Siemens.Engineering.SW.Blocks.Interface;      // block interface access
-using Siemens.Engineering.SW.ExternalSources;       // PlcExternalSource
-using Siemens.Engineering.SW.Loader;                // program loader
-using Siemens.Engineering.SW.OpcUa;                 // OPC UA server interface
-using Siemens.Engineering.SW.Supervision;           // supervision alarms, operator messages
-using Siemens.Engineering.SW.Tags;                  // PlcTagTable, PlcTag, PlcConstant
-using Siemens.Engineering.SW.TechnologicalObjects;  // technology objects
-using Siemens.Engineering.SW.TechnologicalObjects.Motion; // motion axes (★ also in Startdrive)
-using Siemens.Engineering.SW.Types;                 // PlcType, PlcStruct
-using Siemens.Engineering.SW.Units;                 // SoftwareUnit, CodeBlock, DataBlock
-using Siemens.Engineering.SW.WatchAndForceTables;   // PlcWatchTable, PlcForceTable
-```
-
-**Siemens.Engineering.WinCC.dll** (classic HMI):
-
-```csharp
-using Siemens.Engineering.Hmi;                      // HmiTarget (★ also in WinCC.Extension)
-using Siemens.Engineering.Hmi.Alarm;                // DiscreteAlarm, AnalogAlarm
-using Siemens.Engineering.Hmi.Communication;        // HmiConnection
-using Siemens.Engineering.Hmi.Cycle;                // cycle settings
-using Siemens.Engineering.Hmi.Dynamic;              // dynamization
-using Siemens.Engineering.Hmi.Faceplate;            // faceplate types
-using Siemens.Engineering.Hmi.Globalization;         // language/translation
-using Siemens.Engineering.Hmi.Logging;              // DataLog, LoggingTag
-using Siemens.Engineering.Hmi.Recipe;               // Recipe, RecipeElement
-using Siemens.Engineering.Hmi.RuntimeScripting;     // VBScript
-using Siemens.Engineering.Hmi.Screen;               // HmiScreen, ScreenTemplate, ScreenPopup + all elements
-using Siemens.Engineering.Hmi.Tag;                  // HmiTag, HmiTagTable
-using Siemens.Engineering.Hmi.TextGraphicList;      // text/graphic lists
-using Siemens.Engineering.Hmi.Theming;              // HMI themes
-```
-
-**Siemens.Engineering.Startdrive.dll** (SINAMICS drives):
-
-```csharp
-using Siemens.Engineering.MC.Drives;                // DriveObject, DriveParameter, Telegram
-using Siemens.Engineering.MC.Drives.DFI;            // DriveFunctionInterface, Commissioning
-using Siemens.Engineering.MC.Drives.Enums;          // drive enumerations
-using Siemens.Engineering.MC.Drives.SecurityObjects; // drive encryption, UMAC
-```
-
-**Siemens.Engineering.Safety.dll** (F-system):
-
-```csharp
-using Siemens.Engineering.Safety;                   // safety operations
-```
+Only import what is actually used. Commented `using` blocks for each assembly
+(Base, Step7, WinCC, Startdrive, Safety) are in `references/assembly-namespace-map.md`
+under "Common `using` blocks by assembly".
 
 ---
 
@@ -246,136 +161,21 @@ instance. Returns only processes from the same Openness version as the loaded as
 
 ---
 
-## Service providers — `GetService<T>()`
+## Service providers and event handlers
 
-V21 uses a service-provider pattern for UI interactions. Call `GetService<T>()` on the
-`TiaPortal` instance to obtain a service. Available services depend on the runtime context.
+Full patterns: `references/portal-services-and-events.md` (Add-In `MessageBoxProvider`,
+`ProgressProvider`, `FeedbackProvider` via `GetService<T>()`, and the `Disposed`,
+`Notification`, `Confirmation`, `Authentication` events on `TiaPortal`).
 
-### Add-In runtime services
+Rules that always apply:
 
-These services are available only when code runs inside a TIA Portal Add-In:
-
-| Service type | Namespace | Purpose |
-|---|---|---|
-| `MessageBoxProvider` | `Siemens.Engineering.AddIn` | Display notification/confirmation dialogs in TIA Portal |
-| `ProgressProvider` | `Siemens.Engineering.AddIn` | Display a progress bar; check `IsCancelRequested` for cancellation |
-| `FeedbackProvider` | `Siemens.Engineering.AddIn` | Log messages to TIA Portal's Inspector window (General Info tab) |
-
-```csharp
-// MessageBoxProvider — notification and confirmation dialogs
-var msgBox = tiaPortal.GetService<MessageBoxProvider>();
-msgBox?.ShowNotification(NotificationIcon.Information, "Title", "Message text");
-msgBox?.ShowNotification(NotificationIcon.Warning, "Title", "Message", "Detail text");
-
-// Confirmation dialog — defaultChoice is the pre-selected button; return value is user's choice
-ConfirmationResult result = msgBox.ShowConfirmation(
-    ConfirmationIcon.General, "Title", "Proceed?",
-    ConfirmationChoices.Yes | ConfirmationChoices.No, ConfirmationResult.Yes);
-if (result == ConfirmationResult.No) return;
-
-// ProgressProvider — progress bar with cancellation
-var progress = tiaPortal.GetService<ProgressProvider>();
-progress?.Update("Step description", "Detail text");
-if (progress?.IsCancelRequested == true)
-{
-    // User requested cancellation — clean up and return
-}
-
-// FeedbackProvider — log to Inspector window (General Info tab)
-var feedback = tiaPortal.GetService<FeedbackProvider>();
-feedback?.Log(NotificationIcon.Information, "Operation completed successfully.");
-feedback?.Log(NotificationIcon.Warning, "Skipped 3 items due to missing data.");
-```
-
-**Important:** In Add-In status callbacks (the `OnUpdateStatus` delegate passed to
-`AddActionItem`), `GetService<T>()` returns `null`. Only use services in action
-callbacks where COM access is fully available.
-
----
-
-## Event handlers
-
-Four events are available on `TiaPortal`. Always unsubscribe in a `finally` block.
-
-### Disposed
-
-Fires when TIA Portal closes while the Openness client is still connected.
-
-```csharp
-tiaPortal.Disposed += OnDisposed;
-try
-{
-    // ... work ...
-}
-finally
-{
-    tiaPortal.Disposed -= OnDisposed;
-}
-
-private static void OnDisposed(object sender, EventArgs e)
-{
-    // TIA Portal was closed externally — clean up and exit
-}
-```
-
-### Notification
-
-Fires for informational messages that require only an acknowledgment (OK).
-
-```csharp
-tiaPortal.Notification += OnNotification;
-try { /* ... */ }
-finally { tiaPortal.Notification -= OnNotification; }
-
-private static void OnNotification(object sender, NotificationEventArgs e)
-{
-    Console.WriteLine($"[TIA Notification] {e.Text}");
-    // No response required — notification is auto-acknowledged
-}
-```
-
-### Confirmation
-
-Fires for dialogs that require a decision. **Must** set `e.Result` to one of:
-`"Yes"`, `"YesToAll"`, or `"No"`. Any other value throws an exception.
-
-Auto-confirm pattern (most common in automation):
-
-```csharp
-tiaPortal.Confirmation += OnConfirmation;
-try { /* ... */ }
-finally { tiaPortal.Confirmation -= OnConfirmation; }
-
-private static void OnConfirmation(object sender, ConfirmationEventArgs e)
-{
-    e.Result = "Yes";
-}
-```
-
-### Authentication (V17+)
-
-Fires when opening a UMAC-protected project. Use to specify the authentication method
-instead of passing credentials via `UmacDelegate`. Only fires for protected projects.
-
-```csharp
-tiaPortal.Authentication += OnAuthentication;
-try { /* open project ... */ }
-finally { tiaPortal.Authentication -= OnAuthentication; }
-
-private static void OnAuthentication(object sender, AuthenticationEventArgs e)
-{
-    // Choose one of: DesktopSso, Anonymous, Interactive, Credentials
-    e.AuthenticationTypeProvider = AuthenticationTypeProvider.DesktopSso;
-    // For Credentials mode, credentials are supplied separately via UmacDelegate
-}
-```
-
-| `AuthenticationTypeProvider` | Behaviour |
-|---|---|
-| `DesktopSso` | Signs in with the current Windows user — no password prompt |
-| `Anonymous` | Uses the anonymous user account — no password prompt |
-| `Interactive` | Shows TIA Portal login dialog to the user |
-| `Credentials` | Reads credentials from the supplied `UmacDelegate` |
+- `GetService<T>()` returns `null` in Add-In status callbacks (`OnUpdateStatus`);
+  use services only in action callbacks.
+- Unsubscribe every `TiaPortal` event handler in a `finally` block.
+- In `Confirmation`, `e.Result` **must** be `"Yes"`, `"YesToAll"` or `"No"`; any other
+  value throws.
+- `Authentication` (V17+) fires only for UMAC-protected projects; set
+  `e.AuthenticationTypeProvider` (`DesktopSso`, `Anonymous`, `Interactive`, `Credentials`).
 
 ---
 

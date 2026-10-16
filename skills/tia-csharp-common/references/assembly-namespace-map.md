@@ -401,3 +401,95 @@ to **both** ItemGroup blocks in the `.csproj` — one inside the
 | Network/subnet configuration | Base |
 | Import/Export (CAx, XML) | Base + Step7 |
 | Add-In development | AddIn.Base + AddIn.Permissions + AddIn.Utilities (+ domain DLLs as needed) |
+
+---
+
+## Common `using` blocks by assembly
+
+Only import what is actually used. These blocks cover the most commonly needed
+namespaces; ★ marks namespaces shared across DLLs (see cross-assembly notes above).
+
+**Siemens.Engineering.Base.dll** (always required):
+
+```csharp
+using Siemens.Engineering;                          // TiaPortal, Project, ExclusiveAccess, Transaction, events, exceptions
+using Siemens.Engineering.Compiler;                 // CompilerResult
+using Siemens.Engineering.Compare;                  // CompareResult
+using Siemens.Engineering.Connection;               // connection objects between devices
+using Siemens.Engineering.CrossReference;            // cross-reference queries
+using Siemens.Engineering.Download;                 // DownloadProvider, DownloadConfiguration
+using Siemens.Engineering.Download.Configurations;  // device-specific download configs (★ also in Step7 + Startdrive)
+using Siemens.Engineering.HW;                       // Device, DeviceItem, Subnet, Node, IoSystem (★ also in Step7)
+using Siemens.Engineering.HW.CommunicationConnections; // communication connection configs
+using Siemens.Engineering.HW.Extensions;            // extension methods on HW objects
+using Siemens.Engineering.HW.Features;              // SoftwareContainer, NetworkInterface (★ also in Step7)
+using Siemens.Engineering.HW.HardwareCatalog;       // hardware catalog access
+using Siemens.Engineering.HW.Utilities;             // HW utility helpers
+using Siemens.Engineering.Library;                  // ProjectLibrary, GlobalLibrary
+using Siemens.Engineering.Library.MasterCopies;     // MasterCopy, MasterCopyFolder
+using Siemens.Engineering.Library.Types;            // LibraryType, LibraryTypeVersion
+using Siemens.Engineering.Multiuser;                // LocalSession, ProjectServer
+using Siemens.Engineering.Online;                   // OnlineProvider, OnlineState
+using Siemens.Engineering.Online.Configurations;    // OnlineConfiguration, TLS/authentication callbacks
+using Siemens.Engineering.Security;                 // SecurityController, certificates
+using Siemens.Engineering.Settings;                 // TIA Portal settings
+using Siemens.Engineering.Umac;                     // UmacRole, UmacUser, UmacFunctionRight
+using Siemens.Engineering.Upload;                   // StationUploadProvider, ParameterUploadProvider
+using Siemens.Engineering.Upload.Configurations;    // upload configs (★ also in Startdrive)
+using Siemens.Engineering.VersionControl;           // workspace and version control providers
+```
+
+**Siemens.Engineering.Step7.dll** (PLC operations):
+
+```csharp
+using Siemens.Engineering.Cax;                      // CAx import/export
+using Siemens.Engineering.SW;                       // PlcSoftware
+using Siemens.Engineering.SW.Alarm;                 // PlcAlarm, AlarmClass
+using Siemens.Engineering.SW.Alarm.TextLists;       // alarm text lists
+using Siemens.Engineering.SW.Blocks;                // PlcBlock, OB, FB, FC, GlobalDB, InstanceDB, ArrayDB
+using Siemens.Engineering.SW.Blocks.Interface;      // block interface access
+using Siemens.Engineering.SW.ExternalSources;       // PlcExternalSource
+using Siemens.Engineering.SW.Loader;                // program loader
+using Siemens.Engineering.SW.OpcUa;                 // OPC UA server interface
+using Siemens.Engineering.SW.Supervision;           // supervision alarms, operator messages
+using Siemens.Engineering.SW.Tags;                  // PlcTagTable, PlcTag, PlcConstant
+using Siemens.Engineering.SW.TechnologicalObjects;  // technology objects
+using Siemens.Engineering.SW.TechnologicalObjects.Motion; // motion axes (★ also in Startdrive)
+using Siemens.Engineering.SW.Types;                 // PlcType, PlcStruct
+using Siemens.Engineering.SW.Units;                 // SoftwareUnit, CodeBlock, DataBlock
+using Siemens.Engineering.SW.WatchAndForceTables;   // PlcWatchTable, PlcForceTable
+```
+
+**Siemens.Engineering.WinCC.dll** (classic HMI):
+
+```csharp
+using Siemens.Engineering.Hmi;                      // HmiTarget (★ also in WinCC.Extension)
+using Siemens.Engineering.Hmi.Alarm;                // DiscreteAlarm, AnalogAlarm
+using Siemens.Engineering.Hmi.Communication;        // HmiConnection
+using Siemens.Engineering.Hmi.Cycle;                // cycle settings
+using Siemens.Engineering.Hmi.Dynamic;              // dynamization
+using Siemens.Engineering.Hmi.Faceplate;            // faceplate types
+using Siemens.Engineering.Hmi.Globalization;         // language/translation
+using Siemens.Engineering.Hmi.Logging;              // DataLog, LoggingTag
+using Siemens.Engineering.Hmi.Recipe;               // Recipe, RecipeElement
+using Siemens.Engineering.Hmi.RuntimeScripting;     // VBScript
+using Siemens.Engineering.Hmi.Screen;               // HmiScreen, ScreenTemplate, ScreenPopup + all elements
+using Siemens.Engineering.Hmi.Tag;                  // HmiTag, HmiTagTable
+using Siemens.Engineering.Hmi.TextGraphicList;      // text/graphic lists
+using Siemens.Engineering.Hmi.Theming;              // HMI themes
+```
+
+**Siemens.Engineering.Startdrive.dll** (SINAMICS drives):
+
+```csharp
+using Siemens.Engineering.MC.Drives;                // DriveObject, DriveParameter, Telegram
+using Siemens.Engineering.MC.Drives.DFI;            // DriveFunctionInterface, Commissioning
+using Siemens.Engineering.MC.Drives.Enums;          // drive enumerations
+using Siemens.Engineering.MC.Drives.SecurityObjects; // drive encryption, UMAC
+```
+
+**Siemens.Engineering.Safety.dll** (F-system):
+
+```csharp
+using Siemens.Engineering.Safety;                   // safety operations
+```
