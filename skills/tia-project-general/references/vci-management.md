@@ -79,9 +79,10 @@ A workspace represents a mapping between TIA Portal objects and files on disk.
 - `ExportObject(IEngineeringObject, DirectoryInfo, string fileName, string fileFormat)` — Export object to workspace.
 - `ConnectObject(IEngineeringObject, DirectoryInfo, string fileName, string fileFormat)` — Connect object without export.
 - `GetSupportedFileFormats(IEngineeringObject)` — Get format names for a leaf object:
-  `SimaticML`, `SimaticSD`, plus `SCL` for SCL blocks and `DB` for data blocks; tag tables
-  and technology-object DBs return `SimaticML` only; Unified HMI script modules
-  `SimaticSD` only. Threw for every container type tested.
+  `SimaticML`, `SimaticSD`, plus `SCL` for SCL blocks, `DB` for data blocks and an `.awl`
+  source format for STL blocks; GRAPH blocks, tag tables and technology-object DBs
+  return `SimaticML` only; Unified HMI script modules `SimaticSD` only. Threw for every
+  container type tested.
 
 ### WorkspaceComposition (on Groups)
 
@@ -118,8 +119,9 @@ Expand a folder to its leaves yourself and export each leaf.
 settings, which Openness cannot read anyway. Prefer `SimaticML` for PLC objects:
 `SimaticSD` crashed the Portal on one block that `SimaticML` refused cleanly as "not
 consistent". VCI applies its own consistency check, so `IsConsistent == true` does not
-guarantee an export succeeds. `SCL` was not offered for LAD/FBD blocks (expected the
-same for STL/GRAPH, untested). Unified HMI script modules support `SimaticSD` only.
+guarantee an export succeeds. `SCL` is not offered for LAD/FBD blocks. GRAPH blocks
+support `SimaticML` only; STL blocks support `SimaticML`, `SimaticSD` and `.awl`.
+Unified HMI script modules support `SimaticSD` only.
 
 **Silent overwrite.** Exporting a second object to the same relative directory and file
 name overwrote the first object's files with no error and left the first mapping
